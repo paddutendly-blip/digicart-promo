@@ -51,16 +51,25 @@ const ctx = {
   LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
   PropertiesService: { getScriptProperties: () => ({ getProperty: (k) => props[k] || null, setProperty: (k, v) => { props[k] = v; }, deleteProperty: (k) => { delete props[k]; } }) },
   Session: { getScriptTimeZone: () => 'Asia/Kolkata', getEffectiveUser: () => ({ getEmail: () => 'owner@example.com' }) },
-  Utilities: { formatDate: (d) => new Date(d.getTime() + 330 * 60000).toISOString().slice(0, 10), base64Decode: (b) => Array.from(Buffer.from(b, 'base64')), newBlob: (bytes, mime, name) => ({ bytes, mime, name }) },
+  Utilities: { formatDate: (d) => new Date(d.getTime() + 330 * 60000).toISOString().slice(0, 10), base64Decode: (b) => Array.from(Buffer.from(b, 'base64')), newBlob: (bytes, mime, name) => ({ bytes, mime, name, getBytes: () => (typeof bytes === 'string' ? Array.from(Buffer.from(bytes)) : bytes) }) },
   MailApp: { sendEmail: (to, subject, body) => { mails.push({ to, subject, body }); console.log('[mail]', subject); } },
-  ScriptApp: {},
+  ScriptApp: { getOAuthToken: () => 'test-token' },
+  // pretend Google OCR: reads back a typical signboard (set MOCK_OCR to try other text)
+  UrlFetchApp: {
+    fetch: (url) => ({
+      getResponseCode: () => 200,
+      getContentText: () => (/\/upload\//.test(url) ? '{"id":"doc1"}' : /export/.test(url)
+        ? (process.env.MOCK_OCR || '\uFEFFSRI MANJUNATHA\nFANCY & GIFT CENTRE\nಶ್ರೀ ಮಂಜುನಾಥ\nAll kinds of gift articles, toys\nMob: 98450 12345 / 080-2345 6789\n#12, 4th Cross, Jayanagar') : '{}'),
+    }),
+  },
   DriveApp: (() => {
     const files = {}; let n = 0;
-    const file = (id) => ({ getId: () => id, setSharing() {}, setTrashed() { delete files[id]; } });
+    const folder = (fid) => ({ getId: () => fid, createFolder: (x) => folder(fid + '-sub' + x.length), createFile: (b) => { const id = 'file' + (++n); files[id] = b; return file(id); } });
+    const file = (id) => ({ getId: () => (id.length < 10 ? id.padEnd(12, '0') : id), setSharing() {}, setTrashed() { delete files[id]; } });
     return {
       Access: { ANYONE_WITH_LINK: 1 }, Permission: { VIEW: 1 }, files,
-      createFolder: () => ({ getId: () => 'folder1', createFile: (b) => { const id = 'file' + (++n); files[id] = b; return file(id); } }),
-      getFolderById: (id) => ({ getId: () => id, createFile: (b) => { const id2 = 'file' + (++n); files[id2] = b; return file(id2); } }),
+      createFolder: (nm) => folder('folder-' + nm.length),
+      getFolderById: (id) => folder(id),
       getFileById: (id) => file(id),
     };
   })(),

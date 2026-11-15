@@ -10,16 +10,18 @@
  *   Events    the activity log (opened, language, demo step, call/WhatsApp/download taps)
  *   Settings  phone number, Play Store link, offer, trial days, plan prices, email alerts
  *   Media     photos and videos you add from the hub (files saved in Drive folder "DigiCart Promotion Media")
+ *   Shop photos you snap in the hub go to "DigiCart Promotion Media/Shop photos"; Google reads the
+ *   shop name and phone number off the signboard (Drive OCR), so you only check and save.
  *
  * Every request is a POST with a JSON text body (no custom headers, so browsers can call it
  * from any website). Admin requests carry the passcode in the body as "p".
  */
 
 var SHOP_COLS = ['id', 'name', 'phone', 'cat', 'area', 'stage', 'notes', 'followUp', 'source', 'createdAt', 'sentAt',
-  'opens', 'firstOpenAt', 'lastSeenAt', 'lang', 'catChosen', 'steps', 'maxStep', 'actions', 'sec', 'device', 'anon', 'alerted'];
+  'opens', 'firstOpenAt', 'lastSeenAt', 'lang', 'catChosen', 'steps', 'maxStep', 'actions', 'sec', 'device', 'anon', 'alerted', 'photo'];
 var SHOP_HEAD = ['ID', 'Shop name', 'Phone', 'Category', 'Area', 'Stage', 'Notes', 'Follow-up', 'Source', 'Added', 'Sent',
   'Opens', 'First opened', 'Last seen', 'Language', 'Category tapped', 'Demo steps seen', 'Furthest step', 'Taps', 'Seconds on page',
-  'Phone model', 'General-link visitor', 'Alerts sent'];
+  'Phone model', 'General-link visitor', 'Alerts sent', 'Shop photo (Drive file)'];
 var DATE_COLS = ['createdAt', 'sentAt', 'firstOpenAt', 'lastSeenAt'];
 var EVENT_HEAD = ['Time', 'Shop ID', 'Shop name', 'What', 'Value', 'Source'];
 var MEDIA_COLS = ['id', 'type', 'name', 'price', 'mrp', 'chip', 'cat', 'fileId', 'url', 'demo', 'createdAt', 'size'];
@@ -92,6 +94,7 @@ function doPost(e) {
     if (b.a === 'cfg') return json_(publicSettings_(settings_()));
     if (!checkPass_(b.p)) return json_({ error: 'Wrong passcode', auth: false });
     if (b.a === 'admin') return json_(adminData_(b));
+    if (b.a === 'snap') return json_(snap_(b));
     var lock = LockService.getScriptLock();
     lock.waitLock(20000);
     try {
@@ -145,6 +148,7 @@ function deviceOf_(ua) {
 /** All shop rows as objects, plus a way to write a row back. */
 function shops_() {
   var sh = sheet_('Shops', SHOP_HEAD);
+  if (sh.getLastColumn() < SHOP_HEAD.length) sh.getRange(1, 1, 1, SHOP_HEAD.length).setValues([SHOP_HEAD]);
   var vals = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, SHOP_COLS.length).getValues() : [];
   var rows = vals.map(function (r, i) {
     var o = { _row: i + 2 };
@@ -172,7 +176,7 @@ function publicShop_(o) {
     createdAt: ms_(o.createdAt), sentAt: ms_(o.sentAt), opens: Number(o.opens) || 0, firstOpenAt: ms_(o.firstOpenAt),
     lastSeenAt: ms_(o.lastSeenAt), lang: String(o.lang || ''), catChosen: String(o.catChosen || ''),
     steps: list_(o.steps).map(Number), maxStep: Number(o.maxStep) || 0, actions: list_(o.actions), sec: Number(o.sec) || 0,
-    device: String(o.device || ''), anon: o.anon === true || o.anon === 'yes',
+    device: String(o.device || ''), anon: o.anon === true || o.anon === 'yes', photo: String(o.photo || ''),
   };
 }
 
@@ -345,7 +349,8 @@ function addShops_(list) {
     if (!name && ph.length !== 10) return;
     if (ph.length === 10 && have[ph]) { skipped++; return; }
     var o = { id: newId_(), name: name || ('Shop ' + ph.slice(-4)), phone: ph.length === 10 ? ph : '', cat: CATS.indexOf(clean_(x.cat, 12)) >= 0 ? clean_(x.cat, 12) : 'fashion',
-      area: clean_(x.area, 40), createdAt: new Date(), opens: 0, anon: false, source: 'personal', notes: clean_(x.notes, 200) };
+      area: clean_(x.area, 40), createdAt: new Date(), opens: 0, anon: false, source: x.photo ? 'visit' : 'personal', notes: clean_(x.notes, 200),
+      photo: fileId_(x.photo) };
     writeShop_(all.sh, o);
     if (ph) have[ph] = o;
     added.push(publicShop_(o));
@@ -363,6 +368,7 @@ function updShop_(id, f) {
   if ('phone' in f) o.phone = phone10_(f.phone).length === 10 ? phone10_(f.phone) : '';
   if ('area' in f) o.area = clean_(f.area, 40);
   if ('cat' in f && CATS.indexOf(f.cat) >= 0) o.cat = f.cat;
+  if ('photo' in f) o.photo = fileId_(f.photo);
   if (f.sent) o.sentAt = new Date();
   if (f.claim) { o.anon = false; }
   writeShop_(all.sh, o);
@@ -476,6 +482,54 @@ function upload_(b) {
   sheet_('Media', MEDIA_HEAD).appendRow(mediaRow_(o));
   return { ok: true, item: publicMedia_(o) };
 }
+// ------------------------------------------------------------------ shop photo: save it and read the signboard
+function fileId_(v) { v = String(v || ''); return /^[\w-]{10,100}$/.test(v) ? v : ''; }
+function shopFolder_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('SHOP_FOLDER');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (x) {} }
+  var f = mediaFolder_().createFolder('Shop photos');
+  props.setProperty('SHOP_FOLDER', f.getId());
+  return f;
+}
+/** Saves the shop photo in Drive and returns the text Google reads on it (signboard name, phone numbers). */
+function snap_(b) {
+  var bytes = Utilities.base64Decode(String(b.data || ''));
+  if (!bytes.length) return { error: 'Empty photo' };
+  var stamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Asia/Kolkata', 'yyyy-MM-dd HH.mm');
+  var file = shopFolder_().createFile(Utilities.newBlob(bytes, 'image/jpeg', 'Shop ' + stamp + '.jpg'));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  var out = { ok: true, fileId: file.getId(), text: '' };
+  if (b.read === false) return out;
+  try { out.text = ocr_(bytes); } catch (x) { console.error('ocr', x); out.ocrError = String(x).slice(0, 200); }
+  return out;
+}
+/** Google Drive OCR: upload the photo as a Google Doc, read its text, delete the Doc. */
+function ocr_(bytes) {
+  var token = ScriptApp.getOAuthToken(), auth = { Authorization: 'Bearer ' + token };
+  var bound = 'dcsnap' + Date.now();
+  var meta = { name: 'shop-ocr-tmp', mimeType: 'application/vnd.google-apps.document', parents: [shopFolder_().getId()] };
+  var head = '--' + bound + '\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n' + JSON.stringify(meta) +
+    '\r\n--' + bound + '\r\nContent-Type: image/jpeg\r\n\r\n';
+  var payload = Utilities.newBlob(head).getBytes().concat(bytes).concat(Utilities.newBlob('\r\n--' + bound + '--').getBytes());
+  var r = UrlFetchApp.fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+    method: 'post', contentType: 'multipart/related; boundary=' + bound, payload: payload, headers: auth, muteHttpExceptions: true });
+  if (r.getResponseCode() >= 300) throw new Error('read ' + r.getResponseCode() + ' ' + r.getContentText().slice(0, 150));
+  var docId = JSON.parse(r.getContentText()).id;
+  try {
+    var t = UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/files/' + docId + '/export?mimeType=text/plain', { headers: auth, muteHttpExceptions: true });
+    return t.getResponseCode() < 300 ? t.getContentText().replace(/^\uFEFF/, '').slice(0, 3000) : '';
+  } finally {
+    try { DriveApp.getFileById(docId).setTrashed(true); } catch (x) {}
+  }
+}
+/** Run once from the editor after pasting this version: it asks Google for the one new permission (reading shop photos). */
+function allowShopPhotos() {
+  shopFolder_();
+  UrlFetchApp.fetch('https://www.googleapis.com/drive/v3/about?fields=user', { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() } });
+  return 'Shop photos are ready';
+}
+
 function addLink_(b) {
   var url = clean_(b.url, 300);
   if (!/^https:\/\//.test(url)) return { error: 'Paste a full link starting with https://' };

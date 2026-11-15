@@ -5,6 +5,7 @@ A small web app, separate from the DigiCart app, for promoting DigiCart to shop 
 | Page | Who opens it | What it does |
 |---|---|---|
 | `grocery.html`, `fashion.html`, … (one per category) | Shop owners, from the WhatsApp link | Shows that category's preview picture in WhatsApp, then opens the demo straight away |
+| `watch-grocery.html`, `watch-fashion.html`, … | Shop owners, from the 🎬 Video message | Shows a ▶ play preview in WhatsApp, then plays that category's 1-minute video full screen with **See YOUR shop live**, Call, WhatsApp and Download buttons underneath |
 | `index.html` (the demo) | Shop owners | Language → category → 8-step animated demo of *their own* shop with real product photos → plans, offer, free setup, Call / WhatsApp / **Download DigiCart**, the category's 1-minute video |
 | `hub.html` (Promotion Hub) | You (passcode) | Shops list, one-by-one WhatsApp sending, live activity with sound alerts, hot leads, follow-ups, links with QR, printable posters, all 9 videos, ready captions, your own photos and videos, offer & price settings, CSV export |
 
@@ -35,7 +36,8 @@ tools/                        test copy with a pretend sheet: node tools/local_s
 4. **Deploy → New deployment →** ⚙️ **Web app**. *Execute as:* **Me**. *Who has access:* **Anyone**. **Deploy**.
 5. Copy the **Web app URL** (ends with `/exec`).
 6. Open `site/config.js` on your computer and paste that URL between the quotes of `API_URL`. Save.
-7. Optional: choose **installDailySummary** and press **Run** to get an evening summary email every day.
+7. Choose **allowShopPhotos** and press **Run** once (Allow). This lets the hub read shop signboards.
+8. Optional: choose **installDailySummary** and press **Run** to get an evening summary email every day.
 
 ### 2. Website on GitHub Pages (free)
 1. On github.com: **New repository** → name **digicart-promo** → **Public** → Create.
@@ -57,10 +59,15 @@ tools/                        test copy with a pretend sheet: node tools/local_s
 2. Type a passcode (6+ characters). The first one you type becomes your passcode.
 3. Chrome menu → **Add to Home screen**, so the hub opens like an app. Settings tab → **Setup check** should be all green.
 4. Home tab → **Turn on alerts**. Shops tab → **Add shops**, pick the category, paste `Name, phone, area` lines.
-5. Grow tab → download that category's video and forward it to the shop on WhatsApp.
-6. Send tab → **Open WhatsApp** → send → **Next**, shop after shop.
+5. Send tab → Message **🎬 Video message** → **Open WhatsApp** → send → **Next**, shop after shop. Each shop gets its own video link
+   (or tap **🎬 Video** on a shop in the Shops tab). The hub shows *opened the video link*, *is watching*, *watched the whole video*.
+6. Then switch the Message to **1️⃣ First message** to send the personal demo link the same way.
 
 ## Day to day
+- **Visiting shops:** hub → Shops → **📷 Snap a shop** → photograph the signboard (name and phone number in view).
+  Google reads the name, mobile number, area and category off the board; check them, **Save**, then tap
+  **🎬 Send the video on WhatsApp** right there. The photo becomes the shop's picture in the list (tap it to see it big);
+  all photos are kept in Drive → *DigiCart Promotion Media / Shop photos*. To add or change a picture later: shop → ⋯ More → 📷.
 - **Add your own photos or videos:** hub → Grow → pick the category and section → **➕ Add photos / videos** → choose from
   the gallery or camera. They upload by themselves and appear first in that category's demo within a minute. Type a name and
   price under each photo if you like. Untick **Show in demo** to keep one out. Videos up to 35 MB; for longer ones put them

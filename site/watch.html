@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DigiCart · 1-minute video</title>
+<meta name="theme-color" content="#0A3F86">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Noto+Sans+Kannada:wght@500;700;800&family=Noto+Sans+Devanagari:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0A3F86;--blue2:#062a5c;--or:#FF7A00;--gr:#16955B;--ink:#12203D}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--blue2)}
+body{font-family:Poppins,"Noto Sans Kannada","Noto Sans Devanagari",system-ui,sans-serif;color:#fff;min-height:100vh;
+  background:radial-gradient(120% 60% at 50% 0%,#1557b0 0%,var(--blue) 45%,var(--blue2) 100%) fixed}
+body.kn{font-family:"Noto Sans Kannada",Poppins,system-ui,sans-serif}
+body.hi{font-family:"Noto Sans Devanagari",Poppins,system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:460px;margin:0 auto;padding:12px 16px calc(24px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+header img{width:38px;height:38px;border-radius:10px}
+header b{font-size:18px;font-weight:800;letter-spacing:.2px}
+.lng{margin-left:auto;display:flex;gap:4px}
+.lng button{font:inherit;font-size:12px;font-weight:700;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 10px}
+.lng button.on{background:#fff;color:var(--blue)}
+h1{font-size:19px;line-height:1.3;font-weight:800;margin:2px 0 10px}
+h1 span{color:#FFC46B}
+.frame{position:relative;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:9/16;max-height:68vh;margin:0 auto;
+  box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 0 3px rgba(255,255,255,.14)}
+.frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+.snd{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;border:0;font:inherit;
+  font-size:16px;font-weight:800;color:var(--ink);background:#fff;padding:12px 20px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);animation:pulse 1.6s ease-in-out infinite}
+.snd i{font-style:normal;font-size:20px}
+.big{position:absolute;inset:0;display:none;place-items:center;background:rgba(0,0,0,.35);border:0}
+.big span{width:92px;height:92px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.big span:before{content:"";margin-left:8px;border-left:30px solid var(--blue);border-top:19px solid transparent;border-bottom:19px solid transparent}
+.frame.paused .big{display:grid}
+.frame.paused .snd,.frame.sound .snd{display:none}
+.bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.2)}
+.bar div{height:100%;width:0;background:var(--or)}
+@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+.offer{display:none;margin:12px 0 0;padding:9px 12px;border-radius:12px;background:#FFF3E0;color:#8a3d00;font-weight:700;font-size:13.5px;text-align:center}
+.cta{position:relative;overflow:hidden;display:block;margin-top:14px;padding:15px 16px;border-radius:18px;text-align:center;
+  background:linear-gradient(180deg,#FF8E1F,var(--or));color:#fff;box-shadow:0 10px 26px rgba(255,122,0,.45)}
+.cta b{display:block;font-size:18px;font-weight:800}
+.cta small{display:block;font-size:12.5px;opacity:.95;margin-top:2px;font-weight:600}
+.cta.go{animation:nudge 1.2s ease-in-out 3}
+@keyframes nudge{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.row a{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border-radius:14px;font-weight:700;font-size:15px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22)}
+.row a.wa{background:#1FAF5A;border-color:#1FAF5A}
+.dl{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;width:100%;min-height:52px;margin-top:10px;padding:8px 16px;border-radius:16px;
+  background:#0B0F19;color:#fff;box-shadow:0 8px 20px rgba(11,15,25,.28);border:2px solid #2E3446}
+.dl svg{flex:none}
+.dl .dlx{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+.dl small{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;opacity:.75;font-weight:600}
+.dl b{font-size:15.5px;font-weight:800}
+.dl .dla{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--gr);display:grid;place-items:center;font-size:15px;animation:bounce 1.4s ease-in-out infinite}
+.dl:after,.cta:after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:shine 3s ease-in-out 1s infinite}
+@keyframes shine{0%{left:-80px}45%,100%{left:110%}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+.pts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;margin-top:14px;font-size:12.5px;opacity:.9;font-weight:600}
+.foot{margin-top:16px;text-align:center;font-size:11px;opacity:.55}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo3d.webp" alt="">
+    <b>DigiCart</b>
+    <div class="lng" id="lng"><button data-l="en">EN</button><button data-l="kn">ಕನ್ನಡ</button><button data-l="hi">हिंदी</button></div>
+  </header>
+  <h1 id="h1"></h1>
+
+  <div class="frame" id="frame">
+    <video id="vid" playsinline muted autoplay preload="auto"></video>
+    <button class="snd" id="snd" type="button"><i>🔊</i><span id="sndT"></span></button>
+    <button class="big" id="big" type="button" aria-label="Play"><span></span></button>
+    <div class="bar"><div id="prog"></div></div>
+  </div>
+
+  <div class="offer" id="offer"></div>
+
+  <a class="cta" id="cta" data-act="demo" href="./">
+    <b id="ctaT"></b><small id="ctaS"></small>
+  </a>
+  <div class="row">
+    <a data-act="call" id="call" href="tel:+919535388375">📞 <span id="callT"></span></a>
+    <a class="wa" data-act="whatsapp" id="wa" href="https://wa.me/919535388375">💬 WhatsApp</a>
+  </div>
+  <a class="dl" data-act="play" id="dl" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart">
+    <svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true"><path d="M1 1.5 15 14 1 26.5c-.4-.3-.6-.8-.6-1.4V2.9c0-.6.2-1.1.6-1.4Z" fill="#00D7FE"/><path d="M19.7 9.6 15 14 1 1.5c.4-.4 1.1-.5 1.7-.1l17 8.2Z" fill="#00F076"/><path d="M19.7 18.4 2.7 26.6c-.6.4-1.3.3-1.7-.1L15 14l4.7 4.4Z" fill="#FF3A44"/><path d="M24.6 12.3c1.1.6 1.1 2.8 0 3.4l-4.9 2.7L15 14l4.7-4.4 4.9 2.7Z" fill="#FFD400"/></svg>
+    <span class="dlx"><small id="dlS"></small><b id="dlB"></b></span>
+    <span class="dla">⬇</span>
+  </a>
+  <div class="pts" id="pts"></div>
+  <p class="foot" id="foot"></p>
+</div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  const CFG = window.PROMO || {};
+  const Q = new URLSearchParams(location.search);
+  const CATS = { grocery: 'grocery', vegetables: 'fruits & vegetables', supermart: 'super mart', fashion: 'fashion', electronics: 'electronics & home appliance',
+    gifts: 'gift & fancy', kirana: 'kirana', footwear: 'footwear', laundry: 'laundry', hardware: 'electrical & hardware' };
+  const CAT = CATS[Q.get('c')] ? Q.get('c') : 'fashion';
+  const REF = (Q.get('r') || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);
+  const SRC = (Q.get('src') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 20);
+  let PHONE = String(CFG.PHONE || '9535388375'), PLAY = CFG.PLAY_URL || 'https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart';
+
+  const T = {
+    en: { h1: (c) => `How <span>${c}</span> shops get online orders with DigiCart`, snd: 'Tap to watch with sound', cta: '👉 See YOUR shop live', ctaS: 'Your own shop demo · 1 minute · no download',
+      call: 'Call us', dlS: 'Get it on', dlB: 'Download DigiCart', pts: ['✅ Zero commission', '🛠️ Free setup', '🛵 Your own delivery'],
+      foot: 'We see when this video is watched, so we can help you set up.', wa: 'Hi, I watched the DigiCart video. I want my shop online.', off: (o) => `🎉 ${o.title}: ${o.pct}% off the 1-year plan` },
+    kn: { h1: (c) => `<span>${c}</span> ಅಂಗಡಿಗಳು DigiCart ಮೂಲಕ ಆನ್‌ಲೈನ್ ಆರ್ಡರ್ ಹೇಗೆ ಪಡೆಯುತ್ತವೆ`, snd: 'ಧ್ವನಿಯೊಂದಿಗೆ ನೋಡಲು ಒತ್ತಿ', cta: '👉 ನಿಮ್ಮ ಅಂಗಡಿಯನ್ನು ಲೈವ್ ನೋಡಿ', ctaS: 'ನಿಮ್ಮದೇ ಅಂಗಡಿಯ ಡೆಮೊ · 1 ನಿಮಿಷ · ಡೌನ್‌ಲೋಡ್ ಬೇಡ',
+      call: 'ಕರೆ ಮಾಡಿ', dlS: 'Get it on', dlB: 'DigiCart ಡೌನ್‌ಲೋಡ್', pts: ['✅ ಕಮಿಷನ್ ಇಲ್ಲ', '🛠️ ಉಚಿತ ಸೆಟಪ್', '🛵 ನಿಮ್ಮದೇ ಡೆಲಿವರಿ'],
+      foot: 'ವೀಡಿಯೋ ನೋಡಿದಾಗ ನಮಗೆ ತಿಳಿಯುತ್ತದೆ, ಸೆಟಪ್‌ಗೆ ಸಹಾಯ ಮಾಡಲು.', wa: 'ನಮಸ್ಕಾರ, DigiCart ವೀಡಿಯೋ ನೋಡಿದೆ. ನನ್ನ ಅಂಗಡಿ ಆನ್‌ಲೈನ್ ಬೇಕು.', off: (o) => `🎉 ${o.title}: 1 ವರ್ಷದ ಪ್ಲಾನ್ ಮೇಲೆ ${o.pct}% ರಿಯಾಯಿತಿ` },
+    hi: { h1: (c) => `<span>${c}</span> दुकानें DigiCart से ऑनलाइन ऑर्डर कैसे पाती हैं`, snd: 'आवाज़ के साथ देखने के लिए टैप करें', cta: '👉 अपनी दुकान लाइव देखें', ctaS: 'आपकी अपनी दुकान का डेमो · 1 मिनट · डाउनलोड नहीं',
+      call: 'कॉल करें', dlS: 'Get it on', dlB: 'DigiCart डाउनलोड करें', pts: ['✅ ज़ीरो कमीशन', '🛠️ फ्री सेटअप', '🛵 आपकी अपनी डिलीवरी'],
+      foot: 'वीडियो देखे जाने पर हमें पता चलता है, ताकि सेटअप में मदद कर सकें।', wa: 'नमस्ते, मैंने DigiCart का वीडियो देखा। मुझे अपनी दुकान ऑनलाइन चाहिए।', off: (o) => `🎉 ${o.title}: 1 साल के प्लान पर ${o.pct}% छूट` },
+  };
+  let LG = 'en', OFFER = null;
+  try { LG = localStorage.getItem('dc_lng') || ((navigator.language || '').startsWith('kn') ? 'kn' : (navigator.language || '').startsWith('hi') ? 'hi' : 'en'); } catch (e) {}
+  if (!T[LG]) LG = 'en';
+  const $ = (id) => document.getElementById(id);
+
+  function paint() {
+    const t = T[LG];
+    document.body.className = LG; document.documentElement.lang = LG;
+    $('h1').innerHTML = t.h1(CATS[CAT]);
+    $('sndT').textContent = t.snd; $('ctaT').textContent = t.cta; $('ctaS').textContent = t.ctaS;
+    $('callT').textContent = t.call; $('dlS').textContent = t.dlS; $('dlB').textContent = t.dlB;
+    $('pts').innerHTML = t.pts.map((p) => `<span>${p}</span>`).join('');
+    $('foot').textContent = t.foot;
+    $('wa').href = `https://wa.me/91${PHONE}?text=${encodeURIComponent(t.wa)}`;
+    $('call').href = 'tel:+91' + PHONE; $('dl').href = PLAY;
+    if (OFFER) { $('offer').textContent = t.off(OFFER); $('offer').style.display = 'block'; }
+    document.querySelectorAll('#lng button').forEach((b) => b.classList.toggle('on', b.dataset.l === LG));
+  }
+  $('lng').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; LG = b.dataset.l; try { localStorage.setItem('dc_lng', LG); } catch (x) {} paint(); });
+
+  // demo link keeps the shop's personal id so the hub sees them move from the video to the demo
+  const dq = new URLSearchParams({ c: CAT }); if (REF) dq.set('r', REF); dq.set('src', SRC || 'video');
+  $('cta').href = './?' + dq.toString();
+
+  // ---------------------------------------------------------------- tracking (same backend as the demo)
+  const API = CFG.API_URL || '';
+  const rnd = () => Array.from(crypto.getRandomValues(new Uint8Array(10)), (b) => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
+  let DID = '';
+  try { DID = localStorage.getItem('dc_did') || ''; if (!DID) { DID = rnd(); localStorage.setItem('dc_did', DID); } } catch (e) { DID = rnd(); }
+  const T0 = Date.now(), secs = () => Math.round((Date.now() - T0) / 1000);
+  function track(t, v, beacon) {
+    if (!API) return Promise.resolve(null);
+    const body = JSON.stringify({ a: 'e', r: REF, d: DID, t, v: v == null ? '' : String(v), s: secs(), c: CAT, src: SRC || 'video' });
+    try {
+      if ((beacon || t === 'ping') && navigator.sendBeacon && navigator.sendBeacon(API, new Blob([body], { type: 'text/plain;charset=utf-8' }))) return Promise.resolve(null);
+      return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body, redirect: 'follow', keepalive: true }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    } catch (e) { return Promise.resolve(null); }
+  }
+  // the first call finishes before the next one starts, so the sheet row is made once
+  let chain = track('video', 'page');
+  const send = (t, v, beacon) => { chain = chain.then(() => track(t, v, beacon)); return chain; };
+  setInterval(() => { if (document.visibilityState === 'visible') track('ping'); }, 20000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') track('ping'); });
+  document.querySelectorAll('[data-act]').forEach((a) => a.addEventListener('click', () => {
+    const act = a.dataset.act;
+    if (act === 'demo') send('video', 'demo', true); else send('action', act, true);
+  }));
+
+  // live offer, phone and Play link from the hub settings
+  if (API) fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ a: 'cfg' }), redirect: 'follow' })
+    .then((r) => (r.ok ? r.json() : null)).then((d) => {
+      if (!d || d.error) return;
+      if (d.phone && /^\d{10}$/.test(d.phone)) PHONE = d.phone;
+      if (d.playUrl && /^https:\/\//.test(d.playUrl)) PLAY = d.playUrl;
+      if (d.festival && d.festival.enabled) OFFER = d.festival;
+      paint();
+    }).catch(() => {});
+
+  // ---------------------------------------------------------------- video
+  const vid = $('vid'), frame = $('frame');
+  vid.poster = `videos/${CAT}.jpg`;
+  vid.src = `videos/${CAT}.mp4`;
+  let played = false, ended = false;
+  function withSound() {
+    vid.muted = false; vid.currentTime = 0; frame.classList.add('sound');
+    const p = vid.play(); if (p && p.catch) p.catch(() => frame.classList.add('paused'));
+    if (!played) { played = true; send('video', 'play'); }
+  }
+  $('snd').onclick = withSound;
+  $('big').onclick = () => { if (!frame.classList.contains('sound')) return withSound(); vid.play(); };
+  vid.addEventListener('click', () => { if (!frame.classList.contains('sound')) withSound(); else if (vid.paused) vid.play(); else vid.pause(); });
+  vid.addEventListener('play', () => frame.classList.remove('paused'));
+  vid.addEventListener('pause', () => { if (!vid.ended) frame.classList.add('paused'); });
+  vid.addEventListener('timeupdate', () => { if (vid.duration) $('prog').style.width = (100 * vid.currentTime / vid.duration) + '%'; });
+  vid.addEventListener('ended', () => {
+    frame.classList.add('paused');
+    if (frame.classList.contains('sound') && !ended) { ended = true; send('video', 'ended'); }
+    const c = $('cta'); c.classList.remove('go'); void c.offsetWidth; c.classList.add('go');
+    c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  // muted autoplay is blocked on some phones: show the big play button instead
+  setTimeout(() => { if (vid.paused && !played) frame.classList.add('paused'); }, 1500);
+
+  paint();
+})();
+</script>
+</body>
+</html>

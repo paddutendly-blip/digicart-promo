@@ -120,6 +120,23 @@ details summary{cursor:pointer;font-weight:800;font-size:15px;list-style:none}
 details summary::-webkit-details-marker{display:none}
 .searchbar{display:flex;gap:8px;margin-top:10px}
 .seg{display:flex;background:#EEF2F8;border-radius:12px;padding:3px}.seg button{flex:1;padding:7px 8px;border-radius:10px;font-weight:700;font-size:12.5px;color:var(--muted)}.seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(10,63,134,.1)}
+/* shop photo (snap) */
+.snapBtn{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9A3D);color:#fff;text-align:left;box-shadow:0 8px 20px rgba(247,116,14,.3)}
+.snapBtn .e{font-size:30px;line-height:1}.snapBtn b{display:block;font-size:16px}.snapBtn small{display:block;font-size:12px;opacity:.95;font-weight:600}
+.lead .h .who{display:flex;gap:10px;align-items:center;min-width:0}
+.dp{flex:none;width:46px;height:46px;border-radius:50%;object-fit:cover;background:#EEF2F8;display:grid;place-items:center;font-size:22px;border:2px solid #fff;box-shadow:0 2px 8px rgba(10,63,134,.18)}
+img.dp{cursor:zoom-in}
+.sheetV{position:fixed;inset:0;z-index:60;background:rgba(10,20,40,.55);display:none;align-items:flex-end;justify-content:center}
+.sheetV.on{display:flex}
+.sheetIn{background:var(--bg);width:100%;max-width:560px;max-height:94vh;overflow:auto;border-radius:22px 22px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom))}
+.sheetIn .hd{display:flex;justify-content:space-between;align-items:center}.sheetIn .hd b{font-size:17px}
+.snapImg{position:relative;margin-top:10px;border-radius:16px;overflow:hidden;background:#0B0F19;min-height:120px}
+.snapImg img{display:block;width:100%;max-height:260px;object-fit:contain}
+.snapSt{position:absolute;left:10px;bottom:10px;right:10px;background:rgba(255,255,255,.94);border-radius:10px;padding:7px 10px;font-size:12.5px;font-weight:700}
+.snapSt.ok{background:var(--okSoft);color:#0E6B40}.snapSt.bad{background:var(--orangeSoft);color:#8A3B00}
+.sug{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sug button{font-size:12px;font-weight:700;padding:5px 10px;border-radius:16px;background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.light{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:16px}
+.light.on{display:flex}.light img{max-width:100%;max-height:100%;border-radius:12px}
 </style>
 </head>
 <body>
@@ -157,7 +174,8 @@ details summary::-webkit-details-marker{display:none}
     <!-- ---------------- SHOPS -->
     <section class="view" id="v-shops">
       <div class="card">
-        <details id="addBox">
+        <button class="snapBtn" id="snapGo"><span class="e">📷</span><span><b>Snap a shop</b><small>Take a photo of the signboard. Name and number are read for you, the photo becomes the shop's picture.</small></span></button>
+        <details id="addBox" style="margin-top:12px">
           <summary>➕ Add shops</summary>
           <div class="seg" style="margin-top:10px"><button class="on" data-addm="paste">Paste list</button><button data-addm="one">One shop</button><button data-addm="csv">CSV file</button></div>
           <div data-addp="paste" style="margin-top:10px">
@@ -197,7 +215,7 @@ details summary::-webkit-details-marker{display:none}
       </div>
       <div class="card">
         <h2>💡 Tips for more replies</h2>
-        <p class="hint">1. Send the 1-minute video first (forward it from the Media tab), then the personal link. 2. Best times: 11 am–1 pm and 4–6 pm, when shops are quiet. 3. Anyone who opens shows up on Home within seconds. Call them while they're still looking. 4. Use “Opened, no reply” the next day with the follow-up message.</p>
+        <p class="hint">1. Send <b>🎬 Video message</b> to everyone first (each shop gets its own video link), then switch to <b>1️⃣ First message</b> for the demo link. 2. Best times: 11 am–1 pm and 4–6 pm, when shops are quiet. 3. Anyone who opens shows up on Home within seconds. Call them while they're still looking. 4. Use “Opened, no reply” the next day with the follow-up message.</p>
       </div>
       <div class="card">
         <details><summary>✏️ Edit message texts</summary>
@@ -226,7 +244,7 @@ details summary::-webkit-details-marker{display:none}
         <p class="hint">Not tied to one shop. Visitors show up as “New visitor” with the channel they came from, so you know which channel works.</p>
         <div class="grid2" style="margin-top:8px"><div><label class="f">Category</label><select id="glCat"></select></div><div><label class="f">Where you'll post it</label><select id="glSrc"></select></div></div>
         <div class="qrwrap" style="margin-top:12px"><canvas id="glQr" width="300" height="300"></canvas><div style="flex:1;min-width:200px"><code id="glUrl"></code>
-          <div class="acts"><button class="btn sm" id="glCopy">Copy link</button><button class="btn l sm" id="glQrDl">⬇ QR picture</button><a class="btn g sm" id="glShare" target="_blank" rel="noopener">Share on WhatsApp</a></div></div></div>
+          <div class="acts"><button class="btn sm" id="glCopy">Copy link</button><button class="btn l sm" id="glVid">🎬 Copy video link</button><button class="btn l sm" id="glQrDl">⬇ QR picture</button><a class="btn g sm" id="glShare" target="_blank" rel="noopener">Share on WhatsApp</a></div></div></div>
       </div>
       <div class="card">
         <h2>🖨️ Posters & status pictures with QR</h2>
@@ -281,6 +299,24 @@ details summary::-webkit-details-marker{display:none}
     <button data-v="set"><span>⚙️</span>Settings</button>
   </nav>
 </div>
+<div class="sheetV" id="snapV">
+  <div class="sheetIn">
+    <div class="hd"><b>📷 New shop from photo</b><button class="btn l sm" id="snapX">✕</button></div>
+    <div class="snapImg"><img id="snapImg" alt=""><div class="snapSt" id="snapSt"></div></div>
+    <div class="row" style="margin-top:8px"><button class="btn l sm" id="snapCam" style="flex:1">📷 Retake</button><button class="btn l sm" id="snapGal" style="flex:1">🖼️ From gallery</button></div>
+    <label class="f">Shop name</label><input id="sName" placeholder="Shop name"><div class="sug" id="sNameS"></div>
+    <div class="grid2"><div><label class="f">Phone (WhatsApp)</label><input id="sPhone" inputmode="tel" placeholder="98450 12345"><div class="sug" id="sPhoneS"></div></div>
+      <div><label class="f">Area</label><input id="sArea" placeholder="Area"><div class="sug" id="sAreaS"></div></div></div>
+    <label class="f">Category</label><select id="sCat"></select>
+    <label class="f">Notes</label><input id="sNotes" placeholder="Owner name, best time to visit…">
+    <button class="btn o w" id="sSave" style="margin-top:14px;min-height:50px;font-size:16px">✅ Save shop</button>
+    <div id="sDone"></div>
+  </div>
+</div>
+<input type="file" id="snapFile" accept="image/*" capture="environment" hidden>
+<input type="file" id="snapFileG" accept="image/*" hidden>
+<input type="file" id="dpFile" accept="image/*" hidden>
+<div class="light" id="light"><img id="lightImg" alt=""></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -294,13 +330,38 @@ const DCAT = window.DC_CATALOG || {};
 const SOURCES = { status: 'WhatsApp status', group: 'WhatsApp group', poster: 'Printed poster', insta: 'Instagram', fb: 'Facebook', yt: 'YouTube', gmb: 'Google Business', visit: 'Shop visit' };
 const STEP_N = 9;
 const STEP_NAMES = ['', 'Setup', 'Catalogue', 'Customer order', 'Delivery', 'Payment', 'Billing', 'Offers', 'Reports', 'Plans & offer'];
-const ACT = { call: '📞 Tapped Call', whatsapp: '💬 Tapped WhatsApp', setup: '🙋 Asked for free setup', play: '⬇️ Tapped Download', video: '🎬 Watched video' };
+const ACT = { call: '📞 Tapped Call', whatsapp: '💬 Tapped WhatsApp', setup: '🙋 Asked for free setup', play: '⬇️ Tapped Download', video: '🎬 Opened video' };
 const HOT = ['call', 'whatsapp', 'setup', 'play'];
 const LANG = { en: 'English', kn: 'ಕನ್ನಡ', hi: 'हिंदी' };
 const STAGES = [['', 'Auto (from activity)'], ['interested', '👍 Interested'], ['followup', '📅 Follow up'], ['onboarded', '✅ Onboarded'], ['no', '✋ Not interested']];
 
 // ------------------------------------------------------------------ message templates
 const TPL = {
+  video: { label: '🎬 Video message (send this first)',
+    en: `Namaskara {name} 🙏
+
+I'm {owner} from *DigiCart*, a Bengaluru app that takes local shops online. 🛍️
+
+Please watch this *1-minute video*: how shops like yours get online orders with *zero commission* 👇
+🎬 {vlink}
+
+📞 {phone}`,
+    kn: `ನಮಸ್ಕಾರ {name} 🙏
+
+ನಾನು *DigiCart*‌ನಿಂದ {owner}. ಸ್ಥಳೀಯ ಅಂಗಡಿಗಳನ್ನು ಆನ್‌ಲೈನ್‌ಗೆ ತರುವ ಬೆಂಗಳೂರಿನ ಆ್ಯಪ್. 🛍️
+
+ದಯವಿಟ್ಟು ಈ *1 ನಿಮಿಷದ ವೀಡಿಯೋ* ನೋಡಿ: ನಿಮ್ಮಂತಹ ಅಂಗಡಿಗಳು *ಕಮಿಷನ್ ಇಲ್ಲದೆ* ಆನ್‌ಲೈನ್ ಆರ್ಡರ್ ಹೇಗೆ ಪಡೆಯುತ್ತವೆ 👇
+🎬 {vlink}
+
+📞 {phone}`,
+    hi: `नमस्ते {name} 🙏
+
+मैं *DigiCart* से {owner} हूं, बेंगलुरु का ऐप जो लोकल दुकानों को ऑनलाइन लाता है। 🛍️
+
+कृपया यह *1 मिनट का वीडियो* देखें: आप जैसी दुकानें *ज़ीरो कमीशन* पर ऑनलाइन ऑर्डर कैसे पाती हैं 👇
+🎬 {vlink}
+
+📞 {phone}` },
   first: { label: '1️⃣ First message (personal demo link)',
     en: `Namaskara {name} 🙏
 
@@ -473,11 +534,16 @@ const phoneTxt = () => phone().slice(0, 5) + ' ' + phone().slice(5);
 const play = () => ST().playUrl || CFG.PLAY_URL || '';
 const offerLive = () => { const s = ST(); return /^yes$/i.test(s.offerOn || '') && +s.offerPct > 0 && (!s.offerUntil || s.offerUntil >= today()); };
 const linkOf = (l) => `${BASE}${l.cat || 'fashion'}.html?r=${l.id}`;
+const vlinkOf = (l) => `${BASE}watch-${l.cat || 'fashion'}.html?r=${l.id}`;
+// which shops got the video message (kept on this phone; the hub also shows when they watch it)
+let VSENT = {}; try { VSENT = JSON.parse(localStorage.getItem('vsent') || '{}'); } catch (e) {}
+const videoSent = (l) => !!VSENT[l.id];
+const markVideo = (l) => { VSENT[l.id] = Date.now(); lsSet('vsent', JSON.stringify(VSENT)); };
 const glink = (cat, src) => `${BASE}${cat}.html${src ? '?src=' + src : ''}`;
 function tplText(key, lg) { return lsGet(`tpl_${key}_${lg}`) || TPL[key][lg] || TPL[key].en; }
 function fill(text, l, lg, extra = {}) {
   const off = offerLive() ? OFFER_LINE[lg](ST()) : '';
-  return text.replace(/\{name\}/g, l ? l.name : '').replace(/\{link\}/g, l ? linkOf(l) : '').replace(/\{phone\}/g, phoneTxt())
+  return text.replace(/\{name\}/g, l ? l.name : '').replace(/\{vlink\}/g, l ? vlinkOf(l) : (extra.vlink || '')).replace(/\{link\}/g, l ? linkOf(l) : '').replace(/\{phone\}/g, phoneTxt())
     .replace(/\{owner\}/g, ST().ownerName || CFG.OWNER || '').replace(/\{play\}/g, play()).replace(/\{glink\}/g, extra.glink || '')
     .replace(/\{area\}/g, extra.area || (lg === 'en' ? 'our area' : lg === 'kn' ? 'ನಮ್ಮ ಏರಿಯಾ' : 'हमारे एरिया')).replace(/\{offer\}\n?/g, off ? off + '\n' : '');
 }
@@ -499,7 +565,9 @@ function status(l) {
   if ((l.actions || []).some((a) => HOT.includes(a)) || (l.maxStep || 0) >= STEP_N) return ['hot', '🔥 Hot lead'];
   if ((l.maxStep || 0) >= 1) return ['exploring', '👀 Watching demo'];
   if (l.opens) return ['opened', '📖 Opened'];
+  if ((l.actions || []).includes('video')) return ['opened', '🎬 Opened video'];
   if (l.sentAt) return ['sent', '📤 Sent'];
+  if (videoSent(l)) return ['sent', '🎬 Video sent'];
   return ['new', '⏳ Not sent'];
 }
 
@@ -521,11 +589,11 @@ function bannerShow(e, title, sub) {
   const b = $('#banner'); b.classList.add('on'); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('on'), 6000);
 }
 function notifyNew(evs) {
-  const imp = evs.filter((e) => e.t === 'open' || (e.t === 'action' && HOT.includes(e.v)) || (e.t === 'step' && +e.v >= STEP_N));
+  const imp = evs.filter((e) => e.t === 'open' || (e.t === 'video' && ['page', 'ended', 'demo'].includes(e.v)) || (e.t === 'action' && HOT.includes(e.v)) || (e.t === 'step' && +e.v >= STEP_N));
   if (!imp.length) return;
-  const e = imp[0], hot = e.t !== 'open';
+  const e = imp[0], hot = e.t !== 'open' && e.t !== 'video';
   const title = `${e.name || 'New visitor'} ${evText(e).replace(/<[^>]+>/g, '')}`;
-  bannerShow(hot ? '🔥' : '👀', title, hot ? 'Call them now while they are interested' : 'They are looking at the demo right now');
+  bannerShow(hot ? '🔥' : e.t === 'video' ? '🎬' : '👀', title, hot ? 'Call them now while they are interested' : e.t === 'video' ? (e.v === 'page' ? 'They are watching your video right now' : 'Good time to send the demo link') : 'They are looking at the demo right now');
   ding(hot);
   try { if (lsGet('alerts') === 'on' && 'Notification' in window && Notification.permission === 'granted' && document.visibilityState !== 'visible') new Notification(title, { body: 'DigiCart promotion', icon: 'icon.png', tag: 'dc' + e.at }); } catch (x) {}
   if (!$('#v-home').classList.contains('on')) { const d = $('#dotHome'); d.style.display = 'block'; d.textContent = (+d.textContent || 0) + imp.length; }
@@ -543,13 +611,13 @@ function renderAlertBtn() { $('#alertBtn').textContent = lsGet('alerts') === 'on
 // ------------------------------------------------------------------ render: home
 function render() {
   const shops = DATA.shops, named = shops.filter((l) => !l.anon);
-  const c = { shops: named.length, sent: named.filter((l) => l.sentAt).length, opened: shops.filter((l) => l.opens).length,
+  const c = { shops: named.length, sent: named.filter((l) => l.sentAt || videoSent(l)).length, vid: shops.filter((l) => (l.actions || []).includes('video')).length, opened: shops.filter((l) => l.opens).length,
     demo: shops.filter((l) => (l.maxStep || 0) >= 1).length, hot: shops.filter((l) => ['hot', 'interested'].includes(status(l)[0])).length, on: shops.filter((l) => l.stage === 'onboarded').length };
-  $('#kpis').innerHTML = [['Shops', c.shops], ['Sent', c.sent], ['Opened', c.opened], ['Saw demo', c.demo], ['🔥 Hot', c.hot], ['✅ Onboarded', c.on]].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
-  const base = Math.max(1, c.shops, c.opened);
-  $('#funnel').innerHTML = [['Shops', c.shops, '#94A3B8'], ['Sent', c.sent, '#1173D4'], ['Opened', c.opened, '#F7740E'], ['Saw demo', c.demo, '#E8457C'], ['Hot', c.hot, '#16955B'], ['Onboarded', c.on, '#0E6B40']]
+  $('#kpis').innerHTML = [['Shops', c.shops], ['Sent', c.sent], ['🎬 Saw video', c.vid], ['Opened demo', c.opened], ['🔥 Hot', c.hot], ['✅ Onboarded', c.on]].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
+  const base = Math.max(1, c.shops, c.opened, c.vid);
+  $('#funnel').innerHTML = [['Shops', c.shops, '#94A3B8'], ['Sent', c.sent, '#1173D4'], ['Saw video', c.vid, '#7C3AED'], ['Opened demo', c.opened, '#F7740E'], ['Saw demo', c.demo, '#E8457C'], ['Hot', c.hot, '#16955B'], ['Onboarded', c.on, '#0E6B40']]
     .map(([k, v, col]) => `<div class="fr"><span>${k}</span><span class="bar"><i style="width:${Math.round(v / base * 100)}%;background:${col}"></i></span><b>${v}</b></div>`).join('')
-    + (c.sent ? `<p class="hint">${Math.round(c.opened / Math.max(1, c.sent) * 100)}% of sent shops opened the demo.</p>` : '');
+    + (c.sent ? `<p class="hint">${Math.round(c.vid / Math.max(1, c.sent) * 100)}% of sent shops opened the video, ${Math.round(c.opened / Math.max(1, c.sent) * 100)}% opened the demo.</p>` : '');
   const hot = shops.filter((l) => ['hot', 'interested'].includes(status(l)[0])).sort((a, b) => b.lastSeenAt - a.lastSeenAt);
   $('#hotList').innerHTML = hot.length ? hot.map(leadCard).join('') : '<div class="empty">No hot leads yet. They appear here the moment a shop taps Call, WhatsApp, setup or Download.</div>';
   const due = shops.filter((l) => l.followUp && l.followUp <= today() && !['onboarded', 'no'].includes(l.stage));
@@ -566,7 +634,7 @@ function evText(e) {
   if (e.t === 'cat') return `tapped ${(CATS[e.v] || ['', e.v]).join(' ')}`;
   if (e.t === 'step') { const n = +e.v; return n >= STEP_N ? 'reached <b>plans & offer</b>' : `is on step ${n}: ${STEP_NAMES[n] || ''}`; }
   if (e.t === 'action') return `<b style="color:var(--ok)">${ACT[e.v] || e.v}</b>`;
-  if (e.t === 'video') return '🎬 played the video';
+  if (e.t === 'video') return e.v === 'page' ? 'opened the video link' : e.v === 'ended' ? '🎬 <b>watched the whole video</b>' : e.v === 'demo' ? 'went from the video to the demo' : '🎬 is watching the video';
   return esc(e.t);
 }
 
@@ -605,6 +673,7 @@ function leadCard(l) {
   if (l.sec) facts.push(`<b>${dur(l.sec)}</b> on demo`);
   if (l.lang) facts.push(LANG[l.lang] || l.lang);
   if (l.device) facts.push(esc(l.device));
+  if (videoSent(l)) facts.push(`🎬 Video sent ${ago(VSENT[l.id])}`);
   if (!l.opens && l.sentAt) facts.push(`Sent ${ago(l.sentAt)}`);
   if (l.anon && l.source) facts.push(`From: ${esc(SOURCES[l.source] || l.source)}`);
   if (l.followUp) facts.push(`📅 ${esc(l.followUp)}`);
@@ -613,13 +682,13 @@ function leadCard(l) {
   const lg = l.lang || $('#lngSel').value || 'en';
   const msgKey = l.opens ? 'follow' : 'first';
   return `<div class="lead st-${s}" data-id="${l.id}">
-    <div class="h" data-do="toggle"><div><div class="n">${esc(l.name || 'New visitor')}</div><div class="m">${[(CATS[l.cat] || []).join(' '), esc(l.area), ph].filter(Boolean).join(' · ')}</div></div><span class="pill p-${s}">${label}</span></div>
+    <div class="h" data-do="toggle"><div class="who">${dpHtml(l)}<div><div class="n">${esc(l.name || 'New visitor')}</div><div class="m">${[(CATS[l.cat] || []).join(' '), esc(l.area), ph].filter(Boolean).join(' · ')}</div></div></div><span class="pill p-${s}">${label}</span></div>
     ${l.opens || l.maxStep ? `<div class="prog">${bars}</div><div class="m">${(l.maxStep || 0) >= STEP_N ? 'Saw the demo and the plans' : l.maxStep ? `Demo: ${[...steps].filter((x) => x < STEP_N).length} of 8 steps · reached “${STEP_NAMES[l.maxStep]}”` : 'Opened, still on the first screens'}</div>` : ''}
     ${facts.length ? `<div class="facts">${facts.join('<span>·</span>')}</div>` : ''}
     ${tags ? `<div class="acts">${tags}</div>` : ''}
     ${l.notes ? `<div class="hint">📝 ${esc(l.notes)}</div>` : ''}
     <div class="acts">
-      ${l.phone ? `<a class="btn g sm" data-do="wa" data-tpl="${msgKey}" data-lg="${lg}" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(msgKey, lg), l, lg)))}">💬 ${l.opens ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</a><a class="btn sm" href="tel:+91${l.phone}">📞 Call</a>` : ''}
+      ${l.phone ? `<a class="btn g sm" data-do="wa" data-tpl="${msgKey}" data-lg="${lg}" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(msgKey, lg), l, lg)))}">💬 ${l.opens ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</a><a class="btn k sm" data-do="vid" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText('video', lg), l, lg)))}">🎬 Video</a><a class="btn sm" href="tel:+91${l.phone}">📞 Call</a>` : ''}
       ${!l.anon ? `<button class="btn l sm" data-do="link">🔗 Link</button>` : ''}
       <button class="btn l sm" data-do="toggle">⋯ More</button>
     </div>
@@ -628,7 +697,7 @@ function leadCard(l) {
       <div><label class="f">Follow-up date</label><input type="date" data-f="followUp" value="${esc(l.followUp || '')}"></div></div>
       ${l.anon ? `<div class="grid2"><div><label class="f">Shop name</label><input data-f="name" placeholder="Who is this?"></div><div><label class="f">Phone</label><input data-f="phone" inputmode="tel"></div></div>` : ''}
       <label class="f">Notes</label><textarea data-f="notes" style="min-height:60px" placeholder="e.g. asked to come Monday 11 am">${esc(l.notes || '')}</textarea>
-      <div class="acts"><button class="btn sm" data-do="save">Save</button>${!l.anon ? `<button class="btn l sm" data-do="copy">Copy message</button><button class="btn l sm" data-do="qr">QR of link</button>` : ''}<button class="btn r sm" data-do="del">Delete</button></div>
+      <div class="acts"><button class="btn sm" data-do="save">Save</button>${!l.anon ? `<button class="btn l sm" data-do="copy">Copy message</button><button class="btn l sm" data-do="vlink">🎬 Copy video link</button><button class="btn l sm" data-do="qr">QR of link</button><button class="btn l sm" data-do="photo">📷 ${l.photo ? 'Change' : 'Add'} shop photo</button>` : ''}<button class="btn r sm" data-do="del">Delete</button></div>
       <div class="qrslot"></div>
     </div></div>`;
 }
@@ -637,12 +706,15 @@ async function onLeadClick(e) {
   const b = e.target.closest('[data-do]'); if (!b) return;
   const card = b.closest('.lead'); const id = card.dataset.id; const l = DATA.shops.find((x) => x.id === id); if (!l) return;
   const d = b.dataset.do;
+  if (d === 'photo') { DP_FOR = l; $('#dpFile').value = ''; $('#dpFile').click(); return; }
   if (d === 'toggle') { if (e.target.closest('a,input,select,textarea')) return; card.classList.toggle('open'); return; }
   if (d === 'wa') { // the link itself opens WhatsApp; mark sent in the background
     if (!l.sentAt) { l.sentAt = Date.now(); call({ a: 'upd', id, f: { sent: true } }).catch(() => {}); setTimeout(render, 300); }
     return;
   }
+  if (d === 'vid') { markVideo(l); setTimeout(render, 300); return; }
   if (d === 'link') return copy(linkOf(l));
+  if (d === 'vlink') return copy(vlinkOf(l));
   if (d === 'copy') { const lg = l.lang || $('#lngSel').value; return copy(fill(tplText(l.opens ? 'follow' : 'first', lg), l, lg)); }
   if (d === 'qr') { const slot = card.querySelector('.qrslot'); slot.innerHTML = ''; const cv = document.createElement('canvas'); cv.width = cv.height = 300; cv.style.cssText = 'width:150px;height:150px;margin-top:10px'; drawQR(cv, linkOf(l), 300); slot.appendChild(cv); return; }
   if (d === 'save') {
@@ -690,6 +762,191 @@ $('#addB').onclick = async () => {
   } catch (e) { toast(e.message); }
   $('#addB').disabled = false;
 };
+// ------------------------------------------------------------------ snap a shop: photo → name, number, category
+// shop pictures: a small copy is kept on this phone so the list shows them at once
+const dpKey = (id) => `dp_${id}`;
+const dpSrc = (id, w = 200) => lsGet(dpKey(id)) || `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${w}`;
+function dpHtml(l) {
+  const em = (CATS[l.cat] || ['🏪'])[0];
+  return l.photo ? `<img class="dp" data-photo="${esc(l.photo)}" src="${esc(dpSrc(l.photo))}" alt="" loading="lazy" onerror="this.outerHTML='<span class=\\'dp\\'>${em}</span>'">` : `<span class="dp">${em}</span>`;
+}
+function showPhoto(id) { if (!id) return; $('#lightImg').src = `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`; $('#light').classList.add('on'); }
+$('#light').onclick = () => $('#light').classList.remove('on');
+document.addEventListener('click', (e) => { const i = e.target.closest && e.target.closest('img.dp'); if (i && i.dataset.photo) { e.stopPropagation(); e.preventDefault(); showPhoto(i.dataset.photo); } }, true);
+const oldScript = (m) => (/unknown action/i.test(m) ? 'The Google Sheet script is the old version. Paste the new Code.gs and deploy a new version (see the update steps)' : m);
+// photo → JPEG of at most `max` pixels (keeps upload small on mobile data)
+function shrink(file, max, q) {
+  return new Promise((ok, bad) => {
+    const img = new Image(), u = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u); ok(c.toDataURL('image/jpeg', q));
+    };
+    img.onerror = () => { URL.revokeObjectURL(u); bad(new Error('Could not open that photo')); };
+    img.src = u;
+  });
+}
+function square(dataUrl, size) {
+  return new Promise((ok) => {
+    const img = new Image();
+    img.onload = () => { const c = document.createElement('canvas'); c.width = c.height = size; const m = Math.min(img.width, img.height);
+      c.getContext('2d').drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, size, size); ok(c.toDataURL('image/jpeg', 0.7)); };
+    img.onerror = () => ok(''); img.src = dataUrl;
+  });
+}
+// reading the signboard text that Google returns
+const CAT_WORDS = [
+  ['laundry', /laundr|dry ?clean|ironing|wash(ing)? (centre|center|point)|steam press/],
+  ['footwear', /foot ?wear|shoe|chappal|sandal|slipper|bata\b/],
+  ['vegetables', /vegetable|fruit|fresh (farm|fruits)|tarkari|sabzi/],
+  ['gifts', /gift|fancy|novelt|toys?\b|stationer|bangle|cosmetic/],
+  ['hardware', /hardware|electricals?\b|electric (works|store)|plumb|sanitar|paints?\b|pipes?\b|tools|power tools|motor/],
+  ['electronics', /electronic|mobiles?\b|furnitur|interior|appliance|home needs|\btv\b|refrigerat|computer|laptop|digital world/],
+  ['supermart', /super ?mar(t|ket)|hyper ?mar|departmental|\bmart\b|bazaar|daily mart/],
+  ['kirana', /kirana|provision|general (store|merchant)|condiment|traders/],
+  ['grocery', /grocer|daily needs|rice|oil (store|depot)|dal\b|masala/],
+  ['fashion', /fashion|garment|textile|boutique|saree|sari\b|silks?\b|collections?|tailor|cloth|readymade|ready made|dress|wear\b|apparel|hosiery|tailoring/],
+];
+const SHOP_WORD = /\b(stores?|enterprises?|traders?|cent(re|er)|mart|fashions?|collections?|boutique|textiles?|garments?|furnitures?|interiors?|electricals?|electronics|hardwares?|agenc(y|ies)|emporium|bazaar|super ?market|provisions?|general|kirana|bakery|sweets|mobiles|footwears?|shoes?|gifts?|fancy|laundry|dry ?cleaners?|vegetables|fruits|medicals?|sons|palace|world|house|hub|mall|shop(pe)?|depot|corner|point|plaza|silks?|saree|creations|showroom|works|solutions|associates|distributors)\b/i;
+const NOT_NAME = /(all kinds|dealers? in|deals? in|we (deal|sell|undertake)|specialist|wholesale|retail|prop\.?|proprietor|mob(ile)?\s*[:.]|ph(one)?\s*[:.]|cell|gst|gstin|e-?mail|www\.|\.com|open|timing|closed|since|estd|cross|main|road|\bnear\b|\bopp\b|layout|bengaluru|bangalore|\b5600?\d{2}\b|^#|^no\.?\s*\d)/i;
+const AREA_LINE = /(cross|main|road|\brd\b|layout|nagar|halli|pura|palya|stage|phase|block|circle|sector|bengaluru|bangalore|\b560\s?\d{3}\b|near|opp)/i;
+const titleCase = (t) => t.toLowerCase().replace(/(^|[\s&(/.-])([a-z])/g, (m, a, b) => a + b.toUpperCase()).replace(/\b(And|Of|The)\b/g, (w) => w.toLowerCase()).replace(/^./, (c) => c.toUpperCase());
+function readBoard(text, fallbackCat) {
+  const raw = String(text || '').replace(/﻿/g, '');
+  const lines = raw.split(/\r?\n/).map((x) => x.replace(/\s+/g, ' ').trim()).filter(Boolean);
+  // phone numbers: Indian mobiles (10 digits from 6-9, with or without +91 / 0); landlines with 080 are left out
+  const phones = [];
+  const fixO = raw.replace(/(?<=\d)[oO](?=[\d\s-])|(?<=[\d\s-])[oO](?=\d)/g, '0').replace(/(?<=\d)[lI|](?=\d)/g, '1');
+  for (const m of fixO.matchAll(/\+?\d[\d \t.-]{6,}\d/g)) {
+    const run = m[0], d = run.replace(/\D/g, '');
+    const push = (x) => { if (/^[6-9]\d{9}$/.test(x) && !phones.includes(x)) phones.push(x); };
+    if (/^0?80[\s.-]/.test(run.trim()) && d.length <= 11) continue;          // 080-2345 6789 is a landline
+    if (d.length === 10) push(d);
+    else if (d.length === 11 && d[0] === '0') push(d.slice(1));
+    else if (d.length === 12 && d.startsWith('91')) push(d.slice(2));
+    else if (d.length > 12) { for (let i = 0; i + 10 <= d.length;) { const x = d.slice(i, i + 10); if (/^[6-9]/.test(x)) { push(x); i += 10; } else i++; } }
+  }
+  // shop name: short Latin-letter lines near the top, shop words count most
+  const cand = lines.map((t, i) => ({ t: t.replace(/^[^A-Za-z0-9&]+|[^A-Za-z0-9&.)]+$/g, ''), i }))
+    .filter((c) => c.t.length >= 3 && c.t.length <= 42 && /[A-Za-z]{3}/.test(c.t) && (c.t.match(/[A-Za-z]/g) || []).length / c.t.length > 0.55
+      && !NOT_NAME.test(c.t) && !/\d{4,}/.test(c.t) && !/[,|]/.test(c.t));
+  cand.forEach((c) => {
+    c.s = (SHOP_WORD.test(c.t) ? 4 : 0) + (c.t === c.t.toUpperCase() ? 2 : 0) + Math.max(0, 3 - c.i) - (c.t.length > 30 ? 2 : 0) - (c.t.split(' ').length > 5 ? 2 : 0);
+  });
+  // short lines stacked on a board ("SRI MANJUNATHA" / "FANCY STORES", "New" / "TRENDS" / "Boutique") are one name
+  const words = (t) => t.split(' ').length;
+  const n0 = cand.length;
+  for (let k = 0; k < n0; k++) {
+    let t = cand[k].t, sc = cand[k].s, last = cand[k].i;
+    if (SHOP_WORD.test(t)) continue;
+    for (let j = k + 1; j < n0 && j <= k + 2; j++) {
+      const b = cand[j];
+      if (b.i !== last + 1 || (t + ' ' + b.t).length > 40 || words(b.t) > 4) break;
+      t += ' ' + b.t; sc += b.s; last = b.i;
+      if (SHOP_WORD.test(b.t)) { cand.push({ t, i: cand[k].i, s: sc + 2 }); break; }
+    }
+  }
+  const names = [...new Map(cand.sort((x, y) => y.s - x.s || x.i - y.i).map((c) => [c.t.toLowerCase(), titleCase(c.t)])).values()].slice(0, 4);
+  // area: the place-name part of an address line ("Peenya 2nd Stage", "HSR Layout", "Jayanagar")
+  const areas = [];
+  lines.filter((t) => AREA_LINE.test(t)).forEach((t) => {
+    t.split(/[,|]| - /).map((x) => x.replace(/\b5600?\s?\d{2,3}\b/g, ' ').replace(/[^A-Za-z0-9 .]/g, ' ').replace(/\s+/g, ' ').replace(/^[\s.\d]+|[\s.]+$/g, '').trim())
+      .filter((x) => x.length >= 4 && /[A-Za-z]{3}/.test(x) && !/^(opp|near|behind|next)\b/i.test(x)
+        && !/\b(cross|main|road|rd|floor|no|bengaluru|bangalore|karnataka|india|complex|building|bldg)\b/i.test(x))
+      .forEach((x) => { const a = x === x.toUpperCase() || x === x.toLowerCase() ? titleCase(x) : x;
+        if (!areas.some((y) => y.a === a)) areas.push({ a, s: /(nagar|halli|pura|palya|layout|stage|phase|block|colony|extension|town|garden|circle)/i.test(a) ? 2 : 0 }); });
+  });
+  areas.reverse().sort((x, y) => y.s - x.s);
+  // category: the shop name decides first ("… Provision Stores" is kirana), then all the words on the board
+  const pick = (txt) => { let c = '', best = 0; CAT_WORDS.forEach(([k, re]) => { const n = (txt.match(new RegExp(re.source, 'g')) || []).length; if (n > best) { best = n; c = k; } }); return c; };
+  const cat = pick((names[0] || '').toLowerCase()) || pick(raw.toLowerCase());
+  return { names, phones, areas: areas.map((x) => x.a).slice(0, 3), cat: cat || fallbackCat, catFound: !!cat };
+}
+// the review sheet
+let SNAP = null, DP_FOR = null;
+function sug(el, list, input, fmt = (x) => x) {
+  $(el).innerHTML = list.length > 1 || (list.length === 1 && $(input).value !== fmt(list[0])) ? list.map((x) => `<button type="button" data-v="${esc(fmt(x))}">${esc(fmt(x))}</button>`).join('') : '';
+}
+['#sNameS', '#sPhoneS', '#sAreaS'].forEach((id) => $(id).addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (b) $(id.replace(/S$/, '')).value = b.dataset.v;
+}));
+const fmtPh = (p) => p.slice(0, 5) + ' ' + p.slice(5);
+function snapStatus(t, cls = '') { const el = $('#snapSt'); el.textContent = t; el.className = 'snapSt ' + cls; el.style.display = t ? 'block' : 'none'; }
+function openSnap() {
+  SNAP = null;
+  ['#sName', '#sPhone', '#sArea', '#sNotes'].forEach((x) => { $(x).value = ''; });
+  ['#sNameS', '#sPhoneS', '#sAreaS', '#sDone'].forEach((x) => { $(x).innerHTML = ''; });
+  $('#sCat').value = lsGet('snapCat') || $('#pcat').value || 'fashion';
+  $('#snapImg').removeAttribute('src'); snapStatus('Take a photo of the shop with its name board and phone number in view.');
+  $('#sSave').disabled = false; $('#sSave').style.display = '';
+  $('#snapV').classList.add('on');
+}
+$('#snapGo').onclick = () => { openSnap(); $('#snapFile').value = ''; $('#snapFile').click(); };
+$('#snapCam').onclick = () => { $('#snapFile').value = ''; $('#snapFile').click(); };
+$('#snapGal').onclick = () => { $('#snapFileG').value = ''; $('#snapFileG').click(); };
+$('#snapX').onclick = () => $('#snapV').classList.remove('on');
+async function onSnapFile(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const mine = SNAP = { fileId: '', busy: true };
+  $('#sSave').disabled = false;
+  try {
+    const big = await shrink(f, 1600, 0.82);
+    $('#snapImg').src = big; mine.thumb = await square(big, 160);
+    snapStatus('⏳ Saving the photo and reading the board…');
+    const r = await call({ a: 'snap', data: big.split(',')[1] });
+    if (SNAP !== mine) return;
+    mine.fileId = r.fileId;
+    const g = readBoard(r.text, $('#sCat').value);
+    if (!$('#sName').value && g.names[0]) $('#sName').value = g.names[0];
+    if (!$('#sPhone').value && g.phones[0]) $('#sPhone').value = fmtPh(g.phones[0]);
+    if (!$('#sArea').value && g.areas[0]) $('#sArea').value = g.areas[0];
+    if (g.catFound) $('#sCat').value = g.cat;
+    sug('#sNameS', g.names, '#sName'); sug('#sPhoneS', g.phones, '#sPhone', fmtPh); sug('#sAreaS', g.areas, '#sArea');
+    const got = [g.names.length && 'name', g.phones.length && 'phone number', g.catFound && 'category'].filter(Boolean);
+    snapStatus(got.length ? `✓ Read the ${got.join(', ')}. Check them and save.` : r.ocrError ? '⚠️ Photo saved. Could not read the board, please type the name and number.' : '⚠️ Photo saved. No name or number found on it, please type them.', got.length ? 'ok' : 'bad');
+    if (!g.phones.length && got.length) snapStatus(`✓ Read the ${got.join(', ')}. No mobile number seen, please type it.`, 'bad');
+  } catch (er) {
+    if (SNAP === mine) snapStatus('⚠️ ' + oldScript(er.message) + '. You can still type the details and save.', 'bad');
+  }
+  mine.busy = false;
+}
+$('#snapFile').onchange = onSnapFile; $('#snapFileG').onchange = onSnapFile;
+$('#sSave').onclick = async () => {
+  const name = $('#sName').value.trim(), phone = $('#sPhone').value.replace(/\D/g, '').slice(-10);
+  if (!name && phone.length !== 10) return toast('Type the shop name or phone');
+  if (SNAP && SNAP.busy) return toast('Still saving the photo, one moment');
+  lsSet('snapCat', $('#sCat').value);
+  $('#sSave').disabled = true;
+  try {
+    const r = await call({ a: 'add', shops: [{ name, phone, area: $('#sArea').value.trim(), cat: $('#sCat').value, notes: $('#sNotes').value.trim(), photo: SNAP ? SNAP.fileId : '' }] });
+    const l = r.added[0];
+    if (!l) { $('#sSave').disabled = false; return toast('This phone number is already in your list'); }
+    if (SNAP && SNAP.fileId && SNAP.thumb) lsSet(dpKey(SNAP.fileId), SNAP.thumb);
+    DATA.shops.unshift(l); render();
+    const lg = $('#lngSel').value || 'en';
+    $('#sSave').style.display = 'none';
+    $('#sDone').innerHTML = `<div class="card" style="text-align:center"><div style="display:flex;justify-content:center">${dpHtml(l)}</div><b style="display:block;margin-top:6px">✅ ${esc(l.name)} added</b>
+      ${l.phone ? `<a class="btn k w" style="margin-top:10px;min-height:48px" id="sVid" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText('video', lg), l, lg)))}">🎬 Send the video on WhatsApp</a>` : '<p class="hint">No phone number, add it later from the Shops list.</p>'}
+      <button class="btn o w" style="margin-top:8px" id="sNext">📷 Snap the next shop</button><button class="btn l w" style="margin-top:8px" id="sClose">Done</button></div>`;
+    setTimeout(() => $('#sDone').scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
+    if ($('#sVid')) $('#sVid').onclick = () => { markVideo(l); setTimeout(render, 300); };
+    $('#sNext').onclick = () => { openSnap(); $('#snapFile').value = ''; $('#snapFile').click(); };
+    $('#sClose').onclick = () => $('#snapV').classList.remove('on');
+  } catch (er) { toast(er.message); $('#sSave').disabled = false; }
+};
+// change the picture of a shop already in the list
+$('#dpFile').onchange = async (e) => {
+  const f = e.target.files[0], l = DP_FOR; if (!f || !l) return;
+  toast('Saving photo…');
+  try {
+    const big = await shrink(f, 1600, 0.82), th = await square(big, 160);
+    const r = await call({ a: 'snap', data: big.split(',')[1], read: false });
+    await call({ a: 'upd', id: l.id, f: { photo: r.fileId } });
+    lsSet(dpKey(r.fileId), th); l.photo = r.fileId; render(); toast('Shop photo saved');
+  } catch (er) { toast(oldScript(er.message)); }
+};
+
 $('#csvOut').onclick = () => {
   const cols = ['name', 'phone', 'cat', 'area', 'status', 'stage', 'notes', 'followUp', 'sentAt', 'opens', 'lastSeenAt', 'lang', 'maxStep', 'actions', 'sec', 'device', 'link'];
   const rows = DATA.shops.map((l) => cols.map((k) => k === 'status' ? status(l)[1] : k === 'link' ? (l.anon ? '' : linkOf(l)) : /At$/.test(k) ? (l[k] ? new Date(l[k]).toLocaleString('en-IN') : '') : Array.isArray(l[k]) ? l[k].join(' ') : l[k] ?? ''));
@@ -699,8 +956,9 @@ $('#csvOut').onclick = () => {
 
 // ------------------------------------------------------------------ send queue
 function queueList() {
+  const isVid = $('#tplSel').value === 'video';
   return DATA.shops.filter((l) => !l.anon && l.phone && !qSkip.has(l.id) && !['onboarded', 'no'].includes(l.stage) && (
-    QWHO === 'new' ? !l.sentAt : QWHO === 'opened' ? l.opens && !(l.actions || []).some((a) => HOT.includes(a)) : true))
+    QWHO === 'new' ? (isVid ? !videoSent(l) : !l.sentAt) : QWHO === 'opened' ? (l.opens || (l.actions || []).includes('video')) && !(l.actions || []).some((a) => HOT.includes(a)) : true))
     .sort((a, b) => a.createdAt - b.createdAt);
 }
 function renderQueue() {
@@ -710,12 +968,13 @@ function renderQueue() {
   if (!l) { $('#qCard').innerHTML = `<div class="empty">🎉 Nobody left in this list. ${QWHO === 'new' ? 'Add more shops in the Shops tab.' : ''}</div>`; return; }
   const key = $('#tplSel').value || 'first', lg = $('#lngSel').value || 'en';
   const text = fill(tplText(key, lg), l, lg);
-  $('#qCard').innerHTML = `<div class="row" style="justify-content:space-between"><div><div class="big">${esc(l.name)}</div><div class="hint" style="margin:0">${[(CATS[l.cat] || []).join(' '), esc(l.area), '+91 ' + l.phone].filter(Boolean).join(' · ')}</div></div><span class="pill p-${status(l)[0]}">${status(l)[1]}</span></div>
+  $('#qCard').innerHTML = `<div class="row" style="justify-content:space-between"><div class="row" style="gap:10px">${dpHtml(l)}<div><div class="big">${esc(l.name)}</div><div class="hint" style="margin:0">${[(CATS[l.cat] || []).join(' '), esc(l.area), '+91 ' + l.phone].filter(Boolean).join(' · ')}</div></div></div><span class="pill p-${status(l)[0]}">${status(l)[1]}</span></div>
     <div class="msg" style="margin-top:10px">${esc(text)}</div>
     <a class="btn g w" style="margin-top:12px;min-height:50px;font-size:16px" id="qGo" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, text))}">💬 Open WhatsApp</a>
     <div class="row" style="margin-top:8px"><button class="btn o" style="flex:1" id="qNext">Sent ✓ Next ›</button><button class="btn l" id="qSkip">Skip</button></div>`;
   $('#qGo').onclick = () => { $('#qGo').dataset.went = '1'; };
   $('#qNext').onclick = async () => {
+    if (key === 'video') { markVideo(l); qSkip.add(l.id); renderQueue(); render(); return; }
     l.sentAt = Date.now(); qSkip.add(l.id); renderQueue();
     try { await call({ a: 'upd', id: l.id, f: { sent: true } }); } catch (e) { toast(e.message); }
   };
@@ -746,6 +1005,7 @@ function renderLinks() {
 }
 $('#glCat').onchange = renderLinks; $('#glSrc').onchange = renderLinks;
 $('#glCopy').onclick = () => copy($('#glUrl').textContent);
+$('#glVid').onclick = () => copy(`${BASE}watch-${$('#glCat').value}.html${$('#glSrc').value ? '?src=' + $('#glSrc').value : ''}`);
 $('#glQrDl').onclick = () => $('#glQr').toBlob((b) => dl(b, `DigiCart_QR_${$('#glCat').value}_${$('#glSrc').value || 'link'}.png`));
 
 const IMG = {};
@@ -968,7 +1228,7 @@ function staticUi() {
   $('#upCat').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
   $('#upCat').value = lsGet('upCat') || 'fashion'; upChips(); renderKit();
   const catOpts = Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
-  $('#pcat').innerHTML = catOpts; $('#glCat').innerHTML = catOpts;
+  $('#pcat').innerHTML = catOpts; $('#glCat').innerHTML = catOpts; $('#sCat').innerHTML = catOpts;
   $('#catF').innerHTML = '<option value="">All categories</option>' + Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
   $('#glSrc').innerHTML = Object.entries(SOURCES).map(([k, t]) => `<option value="${k}">${t}</option>`).join('');
   const tplOpts = Object.entries(TPL).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
