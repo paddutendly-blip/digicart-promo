@@ -137,7 +137,7 @@ img.dp{cursor:zoom-in}
 .sug{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.sug button{font-size:12px;font-weight:700;padding:5px 10px;border-radius:16px;background:#fff;border:1.5px solid var(--line);color:var(--ink)}
 .cam{position:fixed;inset:0;z-index:80;background:#000;display:none;flex-direction:column}
 .cam.on{display:flex}
-.cam video{flex:1;width:100%;min-height:0;object-fit:cover;background:#000}
+.cam .vw{flex:1;min-height:0;overflow:hidden;position:relative}.cam video{width:100%;height:100%;object-fit:cover;background:#000;transform-origin:50% 50%}
 .cam .ch{position:absolute;top:calc(12px + env(safe-area-inset-top));left:12px;right:12px;text-align:center;color:#fff;font-weight:700;font-size:13px;background:rgba(0,0,0,.45);border-radius:12px;padding:8px}
 .cam .fr{position:absolute;left:6%;right:6%;top:22%;bottom:30%;border:2px dashed rgba(255,255,255,.7);border-radius:14px;pointer-events:none}
 .cam .cb{display:flex;align-items:center;justify-content:space-around;padding:16px 10px calc(18px + env(safe-area-inset-bottom));background:#000}
@@ -184,6 +184,7 @@ img.dp{cursor:zoom-in}
     <section class="view" id="v-shops">
       <div class="card">
         <button class="snapBtn" id="snapGo"><span class="e">📷</span><span><b>Snap a shop</b><small>Take a photo of the signboard. Name and number are read for you, the photo becomes the shop's picture.</small></span></button>
+        <button class="btn l w" id="snapGo2" style="margin-top:8px">🖼️ Already took the photo? Pick it from the gallery</button>
         <details id="addBox" style="margin-top:12px">
           <summary>➕ Add shops</summary>
           <div class="seg" style="margin-top:10px"><button class="on" data-addm="paste">Paste list</button><button data-addm="one">One shop</button><button data-addm="csv">CSV file</button></div>
@@ -326,10 +327,10 @@ img.dp{cursor:zoom-in}
 <input type="file" id="snapFileG" accept="image/*" hidden>
 <input type="file" id="dpFile" accept="image/*" hidden>
 <div class="cam" id="cam">
-  <video id="camV" playsinline muted autoplay></video>
+  <div class="vw"><video id="camV" playsinline muted autoplay></video></div>
   <div class="fr"></div>
   <div class="ch" id="camH">Fit the name board and phone number inside the box, then tap the white button</div>
-  <div class="cb"><button id="camX" aria-label="Close">✕</button><button class="sh" id="camShot" aria-label="Take photo"></button><button id="camT" aria-label="Flash" style="visibility:hidden">⚡</button></div>
+  <div class="cb"><button id="camX" aria-label="Close">✕</button><button id="camZ" aria-label="Zoom" style="font-size:15px;font-weight:800">1×</button><button class="sh" id="camShot" aria-label="Take photo"></button><button id="camT" aria-label="Flash" style="visibility:hidden">⚡</button></div>
 </div>
 <div class="light" id="light"><img id="lightImg" alt=""></div>
 <div class="toast" id="toast"></div>
@@ -829,6 +830,9 @@ const CAT_WORDS = [
 ];
 const SHOP_WORD = /\b(stores?|enterprises?|traders?|cent(re|er)|mart|fashions?|collections?|boutique|textiles?|garments?|furnitures?|interiors?|electricals?|electronics|hardwares?|agenc(y|ies)|emporium|bazaar|super ?market|provisions?|general|kirana|bakery|sweets|mobiles|footwears?|shoes?|gifts?|fancy|laundry|dry ?cleaners?|vegetables|fruits|medicals?|sons|palace|world|house|hub|mall|shop(pe)?|depot|corner|point|plaza|silks?|saree|creations|showroom|works|solutions|associates|distributors)\b/i;
 const NOT_NAME = /(all kinds|dealers? in|deals? in|we (deal|sell|undertake)|specialist|wholesale|retail|prop\.?|proprietor|mob(ile)?\s*[:.]|ph(one)?\s*[:.]|cell|gst|gstin|e-?mail|www\.|\.com|open|timing|closed|since|estd|cross|main|road|\bnear\b|\bopp\b|layout|bengaluru|bangalore|\b5600?\d{2}\b|^#|^no\.?\s*\d)/i;
+// words seen on shop fronts that are never the shop's name (door stickers, payment boards, notices)
+const STOP_WORDS = /^(please|remove|footwear|outside|push|pull|welcome|open|closed|no|parking|sale|offer|discount|cctv|camera|surveillance|entry|exit|scan|pay|paytm|phonepe|gpay|upi|bhim|accepted|here|cash|card|only|airtel|jio|vi|vodafone|recharge|xerox|thank|you|visit|again|keep|clean|the|and|&|fast|cars|ka|tn|ap|ts|mh)$/i;
+const isStop = (t) => t.split(/\s+/).every((w) => STOP_WORDS.test(w.replace(/[^A-Za-z&]/g, '')) || !w.replace(/[^A-Za-z]/g, ''));
 const AREA_LINE = /(cross|main|road|\brd\b|layout|nagar|halli|pura|palya|stage|phase|block|circle|sector|bengaluru|bangalore|\b560\s?\d{3}\b|near|opp)/i;
 const titleCase = (t) => t.toLowerCase().replace(/(^|[\s&(/.-])([a-z])/g, (m, a, b) => a + b.toUpperCase()).replace(/\b(And|Of|The)\b/g, (w) => w.toLowerCase()).replace(/^./, (c) => c.toUpperCase());
 function readBoard(text, fallbackCat) {
@@ -850,23 +854,26 @@ function readBoard(text, fallbackCat) {
   const cand = lines.map((t, i) => ({ t: t.replace(/^[^A-Za-z0-9&]+|[^A-Za-z0-9&.)]+$/g, ''), i }))
     .filter((c) => c.t.length >= 3 && c.t.length <= 42 && /[A-Za-z]{3}/.test(c.t) && (c.t.match(/[A-Za-z]/g) || []).length / c.t.length > 0.55
       && !NOT_NAME.test(c.t) && !/\d{4,}/.test(c.t) && !/[,|]/.test(c.t));
-  cand.forEach((c) => {
-    c.s = (SHOP_WORD.test(c.t) ? 4 : 0) + (c.t === c.t.toUpperCase() ? 2 : 0) + Math.max(0, 3 - c.i) - (c.t.length > 30 ? 2 : 0) - (c.t.split(' ').length > 5 ? 2 : 0);
+  cand.forEach((c, r) => {
+    const w = c.t.split(' ').length;
+    c.stop = isStop(c.t);
+    c.s = (SHOP_WORD.test(c.t) ? 4 : 0) + (c.t === c.t.toUpperCase() ? 1 : 0) + (w >= 2 ? 2 : -2) + Math.max(0, 3 - r)
+      - (c.t.length > 30 ? 2 : 0) - (w > 5 ? 2 : 0) - (c.stop ? 20 : 0);
   });
   // short lines stacked on a board ("SRI MANJUNATHA" / "FANCY STORES", "New" / "TRENDS" / "Boutique") are one name
   const words = (t) => t.split(' ').length;
   const n0 = cand.length;
   for (let k = 0; k < n0; k++) {
     let t = cand[k].t, sc = cand[k].s, last = cand[k].i;
-    if (SHOP_WORD.test(t)) continue;
+    if (SHOP_WORD.test(t) || cand[k].stop) continue;
     for (let j = k + 1; j < n0 && j <= k + 2; j++) {
       const b = cand[j];
-      if (b.i !== last + 1 || (t + ' ' + b.t).length > 40 || words(b.t) > 4) break;
+      if (b.i !== last + 1 || b.stop || b.t.toLowerCase().includes(t.toLowerCase()) || (t + ' ' + b.t).length > 40 || words(b.t) > 4) break;
       t += ' ' + b.t; sc += b.s; last = b.i;
       if (SHOP_WORD.test(b.t)) { cand.push({ t, i: cand[k].i, s: sc + 2 }); break; }
     }
   }
-  const names = [...new Map(cand.sort((x, y) => y.s - x.s || x.i - y.i).map((c) => [c.t.toLowerCase(), titleCase(c.t)])).values()].slice(0, 4);
+  const names = [...new Map(cand.filter((c) => !c.stop).sort((x, y) => y.s - x.s || x.i - y.i).map((c) => [c.t.toLowerCase(), titleCase(c.t)])).values()].slice(0, 4);
   // area: the place-name part of an address line ("Peenya 2nd Stage", "HSR Layout", "Jayanagar")
   const areas = [];
   lines.filter((t) => AREA_LINE.test(t)).forEach((t) => {
@@ -903,37 +910,49 @@ function openSnap() {
 }
 // The camera runs inside this page. Opening the phone's camera app can make Android close the browser
 // on phones with little free memory ("Unable to complete previous operation due to low memory").
-let CAM = null, TORCH = false;
+let CAM = null, TORCH = false, ZOOM = 1;
 function stopCam() { if (CAM) CAM.getTracks().forEach((t) => t.stop()); CAM = null; $('#cam').classList.remove('on'); $('#camV').srcObject = null; }
 async function startCam() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { $('#snapFile').value = ''; return $('#snapFile').click(); }
   try {
-    CAM = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1600 }, height: { ideal: 1200 } } });
+    CAM = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1440 } } });
   } catch (er) {
     snapStatus(/denied|NotAllowed/i.test(er.name + er.message) ? '⚠️ Camera not allowed. Tap 🔒 next to the address → Permissions → Camera → Allow, or use From gallery.' : '⚠️ Camera did not start. Use From gallery.', 'bad');
     return;
   }
-  TORCH = false; $('#camT').classList.remove('on');
+  TORCH = false; $('#camT').classList.remove('on'); ZOOM = 1; $('#camZ').textContent = '1×'; $('#camV').style.transform = '';
   const tr = CAM.getVideoTracks()[0], caps = tr.getCapabilities ? tr.getCapabilities() : {};
   $('#camT').style.visibility = caps.torch ? 'visible' : 'hidden';
   $('#camV').srcObject = CAM; $('#cam').classList.add('on');
   try { await $('#camV').play(); } catch (e) {}
 }
 $('#camX').onclick = stopCam;
+// zoom: the phone camera's own zoom when Chrome offers it, otherwise the middle of the picture is used
+$('#camZ').onclick = async () => {
+  if (!CAM) return;
+  ZOOM = ZOOM === 1 ? 2 : 1; $('#camZ').textContent = ZOOM + '×';
+  const tr = CAM.getVideoTracks()[0], caps = tr.getCapabilities ? tr.getCapabilities() : {};
+  if (caps.zoom) {
+    try { await tr.applyConstraints({ advanced: [{ zoom: Math.min(caps.zoom.max, Math.max(caps.zoom.min, ZOOM)) }] }); CAM.hwZoom = true; $('#camV').style.transform = ''; return; } catch (e) {}
+  }
+  CAM.hwZoom = false; $('#camV').style.transform = ZOOM > 1 ? `scale(${ZOOM})` : '';
+};
 $('#camT').onclick = async () => {
   if (!CAM) return; TORCH = !TORCH;
   try { await CAM.getVideoTracks()[0].applyConstraints({ advanced: [{ torch: TORCH }] }); $('#camT').classList.toggle('on', TORCH); } catch (e) { TORCH = false; }
 };
 $('#camShot').onclick = () => {
   const v = $('#camV'); if (!v.videoWidth) return;
-  const k = Math.min(1, 1600 / Math.max(v.videoWidth, v.videoHeight));
-  const c = document.createElement('canvas'); c.width = Math.round(v.videoWidth * k); c.height = Math.round(v.videoHeight * k);
-  c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+  const z = CAM && !CAM.hwZoom ? ZOOM : 1, sw = v.videoWidth / z, sh = v.videoHeight / z;
+  const k = Math.min(1, 1600 / Math.max(sw, sh));
+  const c = document.createElement('canvas'); c.width = Math.round(sw * k); c.height = Math.round(sh * k);
+  c.getContext('2d').drawImage(v, (v.videoWidth - sw) / 2, (v.videoHeight - sh) / 2, sw, sh, 0, 0, c.width, c.height);
   const shot = c.toDataURL('image/jpeg', 0.85);
   stopCam(); processSnap(shot);
 };
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && CAM) stopCam(); });
 $('#snapGo').onclick = () => { openSnap(); startCam(); };
+$('#snapGo2').onclick = () => { openSnap(); $('#snapFileG').value = ''; $('#snapFileG').click(); };
 $('#snapCam').onclick = startCam;
 $('#snapGal').onclick = () => { $('#snapFileG').value = ''; $('#snapFileG').click(); };
 $('#snapX').onclick = () => { stopCam(); $('#snapV').classList.remove('on'); };
