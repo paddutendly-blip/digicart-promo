@@ -1,0 +1,9 @@
+{
+  "name": "DigiCart Promotion Hub",
+  "short_name": "DC Promo",
+  "start_url": "hub.html",
+  "display": "standalone",
+  "background_color": "#F4F7FC",
+  "theme_color": "#0A3F86",
+  "icons": [{ "src": "icon.png", "sizes": "512x512", "type": "image/png" }]
+}

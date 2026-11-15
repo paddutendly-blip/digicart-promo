@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>DigiCart Promotion Hub</title>
+<meta name="theme-color" content="#0A3F86">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="hub.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Noto+Sans+Kannada:wght@600;800&family=Noto+Sans+Devanagari:wght@600;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="qrcode.js"></script>
+<script src="catalog.js"></script>
+<style>
+:root{--navy:#0A3F86;--blue:#1173D4;--blueSoft:#E3EEFC;--orange:#F7740E;--orangeSoft:#FFEDDD;--ok:#16955B;--okSoft:#DDF3E7;--ink:#12203D;--muted:#66708A;--line:#E2E7F0;--bg:#F4F7FC;--pink:#E8457C;--pinkSoft:#FDE7EF;--red:#C62828;--card:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,"Noto Sans Kannada","Noto Sans Devanagari",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;padding-bottom:84px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+.top{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:12px 16px 14px;position:sticky;top:0;z-index:20}
+.top .r{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:980px;margin:0 auto}
+.top .lg{background:#fff;border-radius:12px;padding:5px 9px;display:flex}.top .lg img{height:24px}
+.top h1{font-size:15px;font-weight:800;flex:1}
+.live{font-size:11.5px;display:flex;align-items:center;gap:6px;opacity:.95;white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:#4ADE80;animation:pulse 1.6s infinite}
+.live.off i{background:#FCA5A5;animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.7)}70%{box-shadow:0 0 0 8px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+.wrap{max-width:980px;margin:0 auto;padding:14px}
+.view{display:none}.view.on{display:block;animation:fadeIn .25s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:30;box-shadow:0 -6px 20px rgba(10,63,134,.08)}
+.nav button{flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--muted);padding:4px 0;border-radius:12px;position:relative}
+.nav button span{font-size:20px;line-height:1}
+.nav button.on{color:var(--navy);background:var(--blueSoft)}
+.nav .dot{position:absolute;top:2px;right:22%;min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:10px;line-height:16px;padding:0 4px;display:none}
+.card{background:var(--card);border-radius:18px;padding:14px;margin-top:12px;box-shadow:0 3px 12px rgba(10,63,134,.07)}
+.card h2{font-size:15.5px;font-weight:800;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card h3{font-size:13.5px;font-weight:800;margin:12px 0 6px}
+.hint{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.45}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kpis div{background:#fff;border-radius:14px;padding:10px 6px;text-align:center;box-shadow:0 3px 10px rgba(10,63,134,.07)}
+.kpis b{display:block;font-size:24px;line-height:1.1}.kpis span{font-size:11px;color:var(--muted);font-weight:600}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(6,1fr)}}
+.funnel .fr{display:grid;grid-template-columns:96px 1fr 44px;gap:8px;align-items:center;margin:6px 0;font-size:12.5px;font-weight:600}
+.funnel .bar{height:14px;border-radius:7px;background:#EEF1F6;overflow:hidden}.funnel .bar i{display:block;height:100%;border-radius:7px;transition:width .6s}
+textarea,input,select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;outline:none}
+textarea:focus,input:focus,select:focus{border-color:var(--blue)}
+textarea{min-height:110px;resize:vertical}
+label.f{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:10px 0 4px}
+.row{display:flex;gap:8px;align-items:center}.row>*{min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:12px;padding:10px 14px;font-weight:700;color:#fff;background:var(--blue);white-space:nowrap}
+.btn.o{background:var(--orange)}.btn.g{background:#1FAF5A}.btn.l{background:#EEF2F8;color:var(--ink)}.btn.k{background:#0B0F19}.btn.r{background:#FDECEC;color:var(--red)}
+.btn.sm{padding:7px 10px;font-size:12.5px;border-radius:10px}.btn.w{width:100%}
+.btn:disabled{opacity:.5}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-top:10px;scrollbar-width:none}
+.chips button{padding:7px 12px;border-radius:20px;background:#fff;font-weight:700;font-size:12.5px;white-space:nowrap;box-shadow:0 2px 6px rgba(10,63,134,.06)}
+.chips button.on{background:var(--navy);color:#fff}
+.chips button em{font-style:normal;opacity:.7;margin-left:4px}
+.lead{background:#fff;border-radius:16px;padding:12px;margin-top:10px;box-shadow:0 3px 10px rgba(10,63,134,.07);border-left:5px solid #CBD3E1}
+.lead.st-sent{border-left-color:var(--blue)}.lead.st-opened{border-left-color:var(--orange)}.lead.st-exploring{border-left-color:var(--pink)}.lead.st-hot,.lead.st-interested{border-left-color:var(--ok)}.lead.st-onboarded{border-left-color:#0E6B40}.lead.st-no{border-left-color:#9AA3B5;opacity:.8}.lead.st-followup{border-left-color:#7C3AED}
+.lead .h{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.lead .n{font-weight:800;font-size:15px}.lead .m{font-size:12px;color:var(--muted)}
+.pill{font-size:11px;font-weight:800;border-radius:20px;padding:3px 9px;white-space:nowrap}
+.p-new{background:#EEF1F6;color:#56607A}.p-sent{background:var(--blueSoft);color:var(--navy)}.p-opened{background:var(--orangeSoft);color:#8A3B00}.p-exploring{background:var(--pinkSoft);color:#B0285A}.p-hot,.p-interested{background:var(--okSoft);color:#0E6B40}.p-onboarded{background:#0E6B40;color:#fff}.p-no{background:#EEF1F6;color:#56607A}.p-followup{background:#EDE7F6;color:#5B21B6}
+.prog{display:flex;gap:3px;margin:10px 0 4px}.prog i{flex:1;height:7px;border-radius:4px;background:#E8ECF3}.prog i.on{background:var(--pink)}.prog i.on.last{background:var(--ok)}
+.facts{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:#3B4660;margin-top:4px}.facts b{color:var(--ink)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.tag{font-size:11px;font-weight:700;background:var(--okSoft);color:#0E6B40;border-radius:8px;padding:2px 7px}
+.more{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);display:none}.lead.open .more{display:block}
+.feed{max-height:420px;overflow:auto}
+.ev{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+.ev .t{color:var(--muted);width:66px;flex:none;font-size:11.5px}
+.ev.new{animation:flash 2.5s ease}
+@keyframes flash{0%{background:#FFF5D6}100%{background:transparent}}
+.empty{text-align:center;color:var(--muted);padding:24px 8px;font-size:13px}
+.login{max-width:400px;margin:10vh auto 0;padding:0 16px}
+.err{color:var(--red);font-size:12.5px;margin-top:8px;min-height:18px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;font-size:13px;transition:.3s;z-index:60;opacity:0;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{transform:translateX(-50%);opacity:1}
+.banner{position:fixed;left:12px;right:12px;top:64px;z-index:50;max-width:520px;margin:0 auto;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 14px 40px rgba(10,20,40,.3);display:flex;gap:10px;align-items:center;transform:translateY(-200%);opacity:0;visibility:hidden;transition:transform .4s cubic-bezier(.2,.9,.3,1.2),opacity .3s,visibility .4s}
+.banner.on{transform:none;opacity:1;visibility:visible}.banner .e{font-size:28px}.banner b{display:block;font-size:14px}.banner span{font-size:12px;color:var(--muted)}
+.sendbox{background:linear-gradient(135deg,#FFF7EF,#FFFFFF);border:2px solid var(--orangeSoft)}
+.msg{white-space:pre-wrap;background:#E7FFDB;border-radius:12px 12px 12px 2px;padding:12px;font-size:13px;line-height:1.45;max-height:300px;overflow:auto;border:1px solid #CFEFC0}
+.big{font-size:20px;font-weight:800}
+.links .gl{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.qrwrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.qrwrap canvas{width:150px;height:150px;border-radius:12px;background:#fff;border:1px solid var(--line)}
+.posters{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:10px}
+.posters .pv{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 3px 10px rgba(10,63,134,.1);text-align:center;padding-bottom:8px}
+.posters canvas{width:100%;display:block}
+.posters .pv b{display:block;font-size:12px;margin:6px 4px}
+.cap{background:#F8FAFD;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px;font-size:12.5px;white-space:pre-wrap;line-height:1.45}
+.caprow{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.media .mi{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 3px 10px rgba(10,63,134,.08)}
+.media .mi img,.media .mi video{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;background:#000}
+.media .mi.wide img{aspect-ratio:1200/630}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mcard .ph{aspect-ratio:4/5;background:#EEF1F6 center/cover no-repeat;display:grid;place-items:center;font-size:40px;position:relative}
+.mcard .ph .ty{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.6);color:#fff;font-size:10.5px;font-weight:700;border-radius:8px;padding:2px 7px}
+.mcard .bd{padding:8px;display:grid;gap:6px}
+.mcard input{padding:7px 9px;border-radius:9px;font-size:12.5px}
+.mcard .tg{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700}
+.mcard .tg input{width:auto;transform:scale(1.2)}
+.mcard .ab{display:flex;gap:4px}.mcard .ab>*{flex:1;padding:6px 0;font-size:12px}
+.upl{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:8px}.upl .bar{flex:1;height:8px;border-radius:4px;background:#EEF1F6;overflow:hidden}.upl .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .2s}
+.media .mi div{padding:8px;font-size:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.check .i{font-size:18px;width:24px;text-align:center}
+code{background:#EEF2F8;border-radius:6px;padding:1px 6px;font-size:12px;word-break:break-all}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0}
+.switch input{width:auto;transform:scale(1.4)}
+details summary{cursor:pointer;font-weight:800;font-size:15px;list-style:none}
+details summary::-webkit-details-marker{display:none}
+.searchbar{display:flex;gap:8px;margin-top:10px}
+.seg{display:flex;background:#EEF2F8;border-radius:12px;padding:3px}.seg button{flex:1;padding:7px 8px;border-radius:10px;font-weight:700;font-size:12.5px;color:var(--muted)}.seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(10,63,134,.1)}
+</style>
+</head>
+<body>
+
+<!-- ============================== login -->
+<div id="loginV" class="login" style="display:none">
+  <div class="card" style="text-align:center;padding:24px">
+    <img src="logo3d.webp" alt="DigiCart" style="height:54px">
+    <h2 style="justify-content:center;margin-top:12px">Promotion Hub</h2>
+    <div id="noApi" style="display:none;text-align:left" class="hint"></div>
+    <div id="passBox">
+      <p class="hint" style="margin-bottom:14px">Enter your passcode. The very first time, the passcode you type here becomes your passcode (6 or more characters).</p>
+      <input id="pass" type="password" placeholder="Passcode" autocomplete="current-password">
+      <button class="btn w" id="loginB" style="margin-top:10px">Open hub</button>
+      <div class="err" id="loginE"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== app -->
+<div id="appV" style="display:none">
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub</h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
+
+  <div class="wrap">
+    <!-- ---------------- HOME -->
+    <section class="view on" id="v-home">
+      <div class="kpis" id="kpis"></div>
+      <div class="card" id="dueCard" style="display:none"><h2>📅 Follow up today</h2><div id="due"></div></div>
+      <div class="card"><h2>🎯 Funnel</h2><div class="funnel" id="funnel"></div></div>
+      <div class="card"><h2>🔥 Hot leads <span class="hint" style="margin:0">tapped Call, WhatsApp, setup or Download, or saw the full demo</span></h2><div id="hotList"></div></div>
+      <div class="card"><h2>⚡ Live activity <button class="btn l sm" id="alertBtn">🔔 Alerts on this phone</button></h2><div class="feed" id="feed"></div></div>
+    </section>
+
+    <!-- ---------------- SHOPS -->
+    <section class="view" id="v-shops">
+      <div class="card">
+        <details id="addBox">
+          <summary>➕ Add shops</summary>
+          <div class="seg" style="margin-top:10px"><button class="on" data-addm="paste">Paste list</button><button data-addm="one">One shop</button><button data-addm="csv">CSV file</button></div>
+          <div data-addp="paste" style="margin-top:10px">
+            <textarea id="paste" placeholder="One shop per line: Name, phone, area&#10;Sri Lakshmi Fashions, 98450 12345, Peenya&#10;Trends Boutique, 9876543210, Jalahalli"></textarea>
+          </div>
+          <div data-addp="one" style="display:none">
+            <label class="f">Shop name</label><input id="oName" placeholder="Sri Lakshmi Fashions">
+            <div class="grid2"><div><label class="f">Phone</label><input id="oPhone" inputmode="tel" placeholder="98450 12345"></div><div><label class="f">Area</label><input id="oArea" placeholder="Peenya"></div></div>
+          </div>
+          <div data-addp="csv" style="display:none;margin-top:10px">
+            <input type="file" id="csvF" accept=".csv,.txt">
+            <p class="hint">Columns: name, phone, area (category optional). Export from Excel or Google Sheets as CSV.</p>
+          </div>
+          <label class="f">Category</label>
+          <div class="row"><select id="pcat" style="flex:1"></select><button class="btn o" id="addB">Add</button></div>
+          <p class="hint">Phone can have +91 and spaces. Shops already in the list (same phone) are skipped.</p>
+        </details>
+      </div>
+      <div class="searchbar"><input id="q" placeholder="🔍 Search name, phone or area"><select id="catF" style="width:auto"></select></div>
+      <div class="chips" id="tabs"></div>
+      <div id="list"></div>
+      <div class="row" style="margin-top:14px;justify-content:center;gap:8px"><button class="btn l sm" id="csvOut">⬇ Download list (CSV)</button><a class="btn l sm" id="sheetLink" target="_blank" rel="noopener">📗 Open Google Sheet</a></div>
+    </section>
+
+    <!-- ---------------- SEND -->
+    <section class="view" id="v-send">
+      <div class="card sendbox">
+        <h2>📤 Send to the next shop <span class="pill p-sent" id="qLeft"></span></h2>
+        <p class="hint">Goes through shops you haven't sent yet, one by one. Tap <b>Open WhatsApp</b>, press send in WhatsApp, come back and tap <b>Next</b>.</p>
+        <div class="grid2" style="margin-top:8px">
+          <div><label class="f">Message</label><select id="tplSel"></select></div>
+          <div><label class="f">Language</label><select id="lngSel"><option value="en">English</option><option value="kn">ಕನ್ನಡ</option><option value="hi">हिंदी</option></select></div>
+        </div>
+        <label class="f">Who</label>
+        <div class="seg" id="qWho"><button class="on" data-who="new">Not sent yet</button><button data-who="opened">Opened, no reply</button><button data-who="all">Everyone</button></div>
+        <div id="qCard" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h2>💡 Tips for more replies</h2>
+        <p class="hint">1. Send the 1-minute video first (forward it from the Media tab), then the personal link. 2. Best times: 11 am–1 pm and 4–6 pm, when shops are quiet. 3. Anyone who opens shows up on Home within seconds. Call them while they're still looking. 4. Use “Opened, no reply” the next day with the follow-up message.</p>
+      </div>
+      <div class="card">
+        <details><summary>✏️ Edit message texts</summary>
+          <p class="hint" style="margin:8px 0">Placeholders: <code>{name}</code> shop, <code>{link}</code> personal demo link, <code>{phone}</code> your number, <code>{owner}</code> your name, <code>{offer}</code> offer line, <code>{play}</code> Play Store link. Saved on this phone.</p>
+          <div class="grid2"><select id="edTpl"></select><select id="edLng"><option value="en">English</option><option value="kn">ಕನ್ನಡ</option><option value="hi">हिंदी</option></select></div>
+          <textarea id="edTxt" style="min-height:220px;margin-top:8px"></textarea>
+          <div class="row" style="margin-top:8px"><button class="btn l sm" id="edReset">Reset this one</button></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ---------------- GROW: links, QR, posters, media, captions -->
+    <section class="view" id="v-grow">
+      <div class="card" id="mediaCard">
+        <h2>📸 Your photos & videos</h2>
+        <p class="hint">Pick from your gallery or take a photo. They upload by themselves, show up in the shop demo, and you can share or download them from here. Photos are shrunk for fast loading; videos up to 35 MB.</p>
+        <div class="grid2" style="margin-top:10px"><select id="upCat"></select><select id="upChip"></select></div>
+        <div class="row" style="margin-top:8px">
+          <label class="btn o" style="flex:1;cursor:pointer;min-height:48px">➕ Add photos / videos<input type="file" id="upFile" accept="image/*,video/*" multiple hidden></label></div>
+        <div class="row" style="margin-top:8px"><input id="upLink" placeholder="or paste a YouTube / Drive video link"><button class="btn l" id="upLinkB">Add</button></div>
+        <div id="upProg"></div>
+        <div class="mgrid" id="mgrid"></div>
+      </div>
+      <div class="card links">
+        <h2>🔗 Links for groups, status and social</h2>
+        <p class="hint">Not tied to one shop. Visitors show up as “New visitor” with the channel they came from, so you know which channel works.</p>
+        <div class="grid2" style="margin-top:8px"><div><label class="f">Category</label><select id="glCat"></select></div><div><label class="f">Where you'll post it</label><select id="glSrc"></select></div></div>
+        <div class="qrwrap" style="margin-top:12px"><canvas id="glQr" width="300" height="300"></canvas><div style="flex:1;min-width:200px"><code id="glUrl"></code>
+          <div class="acts"><button class="btn sm" id="glCopy">Copy link</button><button class="btn l sm" id="glQrDl">⬇ QR picture</button><a class="btn g sm" id="glShare" target="_blank" rel="noopener">Share on WhatsApp</a></div></div></div>
+      </div>
+      <div class="card">
+        <h2>🖨️ Posters & status pictures with QR</h2>
+        <p class="hint">Print the A4 poster and stick it near shop counters or give it to shop owners. The status picture is for WhatsApp status and Instagram stories. They use the link above (category + channel).</p>
+        <div class="grid2" style="margin-top:8px"><div><label class="f">Language</label><select id="poLng"><option value="en">English</option><option value="kn">ಕನ್ನಡ</option><option value="hi">हिंदी</option></select></div><div><label class="f">&nbsp;</label><button class="btn o w" id="poMake">Make pictures</button></div></div>
+        <div class="posters" id="posters"></div>
+      </div>
+      <div class="card">
+        <h2>🎬 Media kit</h2>
+        <p class="hint" style="margin-bottom:8px">A 1-minute ad for every category. Send the video first, then the shop's personal link.</p>
+        <div class="media" id="mediaKit"></div>
+        <p class="hint">On a phone: tap ⬇, then share the file to WhatsApp, Instagram or YouTube from your downloads.</p>
+      </div>
+      <div class="card">
+        <h2>✍️ Ready captions</h2>
+        <div class="grid2"><select id="capCh"></select><select id="capLng"><option value="en">English</option><option value="kn">ಕನ್ನಡ</option><option value="hi">हिंदी</option></select></div>
+        <div id="caps"></div>
+      </div>
+    </section>
+
+    <!-- ---------------- SETTINGS -->
+    <section class="view" id="v-set">
+      <div class="card"><h2>✅ Setup check</h2><div id="checks"></div></div>
+      <div class="card">
+        <h2>🪔 Offer & prices <span class="hint" style="margin:0">shops see changes in about a minute</span></h2>
+        <div class="switch"><b>Show festival offer</b><input type="checkbox" id="s_offerOn"></div>
+        <div class="grid2"><div><label class="f">Offer name</label><input id="s_offerTitle"></div><div><label class="f">% off yearly plan</label><input id="s_offerPct" inputmode="numeric"></div></div>
+        <div class="grid2"><div><label class="f">Last day</label><input id="s_offerUntil" type="date"></div><div><label class="f">Free trial days</label><input id="s_trialDays" inputmode="numeric"></div></div>
+        <div class="grid2" style="grid-template-columns:1fr 1fr 1fr"><div><label class="f">3 months ₹</label><input id="s_price3" inputmode="numeric"></div><div><label class="f">6 months ₹</label><input id="s_price6" inputmode="numeric"></div><div><label class="f">1 year ₹</label><input id="s_price12" inputmode="numeric"></div></div>
+      </div>
+      <div class="card">
+        <h2>📞 Contact & alerts</h2>
+        <div class="grid2"><div><label class="f">Your phone (10 digits)</label><input id="s_phone" inputmode="tel"></div><div><label class="f">Your name</label><input id="s_ownerName"></div></div>
+        <label class="f">Google Play link</label><input id="s_playUrl">
+        <div class="switch" style="margin-top:8px"><b>Email me when a shop opens or taps Call / WhatsApp / Download</b><input type="checkbox" id="s_alerts"></div>
+        <label class="f">Alert email (empty = your Google account)</label><input id="s_alertTo" type="email">
+        <button class="btn o w" id="saveSet" style="margin-top:14px">Save settings</button>
+      </div>
+      <div class="card">
+        <h2>🔐 Passcode</h2>
+        <div class="row"><input id="newPass" type="password" placeholder="New passcode (6+ characters)"><button class="btn sm" id="passB">Change</button></div>
+        <div class="row" style="margin-top:10px"><button class="btn l sm" id="logout">Log out of this phone</button></div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="nav" id="nav">
+    <button class="on" data-v="home"><span>🏠</span>Home<i class="dot" id="dotHome"></i></button>
+    <button data-v="shops"><span>🏪</span>Shops</button>
+    <button data-v="send"><span>📤</span>Send</button>
+    <button data-v="grow"><span>🚀</span>Grow</button>
+    <button data-v="set"><span>⚙️</span>Settings</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const CFG = window.PROMO || {};
+const API = CFG.API_URL || '';
+const BASE = location.href.replace(/[?#].*$/, '').replace(/[^/]*$/, ''); // folder of this page = the demo link
+const CATS = { fashion: ['👗', 'Fashion'], grocery: ['🥬', 'Grocery'], vegetables: ['🍎', 'Fruits & vegetables'], supermart: ['🛒', 'Super mart'], electronics: ['📺', 'Electronics'], gifts: ['🎁', 'Gifts & fancy'], kirana: ['🏪', 'Kirana'], footwear: ['👟', 'Footwear'], laundry: ['🧺', 'Laundry'], hardware: ['🔧', 'Electrical & hardware'] };
+const READY = Object.keys(CATS);
+const DCAT = window.DC_CATALOG || {};
+const SOURCES = { status: 'WhatsApp status', group: 'WhatsApp group', poster: 'Printed poster', insta: 'Instagram', fb: 'Facebook', yt: 'YouTube', gmb: 'Google Business', visit: 'Shop visit' };
+const STEP_N = 9;
+const STEP_NAMES = ['', 'Setup', 'Catalogue', 'Customer order', 'Delivery', 'Payment', 'Billing', 'Offers', 'Reports', 'Plans & offer'];
+const ACT = { call: '📞 Tapped Call', whatsapp: '💬 Tapped WhatsApp', setup: '🙋 Asked for free setup', play: '⬇️ Tapped Download', video: '🎬 Watched video' };
+const HOT = ['call', 'whatsapp', 'setup', 'play'];
+const LANG = { en: 'English', kn: 'ಕನ್ನಡ', hi: 'हिंदी' };
+const STAGES = [['', 'Auto (from activity)'], ['interested', '👍 Interested'], ['followup', '📅 Follow up'], ['onboarded', '✅ Onboarded'], ['no', '✋ Not interested']];
+
+// ------------------------------------------------------------------ message templates
+const TPL = {
+  first: { label: '1️⃣ First message (personal demo link)',
+    en: `Namaskara {name} 🙏
+
+I'm {owner} from *DigiCart*, a Bengaluru app that puts your shop online. 🛍️
+
+I've made a *live demo of your own shop* in DigiCart. Just tap to see how customers will order from you:
+👉 {link}
+
+✅ Your shop online in 10 minutes
+✅ *Zero commission*: money comes straight to you
+✅ Counter billing, stock & GST in one app
+{offer}
+🎁 Free trial to start
+
+Don't worry about setup. We do it for you, free. Support is just a call or text away.
+📞 {phone}`,
+    kn: `ನಮಸ್ಕಾರ {name} 🙏
+
+ನಾನು *DigiCart*‌ನಿಂದ {owner}. ನಿಮ್ಮ ಅಂಗಡಿಯನ್ನು ಆನ್‌ಲೈನ್‌ಗೆ ತರುವ ಬೆಂಗಳೂರಿನ ಆ್ಯಪ್. 🛍️
+
+DigiCart‌ನಲ್ಲಿ *ನಿಮ್ಮದೇ ಅಂಗಡಿಯ ಲೈವ್ ಡೆಮೋ* ಮಾಡಿದ್ದೇನೆ. ಗ್ರಾಹಕರು ನಿಮ್ಮಿಂದ ಹೇಗೆ ಆರ್ಡರ್ ಮಾಡುತ್ತಾರೆ ಎಂದು ನೋಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ:
+👉 {link}
+
+✅ 10 ನಿಮಿಷದಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್
+✅ *ಯಾವುದೇ ಕಮಿಷನ್ ಇಲ್ಲ*: ಹಣ ನೇರವಾಗಿ ನಿಮಗೆ
+✅ ಬಿಲ್ಲಿಂಗ್, ಸ್ಟಾಕ್ ಮತ್ತು GST ಒಂದೇ ಆ್ಯಪ್‌ನಲ್ಲಿ
+{offer}
+🎁 ಉಚಿತ ಟ್ರಯಲ್
+
+ಸೆಟಪ್ ಬಗ್ಗೆ ಚಿಂತೆ ಬೇಡ. ನಾವೇ ಉಚಿತವಾಗಿ ಮಾಡಿಕೊಡುತ್ತೇವೆ. ಒಂದು ಕರೆ ಅಥವಾ ಮೆಸೇಜ್ ಸಾಕು.
+📞 {phone}`,
+    hi: `नमस्ते {name} 🙏
+
+मैं *DigiCart* से {owner} हूं, बेंगलुरु का ऐप जो आपकी दुकान को ऑनलाइन लाता है। 🛍️
+
+मैंने DigiCart में *आपकी अपनी दुकान का लाइव डेमो* बनाया है। ग्राहक आपसे कैसे ऑर्डर करेंगे, देखने के लिए टैप करें:
+👉 {link}
+
+✅ 10 मिनट में आपकी दुकान ऑनलाइन
+✅ *ज़ीरो कमीशन*: पैसा सीधे आपको
+✅ बिलिंग, स्टॉक और GST एक ही ऐप में
+{offer}
+🎁 फ्री ट्रायल
+
+सेटअप की चिंता न करें। हम फ्री में कर देंगे। बस एक कॉल या मैसेज।
+📞 {phone}` },
+  follow: { label: '2️⃣ Follow-up (they opened the demo)',
+    en: `Hi {name} 👋 Thanks for checking the DigiCart demo!
+
+Any questions? I can come to your shop and set everything up *free*, in about 10 minutes. You just keep selling. 😊
+{offer}
+
+Your demo again: {link}
+📞 {phone}`,
+    kn: `ನಮಸ್ಕಾರ {name} 👋 DigiCart ಡೆಮೋ ನೋಡಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದ!
+
+ಏನಾದರೂ ಪ್ರಶ್ನೆ ಇದೆಯೇ? ನಾನೇ ನಿಮ್ಮ ಅಂಗಡಿಗೆ ಬಂದು ಸುಮಾರು 10 ನಿಮಿಷದಲ್ಲಿ *ಉಚಿತವಾಗಿ* ಸೆಟಪ್ ಮಾಡಿಕೊಡುತ್ತೇನೆ. 😊
+{offer}
+
+ನಿಮ್ಮ ಡೆಮೋ: {link}
+📞 {phone}`,
+    hi: `नमस्ते {name} 👋 DigiCart डेमो देखने के लिए धन्यवाद!
+
+कोई सवाल? मैं आपकी दुकान पर आकर लगभग 10 मिनट में सब कुछ *फ्री* में सेट कर दूंगा। 😊
+{offer}
+
+आपका डेमो: {link}
+📞 {phone}` },
+  remind: { label: '3️⃣ Offer ending reminder',
+    en: `⏳ {name}, the DigiCart offer ends soon!
+{offer}
+
+Online orders, zero commission, billing & GST in one app. Free setup at your shop.
+See your shop: {link}
+📞 {phone}`,
+    kn: `⏳ {name}, DigiCart ಆಫರ್ ಶೀಘ್ರದಲ್ಲೇ ಮುಗಿಯುತ್ತದೆ!
+{offer}
+
+ಆನ್‌ಲೈನ್ ಆರ್ಡರ್, ಕಮಿಷನ್ ಇಲ್ಲ, ಬಿಲ್ಲಿಂಗ್ ಮತ್ತು GST ಒಂದೇ ಆ್ಯಪ್‌ನಲ್ಲಿ. ಉಚಿತ ಸೆಟಪ್.
+ನಿಮ್ಮ ಅಂಗಡಿ: {link}
+📞 {phone}`,
+    hi: `⏳ {name}, DigiCart ऑफर जल्द खत्म हो रहा है!
+{offer}
+
+ऑनलाइन ऑर्डर, ज़ीरो कमीशन, बिलिंग और GST एक ऐप में। दुकान पर फ्री सेटअप।
+आपकी दुकान: {link}
+📞 {phone}` },
+  welcome: { label: '4️⃣ Welcome (after onboarding)',
+    en: `🎉 Welcome to DigiCart, {name}!
+
+Your shop is live. 3 things to do this week:
+1️⃣ Stick your shop QR at the counter
+2️⃣ Share your shop link in your customer WhatsApp groups
+3️⃣ Add your best 20 items with photos
+
+Anything you need, just call or text. 📞 {phone}
+App: {play}`,
+    kn: `🎉 DigiCart‌ಗೆ ಸ್ವಾಗತ, {name}!
+
+ನಿಮ್ಮ ಅಂಗಡಿ ಈಗ ಲೈವ್. ಈ ವಾರ 3 ಕೆಲಸ:
+1️⃣ ಅಂಗಡಿಯ QR ಕೌಂಟರ್‌ನಲ್ಲಿ ಹಚ್ಚಿ
+2️⃣ ನಿಮ್ಮ ಗ್ರಾಹಕರ WhatsApp ಗ್ರೂಪ್‌ಗಳಲ್ಲಿ ಅಂಗಡಿ ಲಿಂಕ್ ಹಂಚಿ
+3️⃣ ಹೆಚ್ಚು ಮಾರಾಟವಾಗುವ 20 ಐಟಂ ಫೋಟೋ ಸಹಿತ ಸೇರಿಸಿ
+
+ಏನೇ ಬೇಕಾದರೂ ಕರೆ ಅಥವಾ ಮೆಸೇಜ್ ಮಾಡಿ. 📞 {phone}
+ಆ್ಯಪ್: {play}`,
+    hi: `🎉 DigiCart में स्वागत है, {name}!
+
+आपकी दुकान लाइव है। इस हफ्ते 3 काम:
+1️⃣ दुकान का QR काउंटर पर लगाएं
+2️⃣ ग्राहकों के WhatsApp ग्रुप में दुकान का लिंक भेजें
+3️⃣ सबसे ज़्यादा बिकने वाले 20 आइटम फोटो के साथ जोड़ें
+
+कुछ भी चाहिए तो कॉल या मैसेज करें। 📞 {phone}
+ऐप: {play}` },
+};
+const OFFER_LINE = {
+  en: (s) => `🪔 *${s.offerTitle}: ${s.offerPct}% off* the yearly plan, only till ${fmtDay(s.offerUntil, 'en')}`,
+  kn: (s) => `🪔 *${s.offerTitle}: ವಾರ್ಷಿಕ ಪ್ಲಾನ್ ಮೇಲೆ ${s.offerPct}% ರಿಯಾಯಿತಿ*, ${fmtDay(s.offerUntil, 'kn')}ರವರೆಗೆ ಮಾತ್ರ`,
+  hi: (s) => `🪔 *${s.offerTitle}: सालाना प्लान पर ${s.offerPct}% छूट*, सिर्फ ${fmtDay(s.offerUntil, 'hi')} तक`,
+};
+const MONTHS = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], kn: ['ಜನವರಿ', 'ಫೆಬ್ರವರಿ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿಲ್', 'ಮೇ', 'ಜೂನ್', 'ಜುಲೈ', 'ಆಗಸ್ಟ್', 'ಸೆಪ್ಟೆಂಬರ್', 'ಅಕ್ಟೋಬರ್', 'ನವೆಂಬರ್', 'ಡಿಸೆಂಬರ್'], hi: ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'] };
+const fmtDay = (d, lg) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || ''); return m ? `${+m[3]} ${MONTHS[lg || 'en'][+m[2] - 1]}` : ''; };
+
+// ------------------------------------------------------------------ captions for social posts
+const CAPS = {
+  status: { label: 'WhatsApp status',
+    en: `Shop owners! 🛍️ See YOUR shop online in DigiCart. Zero commission, free setup.\n👉 {glink}\n📞 {phone}`,
+    kn: `ಅಂಗಡಿ ಮಾಲೀಕರೇ! 🛍️ DigiCart‌ನಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್ ನೋಡಿ. ಕಮಿಷನ್ ಇಲ್ಲ, ಉಚಿತ ಸೆಟಪ್.\n👉 {glink}\n📞 {phone}`,
+    hi: `दुकानदारों! 🛍️ DigiCart में अपनी दुकान ऑनलाइन देखें। ज़ीरो कमीशन, फ्री सेटअप।\n👉 {glink}\n📞 {phone}` },
+  group: { label: 'WhatsApp group message',
+    en: `🛍️ *Shop owners in {area}*: take your shop online with *DigiCart* in 10 minutes.\n\n✅ Your own online shop + QR code\n✅ *Zero commission*, money straight to you\n✅ Counter billing, stock & GST\n{offer}\n\nTap to see a live demo of a shop like yours 👇\n{glink}\n\nFree setup at your shop. 📞 {phone}`,
+    kn: `🛍️ *{area} ಅಂಗಡಿ ಮಾಲೀಕರೇ*: *DigiCart* ಮೂಲಕ 10 ನಿಮಿಷದಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್.\n\n✅ ನಿಮ್ಮದೇ ಆನ್‌ಲೈನ್ ಅಂಗಡಿ + QR\n✅ *ಕಮಿಷನ್ ಇಲ್ಲ*, ಹಣ ನೇರವಾಗಿ ನಿಮಗೆ\n✅ ಬಿಲ್ಲಿಂಗ್, ಸ್ಟಾಕ್, GST\n{offer}\n\nನಿಮ್ಮಂತಹ ಅಂಗಡಿಯ ಲೈವ್ ಡೆಮೋ ನೋಡಿ 👇\n{glink}\n\nಉಚಿತ ಸೆಟಪ್. 📞 {phone}`,
+    hi: `🛍️ *{area} के दुकानदारों*: *DigiCart* से 10 मिनट में अपनी दुकान ऑनलाइन लाएं।\n\n✅ अपनी ऑनलाइन दुकान + QR\n✅ *ज़ीरो कमीशन*, पैसा सीधे आपको\n✅ बिलिंग, स्टॉक, GST\n{offer}\n\nआप जैसी दुकान का लाइव डेमो देखें 👇\n{glink}\n\nफ्री सेटअप। 📞 {phone}` },
+  insta: { label: 'Instagram / Facebook post',
+    en: `Your shop. Online. In 10 minutes. 🛍️⚡\n\nDigiCart helps local shops in Bengaluru take orders online with ZERO commission. Your customers, your prices, your money.\n\n✅ Online shop + QR code\n✅ Your own delivery\n✅ Billing, stock & GST in one app\n{offer}\n\n👉 See a live demo: {glink}\n📞 Free setup: {phone}\n\n#DigiCart #ShopLocal #Bengaluru #SmallBusiness #OnlineShop #ZeroCommission #DigitalIndia #Kirana #FashionStore`,
+    kn: `ನಿಮ್ಮ ಅಂಗಡಿ. ಆನ್‌ಲೈನ್. 10 ನಿಮಿಷದಲ್ಲಿ. 🛍️⚡\n\nಬೆಂಗಳೂರಿನ ಸ್ಥಳೀಯ ಅಂಗಡಿಗಳಿಗೆ DigiCart: ಕಮಿಷನ್ ಇಲ್ಲದೆ ಆನ್‌ಲೈನ್ ಆರ್ಡರ್. ನಿಮ್ಮ ಗ್ರಾಹಕರು, ನಿಮ್ಮ ಬೆಲೆ, ನಿಮ್ಮ ಹಣ.\n{offer}\n\n👉 ಲೈವ್ ಡೆಮೋ: {glink}\n📞 ಉಚಿತ ಸೆಟಪ್: {phone}\n\n#DigiCart #ShopLocal #Bengaluru #Kannada #OnlineShop #ZeroCommission`,
+    hi: `आपकी दुकान। ऑनलाइन। 10 मिनट में। 🛍️⚡\n\nDigiCart से बेंगलुरु की लोकल दुकानें बिना कमीशन ऑनलाइन ऑर्डर लेती हैं। आपके ग्राहक, आपकी कीमत, आपका पैसा।\n{offer}\n\n👉 लाइव डेमो: {glink}\n📞 फ्री सेटअप: {phone}\n\n#DigiCart #ShopLocal #Bengaluru #OnlineShop #ZeroCommission #DigitalIndia` },
+  yt: { label: 'YouTube Shorts (title + description)',
+    en: `Title: Put your shop online in 10 minutes, zero commission | DigiCart\n\nDescription:\nDigiCart is the Bengaluru app that takes local shops online: grocery, kirana, fashion, electronics, gifts, footwear, laundry.\n✅ Zero commission ✅ Your own delivery ✅ Billing, stock & GST\n{offer}\nLive demo: {glink}\nDownload: {play}\nFree setup: {phone}\n#DigiCart #Shorts #ShopLocal #Bengaluru`,
+    kn: `Title: 10 ನಿಮಿಷದಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್, ಕಮಿಷನ್ ಇಲ್ಲ | DigiCart\n\nDescription:\nಬೆಂಗಳೂರಿನ ಅಂಗಡಿಗಳಿಗೆ DigiCart ಆ್ಯಪ್.\n{offer}\nಲೈವ್ ಡೆಮೋ: {glink}\nಡೌನ್‌ಲೋಡ್: {play}\nಉಚಿತ ಸೆಟಪ್: {phone}\n#DigiCart #Shorts #Bengaluru`,
+    hi: `Title: 10 मिनट में दुकान ऑनलाइन, ज़ीरो कमीशन | DigiCart\n\nDescription:\nबेंगलुरु की लोकल दुकानों के लिए DigiCart ऐप।\n{offer}\nलाइव डेमो: {glink}\nडाउनलोड: {play}\nफ्री सेटअप: {phone}\n#DigiCart #Shorts #Bengaluru` },
+  gmb: { label: 'Google Business post',
+    en: `Local shops in Bengaluru: get your own online shop with DigiCart. Zero commission, your own delivery, billing and GST in one app. Free setup at your shop. Call {phone}. See a live demo: {glink}`,
+    kn: `ಬೆಂಗಳೂರಿನ ಅಂಗಡಿಗಳಿಗೆ DigiCart: ನಿಮ್ಮದೇ ಆನ್‌ಲೈನ್ ಅಂಗಡಿ, ಕಮಿಷನ್ ಇಲ್ಲ, ಉಚಿತ ಸೆಟಪ್. ಕರೆ: {phone}. ಡೆಮೋ: {glink}`,
+    hi: `बेंगलुरु की दुकानों के लिए DigiCart: अपनी ऑनलाइन दुकान, ज़ीरो कमीशन, फ्री सेटअप। कॉल: {phone}. डेमो: {glink}` },
+};
+
+// ------------------------------------------------------------------ state + helpers
+let PASS = '', DATA = { shops: [], events: [], settings: {} }, TAB = 'all', lastEvAt = 0, timer, firstLoad = true, QWHO = 'new', qSkip = new Set();
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const lsGet = (k) => { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } };
+const lsSet = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} };
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('on'), 2400); }
+function ago(ms) {
+  if (!ms) return '';
+  const s = Math.max(0, Math.round((Date.now() - ms) / 1000));
+  if (s < 50) return 'just now';
+  if (s < 3600) return Math.round(s / 60) + ' min ago';
+  if (s < 86400) return Math.round(s / 3600) + ' h ago';
+  return new Date(ms).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+}
+const clock = (ms) => { const d = new Date(ms); return (Date.now() - ms > 86400000 ? d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + ' ' : '') + d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' }); };
+const dur = (s) => (s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s`);
+const today = () => { const d = new Date(Date.now() + 330 * 60000); return d.toISOString().slice(0, 10); };
+const ST = () => DATA.settings || {};
+const phone = () => String(ST().phone || CFG.PHONE || '9535388375');
+const phoneTxt = () => phone().slice(0, 5) + ' ' + phone().slice(5);
+const play = () => ST().playUrl || CFG.PLAY_URL || '';
+const offerLive = () => { const s = ST(); return /^yes$/i.test(s.offerOn || '') && +s.offerPct > 0 && (!s.offerUntil || s.offerUntil >= today()); };
+const linkOf = (l) => `${BASE}${l.cat || 'fashion'}.html?r=${l.id}`;
+const glink = (cat, src) => `${BASE}${cat}.html${src ? '?src=' + src : ''}`;
+function tplText(key, lg) { return lsGet(`tpl_${key}_${lg}`) || TPL[key][lg] || TPL[key].en; }
+function fill(text, l, lg, extra = {}) {
+  const off = offerLive() ? OFFER_LINE[lg](ST()) : '';
+  return text.replace(/\{name\}/g, l ? l.name : '').replace(/\{link\}/g, l ? linkOf(l) : '').replace(/\{phone\}/g, phoneTxt())
+    .replace(/\{owner\}/g, ST().ownerName || CFG.OWNER || '').replace(/\{play\}/g, play()).replace(/\{glink\}/g, extra.glink || '')
+    .replace(/\{area\}/g, extra.area || (lg === 'en' ? 'our area' : lg === 'kn' ? 'ನಮ್ಮ ಏರಿಯಾ' : 'हमारे एरिया')).replace(/\{offer\}\n?/g, off ? off + '\n' : '');
+}
+const waUrl = (ph, text) => `https://wa.me/91${ph}?text=${encodeURIComponent(text)}`;
+
+async function call(body) {
+  const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ ...body, p: PASS }), redirect: 'follow' });
+  const j = await r.json().catch(() => ({ error: 'No reply from the Google Sheet' }));
+  if (j.auth === false) { const e = new Error('Wrong passcode'); e.auth = true; throw e; }
+  if (j.error) throw new Error(j.error);
+  return j;
+}
+
+function status(l) {
+  if (l.stage === 'onboarded') return ['onboarded', '✅ Onboarded'];
+  if (l.stage === 'no') return ['no', '✋ Not interested'];
+  if (l.stage === 'followup') return ['followup', '📅 Follow up'];
+  if (l.stage === 'interested') return ['interested', '👍 Interested'];
+  if ((l.actions || []).some((a) => HOT.includes(a)) || (l.maxStep || 0) >= STEP_N) return ['hot', '🔥 Hot lead'];
+  if ((l.maxStep || 0) >= 1) return ['exploring', '👀 Watching demo'];
+  if (l.opens) return ['opened', '📖 Opened'];
+  if (l.sentAt) return ['sent', '📤 Sent'];
+  return ['new', '⏳ Not sent'];
+}
+
+// ------------------------------------------------------------------ alerts (sound + phone notification)
+let actx;
+function ding(hot) {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    (hot ? [[880, 0], [1175, .12], [1568, .24]] : [[880, 0], [1318.5, .14]]).forEach(([f, d]) => {
+      const o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, actx.currentTime + d); g.gain.exponentialRampToValueAtTime(0.3, actx.currentTime + d + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d + 0.5); o.connect(g).connect(actx.destination); o.start(actx.currentTime + d); o.stop(actx.currentTime + d + 0.55);
+    });
+    if (navigator.vibrate) navigator.vibrate(hot ? [150, 80, 150, 80, 150] : [120]);
+  } catch (e) {}
+}
+function bannerShow(e, title, sub) {
+  $('#bnE').textContent = e; $('#bnT').textContent = title; $('#bnS').textContent = sub;
+  const b = $('#banner'); b.classList.add('on'); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove('on'), 6000);
+}
+function notifyNew(evs) {
+  const imp = evs.filter((e) => e.t === 'open' || (e.t === 'action' && HOT.includes(e.v)) || (e.t === 'step' && +e.v >= STEP_N));
+  if (!imp.length) return;
+  const e = imp[0], hot = e.t !== 'open';
+  const title = `${e.name || 'New visitor'} ${evText(e).replace(/<[^>]+>/g, '')}`;
+  bannerShow(hot ? '🔥' : '👀', title, hot ? 'Call them now while they are interested' : 'They are looking at the demo right now');
+  ding(hot);
+  try { if (lsGet('alerts') === 'on' && 'Notification' in window && Notification.permission === 'granted' && document.visibilityState !== 'visible') new Notification(title, { body: 'DigiCart promotion', icon: 'icon.png', tag: 'dc' + e.at }); } catch (x) {}
+  if (!$('#v-home').classList.contains('on')) { const d = $('#dotHome'); d.style.display = 'block'; d.textContent = (+d.textContent || 0) + imp.length; }
+}
+$('#alertBtn').onclick = async () => {
+  ding(false);
+  if (!('Notification' in window)) { toast('Sound alerts are on. This browser has no notifications.'); return; }
+  const p = await Notification.requestPermission();
+  lsSet('alerts', p === 'granted' ? 'on' : 'off');
+  toast(p === 'granted' ? 'Alerts on: keep this page open in the background' : 'Notifications blocked. Sound alerts still work while the page is open');
+  renderAlertBtn();
+};
+function renderAlertBtn() { $('#alertBtn').textContent = lsGet('alerts') === 'on' ? '🔔 Alerts on' : '🔕 Turn on alerts'; }
+
+// ------------------------------------------------------------------ render: home
+function render() {
+  const shops = DATA.shops, named = shops.filter((l) => !l.anon);
+  const c = { shops: named.length, sent: named.filter((l) => l.sentAt).length, opened: shops.filter((l) => l.opens).length,
+    demo: shops.filter((l) => (l.maxStep || 0) >= 1).length, hot: shops.filter((l) => ['hot', 'interested'].includes(status(l)[0])).length, on: shops.filter((l) => l.stage === 'onboarded').length };
+  $('#kpis').innerHTML = [['Shops', c.shops], ['Sent', c.sent], ['Opened', c.opened], ['Saw demo', c.demo], ['🔥 Hot', c.hot], ['✅ Onboarded', c.on]].map(([k, v]) => `<div><b>${v}</b><span>${k}</span></div>`).join('');
+  const base = Math.max(1, c.shops, c.opened);
+  $('#funnel').innerHTML = [['Shops', c.shops, '#94A3B8'], ['Sent', c.sent, '#1173D4'], ['Opened', c.opened, '#F7740E'], ['Saw demo', c.demo, '#E8457C'], ['Hot', c.hot, '#16955B'], ['Onboarded', c.on, '#0E6B40']]
+    .map(([k, v, col]) => `<div class="fr"><span>${k}</span><span class="bar"><i style="width:${Math.round(v / base * 100)}%;background:${col}"></i></span><b>${v}</b></div>`).join('')
+    + (c.sent ? `<p class="hint">${Math.round(c.opened / Math.max(1, c.sent) * 100)}% of sent shops opened the demo.</p>` : '');
+  const hot = shops.filter((l) => ['hot', 'interested'].includes(status(l)[0])).sort((a, b) => b.lastSeenAt - a.lastSeenAt);
+  $('#hotList').innerHTML = hot.length ? hot.map(leadCard).join('') : '<div class="empty">No hot leads yet. They appear here the moment a shop taps Call, WhatsApp, setup or Download.</div>';
+  const due = shops.filter((l) => l.followUp && l.followUp <= today() && !['onboarded', 'no'].includes(l.stage));
+  $('#dueCard').style.display = due.length ? 'block' : 'none';
+  $('#due').innerHTML = due.map(leadCard).join('');
+  const evs = DATA.events;
+  $('#feed').innerHTML = evs.length ? evs.slice(0, 80).map((e) => `<div class="ev${e.at > lastEvAt && !firstLoad ? ' new' : ''}"><span class="t">${clock(e.at)}</span><span><b>${esc(e.name || 'New visitor')}</b> ${evText(e)}${e.src && !['personal', 'link'].includes(e.src) ? ` <span class="hint">· ${esc(SOURCES[e.src] || e.src)}</span>` : ''}</span></div>`).join('') : '<div class="empty">No activity yet. It shows up here the moment a shop opens their link.</div>';
+  renderShops(); renderQueue(); if (!document.activeElement || !document.activeElement.closest || !document.activeElement.closest('#mgrid')) renderMedia();
+  $('#sheetLink').href = DATA.sheetUrl || '#';
+}
+function evText(e) {
+  if (e.t === 'open') return 'opened the demo';
+  if (e.t === 'lang') return `chose ${LANG[e.v] || e.v}`;
+  if (e.t === 'cat') return `tapped ${(CATS[e.v] || ['', e.v]).join(' ')}`;
+  if (e.t === 'step') { const n = +e.v; return n >= STEP_N ? 'reached <b>plans & offer</b>' : `is on step ${n}: ${STEP_NAMES[n] || ''}`; }
+  if (e.t === 'action') return `<b style="color:var(--ok)">${ACT[e.v] || e.v}</b>`;
+  if (e.t === 'video') return '🎬 played the video';
+  return esc(e.t);
+}
+
+// ------------------------------------------------------------------ render: shops
+const FILTERS = [['all', 'All'], ['todo', 'Not sent'], ['opened', 'Opened'], ['hot', '🔥 Hot'], ['follow', '📅 Follow up'], ['onboarded', '✅ Onboarded'], ['no', '✋ No'], ['anon', 'Visitors']];
+function filterShops(k) {
+  return DATA.shops.filter((l) => {
+    const s = status(l)[0];
+    if (k === 'all') return !l.anon;
+    if (k === 'todo') return !l.anon && !l.sentAt;
+    if (k === 'opened') return l.opens > 0;
+    if (k === 'hot') return s === 'hot' || s === 'interested';
+    if (k === 'follow') return s === 'followup' || (l.followUp && !['onboarded', 'no'].includes(l.stage));
+    if (k === 'onboarded') return s === 'onboarded';
+    if (k === 'no') return s === 'no';
+    if (k === 'anon') return l.anon;
+    return true;
+  });
+}
+function renderShops() {
+  $('#tabs').innerHTML = FILTERS.map(([k, t]) => `<button data-tab="${k}" class="${TAB === k ? 'on' : ''}">${t}<em>${filterShops(k).length}</em></button>`).join('');
+  const q = $('#q').value.trim().toLowerCase(), cf = $('#catF').value;
+  const list = filterShops(TAB).filter((l) => (!q || `${l.name} ${l.phone} ${l.area}`.toLowerCase().includes(q)) && (!cf || l.cat === cf))
+    .sort((a, b) => (b.lastSeenAt || b.createdAt) - (a.lastSeenAt || a.createdAt));
+  const open = new Set([...document.querySelectorAll('#list .lead.open')].map((x) => x.dataset.id));
+  $('#list').innerHTML = list.length ? list.map(leadCard).join('') : `<div class="empty">${DATA.shops.length ? 'Nothing here.' : 'Add your shops with ➕ Add shops above. Each one gets a personal demo link.'}</div>`;
+  open.forEach((id) => { const el = document.querySelector(`#list .lead[data-id="${id}"]`); if (el) el.classList.add('open'); });
+}
+function leadCard(l) {
+  const [s, label] = status(l);
+  const steps = new Set(l.steps || []);
+  const bars = Array.from({ length: STEP_N }, (_, i) => `<i class="${steps.has(i + 1) ? 'on' : ''}${i + 1 === STEP_N ? ' last' : ''}"></i>`).join('');
+  const facts = [];
+  if (l.opens) facts.push(`Opened <b>${l.opens}×</b>`);
+  if (l.lastSeenAt) facts.push(`Seen <b>${ago(l.lastSeenAt)}</b>`);
+  if (l.sec) facts.push(`<b>${dur(l.sec)}</b> on demo`);
+  if (l.lang) facts.push(LANG[l.lang] || l.lang);
+  if (l.device) facts.push(esc(l.device));
+  if (!l.opens && l.sentAt) facts.push(`Sent ${ago(l.sentAt)}`);
+  if (l.anon && l.source) facts.push(`From: ${esc(SOURCES[l.source] || l.source)}`);
+  if (l.followUp) facts.push(`📅 ${esc(l.followUp)}`);
+  const tags = (l.actions || []).map((a) => `<span class="tag">${ACT[a] || esc(a)}</span>`).join(' ');
+  const ph = l.phone ? `+91 ${l.phone.slice(0, 5)} ${l.phone.slice(5)}` : '';
+  const lg = l.lang || $('#lngSel').value || 'en';
+  const msgKey = l.opens ? 'follow' : 'first';
+  return `<div class="lead st-${s}" data-id="${l.id}">
+    <div class="h" data-do="toggle"><div><div class="n">${esc(l.name || 'New visitor')}</div><div class="m">${[(CATS[l.cat] || []).join(' '), esc(l.area), ph].filter(Boolean).join(' · ')}</div></div><span class="pill p-${s}">${label}</span></div>
+    ${l.opens || l.maxStep ? `<div class="prog">${bars}</div><div class="m">${(l.maxStep || 0) >= STEP_N ? 'Saw the demo and the plans' : l.maxStep ? `Demo: ${[...steps].filter((x) => x < STEP_N).length} of 8 steps · reached “${STEP_NAMES[l.maxStep]}”` : 'Opened, still on the first screens'}</div>` : ''}
+    ${facts.length ? `<div class="facts">${facts.join('<span>·</span>')}</div>` : ''}
+    ${tags ? `<div class="acts">${tags}</div>` : ''}
+    ${l.notes ? `<div class="hint">📝 ${esc(l.notes)}</div>` : ''}
+    <div class="acts">
+      ${l.phone ? `<a class="btn g sm" data-do="wa" data-tpl="${msgKey}" data-lg="${lg}" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(msgKey, lg), l, lg)))}">💬 ${l.opens ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</a><a class="btn sm" href="tel:+91${l.phone}">📞 Call</a>` : ''}
+      ${!l.anon ? `<button class="btn l sm" data-do="link">🔗 Link</button>` : ''}
+      <button class="btn l sm" data-do="toggle">⋯ More</button>
+    </div>
+    <div class="more">
+      <div class="grid2"><div><label class="f">Stage</label><select data-f="stage">${STAGES.map(([k, t]) => `<option value="${k}"${(l.stage || '') === k ? ' selected' : ''}>${t}</option>`).join('')}</select></div>
+      <div><label class="f">Follow-up date</label><input type="date" data-f="followUp" value="${esc(l.followUp || '')}"></div></div>
+      ${l.anon ? `<div class="grid2"><div><label class="f">Shop name</label><input data-f="name" placeholder="Who is this?"></div><div><label class="f">Phone</label><input data-f="phone" inputmode="tel"></div></div>` : ''}
+      <label class="f">Notes</label><textarea data-f="notes" style="min-height:60px" placeholder="e.g. asked to come Monday 11 am">${esc(l.notes || '')}</textarea>
+      <div class="acts"><button class="btn sm" data-do="save">Save</button>${!l.anon ? `<button class="btn l sm" data-do="copy">Copy message</button><button class="btn l sm" data-do="qr">QR of link</button>` : ''}<button class="btn r sm" data-do="del">Delete</button></div>
+      <div class="qrslot"></div>
+    </div></div>`;
+}
+
+async function onLeadClick(e) {
+  const b = e.target.closest('[data-do]'); if (!b) return;
+  const card = b.closest('.lead'); const id = card.dataset.id; const l = DATA.shops.find((x) => x.id === id); if (!l) return;
+  const d = b.dataset.do;
+  if (d === 'toggle') { if (e.target.closest('a,input,select,textarea')) return; card.classList.toggle('open'); return; }
+  if (d === 'wa') { // the link itself opens WhatsApp; mark sent in the background
+    if (!l.sentAt) { l.sentAt = Date.now(); call({ a: 'upd', id, f: { sent: true } }).catch(() => {}); setTimeout(render, 300); }
+    return;
+  }
+  if (d === 'link') return copy(linkOf(l));
+  if (d === 'copy') { const lg = l.lang || $('#lngSel').value; return copy(fill(tplText(l.opens ? 'follow' : 'first', lg), l, lg)); }
+  if (d === 'qr') { const slot = card.querySelector('.qrslot'); slot.innerHTML = ''; const cv = document.createElement('canvas'); cv.width = cv.height = 300; cv.style.cssText = 'width:150px;height:150px;margin-top:10px'; drawQR(cv, linkOf(l), 300); slot.appendChild(cv); return; }
+  if (d === 'save') {
+    const f = {}; card.querySelectorAll('[data-f]').forEach((x) => { if (x.value !== '' || x.dataset.f !== 'name') f[x.dataset.f] = x.value; });
+    if (l.anon && f.name) f.claim = true;
+    b.disabled = true;
+    try { const r = await call({ a: 'upd', id, f }); Object.assign(l, r.shop); toast('Saved'); render(); } catch (er) { toast(er.message); }
+    b.disabled = false; return;
+  }
+  if (d === 'del') {
+    if (!b.dataset.arm) { b.dataset.arm = '1'; b.textContent = 'Tap again to delete'; setTimeout(() => { if (b.isConnected) { delete b.dataset.arm; b.textContent = 'Delete'; } }, 3000); return; }
+    try { await call({ a: 'del', id }); DATA.shops = DATA.shops.filter((x) => x.id !== id); render(); toast('Deleted'); } catch (er) { toast(er.message); }
+  }
+}
+['#list', '#hotList', '#due'].forEach((s) => $(s).addEventListener('click', onLeadClick));
+$('#tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { TAB = b.dataset.tab; renderShops(); } });
+$('#q').addEventListener('input', renderShops); $('#catF').addEventListener('change', renderShops);
+
+// add shops
+let ADDM = 'paste';
+document.querySelectorAll('[data-addm]').forEach((b) => b.onclick = () => {
+  ADDM = b.dataset.addm; document.querySelectorAll('[data-addm]').forEach((x) => x.classList.toggle('on', x === b));
+  document.querySelectorAll('[data-addp]').forEach((x) => { x.style.display = x.dataset.addp === ADDM ? 'block' : 'none'; });
+});
+function parseLines(text, cat) {
+  return text.split(/\r?\n/).map((s) => s.trim()).filter(Boolean).map((line) => {
+    const parts = line.split(/[,\t|;]/).map((x) => x.trim().replace(/^"|"$/g, ''));
+    let ph = '', rest = [], c = cat;
+    for (const p of parts) { if (!ph && p.replace(/\D/g, '').length >= 10) ph = p; else if (CATS[p.toLowerCase()]) c = p.toLowerCase(); else if (p) rest.push(p); }
+    return { name: rest[0] || '', area: rest.slice(1).join(', '), phone: ph, cat: c };
+  }).filter((x) => !/^(name|shop|shop name)$/i.test(x.name) || x.phone);
+}
+$('#addB').onclick = async () => {
+  const cat = $('#pcat').value; let shops = [];
+  if (ADDM === 'paste') shops = parseLines($('#paste').value, cat);
+  else if (ADDM === 'one') shops = [{ name: $('#oName').value.trim(), phone: $('#oPhone').value, area: $('#oArea').value.trim(), cat }];
+  else { const f = $('#csvF').files[0]; if (!f) return toast('Choose a CSV file'); shops = parseLines(await f.text(), cat); }
+  shops = shops.filter((s) => s.name || s.phone.replace(/\D/g, '').length >= 10);
+  if (!shops.length) return toast('Nothing to add');
+  $('#addB').disabled = true;
+  try {
+    const r = await call({ a: 'add', shops });
+    toast(`Added ${r.added.length}${r.skipped ? `, skipped ${r.skipped} already in the list` : ''}`);
+    $('#paste').value = ''; $('#oName').value = $('#oPhone').value = $('#oArea').value = ''; $('#addBox').open = false; TAB = 'todo'; await load();
+  } catch (e) { toast(e.message); }
+  $('#addB').disabled = false;
+};
+$('#csvOut').onclick = () => {
+  const cols = ['name', 'phone', 'cat', 'area', 'status', 'stage', 'notes', 'followUp', 'sentAt', 'opens', 'lastSeenAt', 'lang', 'maxStep', 'actions', 'sec', 'device', 'link'];
+  const rows = DATA.shops.map((l) => cols.map((k) => k === 'status' ? status(l)[1] : k === 'link' ? (l.anon ? '' : linkOf(l)) : /At$/.test(k) ? (l[k] ? new Date(l[k]).toLocaleString('en-IN') : '') : Array.isArray(l[k]) ? l[k].join(' ') : l[k] ?? ''));
+  const csv = [cols, ...rows].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  dl(new Blob(['﻿' + csv], { type: 'text/csv' }), `DigiCart_promotion_${today()}.csv`);
+};
+
+// ------------------------------------------------------------------ send queue
+function queueList() {
+  return DATA.shops.filter((l) => !l.anon && l.phone && !qSkip.has(l.id) && !['onboarded', 'no'].includes(l.stage) && (
+    QWHO === 'new' ? !l.sentAt : QWHO === 'opened' ? l.opens && !(l.actions || []).some((a) => HOT.includes(a)) : true))
+    .sort((a, b) => a.createdAt - b.createdAt);
+}
+function renderQueue() {
+  const q = queueList();
+  $('#qLeft').textContent = `${q.length} left`;
+  const l = q[0];
+  if (!l) { $('#qCard').innerHTML = `<div class="empty">🎉 Nobody left in this list. ${QWHO === 'new' ? 'Add more shops in the Shops tab.' : ''}</div>`; return; }
+  const key = $('#tplSel').value || 'first', lg = $('#lngSel').value || 'en';
+  const text = fill(tplText(key, lg), l, lg);
+  $('#qCard').innerHTML = `<div class="row" style="justify-content:space-between"><div><div class="big">${esc(l.name)}</div><div class="hint" style="margin:0">${[(CATS[l.cat] || []).join(' '), esc(l.area), '+91 ' + l.phone].filter(Boolean).join(' · ')}</div></div><span class="pill p-${status(l)[0]}">${status(l)[1]}</span></div>
+    <div class="msg" style="margin-top:10px">${esc(text)}</div>
+    <a class="btn g w" style="margin-top:12px;min-height:50px;font-size:16px" id="qGo" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, text))}">💬 Open WhatsApp</a>
+    <div class="row" style="margin-top:8px"><button class="btn o" style="flex:1" id="qNext">Sent ✓ Next ›</button><button class="btn l" id="qSkip">Skip</button></div>`;
+  $('#qGo').onclick = () => { $('#qGo').dataset.went = '1'; };
+  $('#qNext').onclick = async () => {
+    l.sentAt = Date.now(); qSkip.add(l.id); renderQueue();
+    try { await call({ a: 'upd', id: l.id, f: { sent: true } }); } catch (e) { toast(e.message); }
+  };
+  $('#qSkip').onclick = () => { qSkip.add(l.id); renderQueue(); };
+}
+$('#qWho').addEventListener('click', (e) => { const b = e.target.closest('[data-who]'); if (!b) return; QWHO = b.dataset.who; qSkip = new Set(); document.querySelectorAll('#qWho button').forEach((x) => x.classList.toggle('on', x === b)); if (QWHO === 'opened') $('#tplSel').value = 'follow'; renderQueue(); });
+$('#tplSel').onchange = renderQueue; $('#lngSel').onchange = () => { lsSet('lng', $('#lngSel').value); renderQueue(); };
+// template editor
+function loadEd() { $('#edTxt').value = tplText($('#edTpl').value, $('#edLng').value); }
+$('#edTpl').onchange = loadEd; $('#edLng').onchange = loadEd;
+$('#edTxt').addEventListener('input', () => { lsSet(`tpl_${$('#edTpl').value}_${$('#edLng').value}`, $('#edTxt').value); renderQueue(); });
+$('#edReset').onclick = () => { lsSet(`tpl_${$('#edTpl').value}_${$('#edLng').value}`, null); loadEd(); renderQueue(); toast('Reset'); };
+
+// ------------------------------------------------------------------ QR, links, posters
+function drawQR(cv, text, size, opts = {}) {
+  const qr = qrcode(0, 'M'); qr.addData(text); qr.make();
+  const n = qr.getModuleCount(), q = 2, cell = size / (n + q * 2), ctx = cv.getContext('2d');
+  const x0 = opts.x || 0, y0 = opts.y || 0;
+  ctx.fillStyle = '#fff'; ctx.fillRect(x0, y0, size, size); ctx.fillStyle = opts.color || '#0A2A66';
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) ctx.fillRect(x0 + (c + q) * cell, y0 + (r + q) * cell, Math.ceil(cell), Math.ceil(cell));
+}
+function renderLinks() {
+  const u = glink($('#glCat').value, $('#glSrc').value);
+  $('#glUrl').textContent = u; drawQR($('#glQr'), u, 300);
+  const lg = 'en';
+  $('#glShare').href = `https://wa.me/?text=${encodeURIComponent(fill(CAPS.status[lg], null, lg, { glink: u }))}`;
+  renderCaps();
+}
+$('#glCat').onchange = renderLinks; $('#glSrc').onchange = renderLinks;
+$('#glCopy').onclick = () => copy($('#glUrl').textContent);
+$('#glQrDl').onclick = () => $('#glQr').toBlob((b) => dl(b, `DigiCart_QR_${$('#glCat').value}_${$('#glSrc').value || 'link'}.png`));
+
+const IMG = {};
+const loadImg = (src) => IMG[src] || (IMG[src] = new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }));
+const POSTER_TXT = {
+  en: { h1: 'Is your shop online?', h2: 'Scan & see YOUR shop live in DigiCart', b: ['🛒 Your own online shop + QR', '💸 Zero commission', '🧾 Billing, stock & GST', '🤝 Free setup at your shop'], scan: 'Scan with your phone camera', st: 'Shop owners!', st2: 'See your shop online in DigiCart' },
+  kn: { h1: 'ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್‌ನಲ್ಲಿದೆಯೇ?', h2: 'ಸ್ಕ್ಯಾನ್ ಮಾಡಿ, DigiCart‌ನಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ನೋಡಿ', b: ['🛒 ನಿಮ್ಮದೇ ಆನ್‌ಲೈನ್ ಅಂಗಡಿ + QR', '💸 ಯಾವುದೇ ಕಮಿಷನ್ ಇಲ್ಲ', '🧾 ಬಿಲ್ಲಿಂಗ್, ಸ್ಟಾಕ್, GST', '🤝 ಅಂಗಡಿಯಲ್ಲೇ ಉಚಿತ ಸೆಟಪ್'], scan: 'ಫೋನ್ ಕ್ಯಾಮೆರಾದಿಂದ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ', st: 'ಅಂಗಡಿ ಮಾಲೀಕರೇ!', st2: 'DigiCart‌ನಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ನೋಡಿ' },
+  hi: { h1: 'क्या आपकी दुकान ऑनलाइन है?', h2: 'स्कैन करें, DigiCart में अपनी दुकान देखें', b: ['🛒 अपनी ऑनलाइन दुकान + QR', '💸 ज़ीरो कमीशन', '🧾 बिलिंग, स्टॉक, GST', '🤝 दुकान पर फ्री सेटअप'], scan: 'फोन कैमरा से स्कैन करें', st: 'दुकानदारों!', st2: 'DigiCart में अपनी दुकान देखें' },
+};
+function wrapText(ctx, text, x, y, maxW, lh) {
+  const words = text.split(' '); let line = '', yy = y;
+  for (const w of words) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { ctx.fillText(line, x, yy); line = w; yy += lh; } else line = t; }
+  ctx.fillText(line, x, yy); return yy + lh;
+}
+async function makePoster(kind, lg) {
+  const W = kind === 'a4' ? 1240 : 1080, H = kind === 'a4' ? 1754 : 1920;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+  const F = lg === 'kn' ? '"Noto Sans Kannada",Poppins' : lg === 'hi' ? '"Noto Sans Devanagari",Poppins' : 'Poppins';
+  try { await document.fonts.load(`800 40px ${F}`); await document.fonts.load('700 40px Poppins'); } catch (e) {}
+  const T = POSTER_TXT[lg], url = glink($('#glCat').value, kind === 'a4' ? 'poster' : 'status');
+  const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#1B0F4A'); g.addColorStop(.55, '#3A1259'); g.addColorStop(1, '#0A2A66'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const rg = ctx.createRadialGradient(W * .15, H * .1, 10, W * .15, H * .1, W * .7); rg.addColorStop(0, 'rgba(232,69,124,.55)'); rg.addColorStop(1, 'rgba(232,69,124,0)'); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+  const logo = await loadImg('logo3d.webp');
+  const lw = W * .52, lh = logo ? lw * logo.height / logo.width : 120;
+  ctx.fillStyle = '#fff'; roundRect(ctx, (W - lw) / 2 - 30, 70, lw + 60, lh + 40, 36); ctx.fill();
+  if (logo) ctx.drawImage(logo, (W - lw) / 2, 90, lw, lh);
+  let y = 70 + lh + 40 + 110;
+  ctx.textAlign = 'center'; ctx.fillStyle = '#fff';
+  ctx.font = `800 ${kind === 'a4' ? 84 : 80}px ${F}`; y = wrapText(ctx, kind === 'a4' ? T.h1 : T.st, W / 2, y, W - 120, 96);
+  ctx.font = `700 ${kind === 'a4' ? 46 : 52}px ${F}`; ctx.fillStyle = '#FFC94D'; y = wrapText(ctx, kind === 'a4' ? T.h2 : T.st2, W / 2, y + 6, W - 140, 62);
+  // strip of real catalogue photos
+  const pc = $('#glCat').value, pd = DCAT[pc] || DCAT.fashion;
+  const ph = await Promise.all(pd.mix.slice(0, 4).map((k) => loadImg(`products/${pc}/${k}.jpg`)));
+  const gap = 18, pw = (W - 160 - gap * 3) / 4, phh = kind === 'a4' ? 230 : 300, py = y + 10;
+  ph.forEach((im, i) => {
+    const px = 80 + i * (pw + gap);
+    ctx.save(); ctx.fillStyle = '#fff'; roundRect(ctx, px - 6, py - 6, pw + 12, phh + 12, 26); ctx.fill();
+    roundRect(ctx, px, py, pw, phh, 20); ctx.clip();
+    if (im) { const sc = Math.max(pw / im.width, phh / im.height), dw = im.width * sc, dh = im.height * sc; ctx.drawImage(im, px + (pw - dw) / 2, pd.portrait ? py - dh * 0.04 : py + (phh - dh) / 2, dw, dh); }
+    ctx.restore();
+  });
+  y = py + phh + 20;
+  const qs = kind === 'a4' ? 420 : 500, qx = (W - qs) / 2, qy = y + 30;
+  ctx.fillStyle = '#fff'; roundRect(ctx, qx - 26, qy - 26, qs + 52, qs + 52, 40); ctx.fill();
+  drawQR(cv, url, qs, { x: qx, y: qy });
+  y = qy + qs + 70; ctx.fillStyle = '#B9F6CA'; ctx.font = `600 36px ${F}`; ctx.fillText('📷 ' + T.scan, W / 2, y);
+  y += 70; ctx.font = `700 ${kind === 'a4' ? 36 : 34}px ${F}`; ctx.fillStyle = '#fff';
+  ctx.fillText(T.b[0] + '   ' + T.b[1], W / 2, y, W - 100); ctx.fillText(T.b[2] + '   ' + T.b[3], W / 2, y + 56, W - 100); y += 90;
+  if (offerLive()) {
+    const s = ST(); ctx.textAlign = 'center';
+    ctx.fillStyle = '#FFC94D'; roundRect(ctx, 90, y, W - 180, 96, 30); ctx.fill();
+    ctx.fillStyle = '#5B1A0A'; ctx.font = `800 40px ${F}`; ctx.fillText(OFFER_LINE[lg](s).replace(/\*/g, ''), W / 2, y + 62, W - 220); y += 130;
+  }
+  ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; roundRect(ctx, 90, H - 150, W - 180, 104, 34); ctx.fill();
+  ctx.fillStyle = '#0A3F86'; ctx.font = '800 54px Poppins'; ctx.fillText('📞 ' + phoneTxt(), W / 2, H - 80);
+  return cv;
+}
+function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+$('#poMake').onclick = async () => {
+  const lg = $('#poLng').value; $('#posters').innerHTML = '<div class="hint">Making…</div>';
+  const items = [['a4', 'A4 poster (print)'], ['status', 'Status / story picture']];
+  const out = await Promise.all(items.map(async ([k, t]) => [k, t, await makePoster(k, lg)]));
+  $('#posters').innerHTML = '';
+  out.forEach(([k, t, cv]) => {
+    const d = document.createElement('div'); d.className = 'pv'; d.appendChild(cv);
+    const b = document.createElement('b'); b.textContent = t; d.appendChild(b);
+    const a = document.createElement('button'); a.className = 'btn sm'; a.textContent = '⬇ Download';
+    a.onclick = () => cv.toBlob((bl) => dl(bl, `DigiCart_${k}_${$('#glCat').value}_${lg}.png`), 'image/png'); d.appendChild(a);
+    $('#posters').appendChild(d);
+  });
+};
+function renderCaps() {
+  const ch = $('#capCh').value || 'status', lg = $('#capLng').value || 'en', u = glink($('#glCat').value, ch === 'insta' ? 'insta' : ch === 'yt' ? 'yt' : ch === 'gmb' ? 'gmb' : ch);
+  const text = fill(CAPS[ch][lg], null, lg, { glink: u });
+  $('#caps').innerHTML = `<div class="cap" id="capT">${esc(text)}</div><div class="acts"><button class="btn sm" id="capCopy">Copy</button>${ch === 'status' || ch === 'group' ? `<a class="btn g sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(text)}">Share on WhatsApp</a>` : ''}</div>`;
+  $('#capCopy').onclick = () => copy(text);
+}
+$('#capCh').onchange = renderCaps; $('#capLng').onchange = renderCaps;
+
+// ------------------------------------------------------------------ your photos & videos (saved to your Google Drive)
+const CHIP_NAMES = {}; Object.values(DCAT).forEach((d) => (d.chips || []).forEach(([k, t]) => { CHIP_NAMES[k] = t; }));
+function renderMedia() {
+  const list = (DATA.media || []).slice().sort((a, b) => b.createdAt - a.createdAt);
+  $('#mgrid').innerHTML = list.length ? list.map((m) => `<div class="mcard" data-id="${esc(m.id)}">
+    <a class="ph" href="${esc(m.open)}" target="_blank" rel="noopener" style="${m.thumb ? `background-image:url('${esc(m.thumb)}')` : ''}">${m.thumb ? '' : '🎬'}<span class="ty">${m.type === 'video' ? '🎬 Video' : '📷 ' + (CHIP_NAMES[m.chip] || 'Photo')}</span></a>
+    <div class="bd"><input data-mf="name" value="${esc(m.name)}" placeholder="Name">
+      ${m.type === 'photo' ? `<div class="grid2" style="gap:6px"><input data-mf="price" inputmode="numeric" value="${m.price || ''}" placeholder="Price ₹"><input data-mf="mrp" inputmode="numeric" value="${m.mrp || ''}" placeholder="MRP ₹"></div>` : ''}
+      <label class="tg">Show in demo<input type="checkbox" data-mf="demo"${m.demo ? ' checked' : ''}></label>
+      <div class="ab"><a class="btn g sm" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent((m.name ? m.name + '\n' : '') + m.open)}">Share</a><a class="btn l sm" href="${esc(m.download)}" target="_blank" rel="noopener">⬇</a><button class="btn r sm" data-mdel>🗑</button></div>
+    </div></div>`).join('') : '<div class="empty" style="grid-column:1/-1">No photos yet. Tap ➕ to add your shop photos, new arrivals or a video.</div>';
+}
+$('#mgrid').addEventListener('change', async (e) => {
+  const el = e.target.closest('[data-mf]'); if (!el) return;
+  const id = el.closest('.mcard').dataset.id, f = {};
+  f[el.dataset.mf] = el.type === 'checkbox' ? el.checked : el.value;
+  try { const r = await call({ a: 'mupd', id, f }); const i = DATA.media.findIndex((m) => m.id === id); if (i >= 0) DATA.media[i] = r.item; toast('Saved'); } catch (er) { toast(er.message); }
+});
+$('#mgrid').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-mdel]'); if (!b) return;
+  if (!b.dataset.arm) { b.dataset.arm = '1'; b.textContent = 'Sure?'; setTimeout(() => { if (b.isConnected) { delete b.dataset.arm; b.textContent = '🗑'; } }, 3000); return; }
+  const id = b.closest('.mcard').dataset.id;
+  try { await call({ a: 'mdel', id }); DATA.media = DATA.media.filter((m) => m.id !== id); renderMedia(); toast('Deleted'); } catch (er) { toast(er.message); }
+});
+const tidyName = (f) => f.replace(/\.[^.]+$/, '').replace(/^(IMG|VID|PXL|WA)[-_]?\d[\w-]*$/i, '').replace(/[_-]+/g, ' ').trim().slice(0, 40);
+async function shrinkPhoto(file) {
+  try {
+    const bmp = await createImageBitmap(file);
+    const k = Math.min(1, 1200 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    return await new Promise((res) => cv.toBlob(res, 'image/jpeg', 0.85));
+  } catch (e) { return file; }
+}
+const b64 = (blob) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+function postWithProgress(body, onp) {
+  return new Promise((res, rej) => {
+    const x = new XMLHttpRequest(); x.open('POST', API); x.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+    x.upload.onprogress = (e) => { if (e.lengthComputable) onp(e.loaded / e.total); };
+    x.onload = () => { try { const j = JSON.parse(x.responseText); j.error ? rej(new Error(j.error)) : res(j); } catch (e) { rej(new Error('Upload failed')); } };
+    x.onerror = () => rej(new Error('Upload failed, check your internet'));
+    x.send(JSON.stringify({ ...body, p: PASS }));
+  });
+}
+$('#upFile').addEventListener('change', async (e) => {
+  const files = [...e.target.files]; e.target.value = '';
+  for (const f of files) {
+    const row = document.createElement('div'); row.className = 'upl'; row.innerHTML = `<span style="width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.name)}</span><span class="bar"><i></i></span><b>0%</b>`;
+    $('#upProg').appendChild(row);
+    const bar = row.querySelector('i'), pct = row.querySelector('b');
+    try {
+      const isVid = /^video\//.test(f.type);
+      if (!isVid && !/^image\//.test(f.type)) throw new Error('Not a photo or video');
+      if (isVid && f.size > 35 * 1024 * 1024) throw new Error('Video over 35 MB: share it on YouTube and paste the link instead');
+      const blob = isVid ? f : await shrinkPhoto(f);
+      const data = await b64(blob);
+      const r = await postWithProgress({ a: 'up', mime: isVid ? f.type : 'image/jpeg', data, file: f.name, name: tidyName(f.name) || (isVid ? 'Video' : 'New arrival'), chip: $('#upChip').value, cat: $('#upCat').value, demo: true },
+        (x) => { bar.style.width = Math.round(x * 95) + '%'; pct.textContent = Math.round(x * 95) + '%'; });
+      bar.style.width = '100%'; pct.textContent = '✓';
+      DATA.media = [r.item, ...(DATA.media || [])]; renderMedia();
+      setTimeout(() => row.remove(), 2500);
+    } catch (er) { pct.textContent = '✗'; pct.title = er.message; row.insertAdjacentHTML('beforeend', `<span style="color:var(--red)">${esc(er.message)}</span>`); }
+  }
+});
+$('#upLinkB').onclick = async () => {
+  const url = $('#upLink').value.trim(); if (!url) return;
+  try { const r = await call({ a: 'mlink', url, name: 'Video', cat: $('#upCat').value, demo: true }); DATA.media = [r.item, ...(DATA.media || [])]; renderMedia(); $('#upLink').value = ''; toast('Added'); } catch (e) { toast(e.message); }
+};
+
+// ------------------------------------------------------------------ settings + setup check
+const SKEYS = ['phone', 'ownerName', 'playUrl', 'offerTitle', 'offerPct', 'offerUntil', 'trialDays', 'price3', 'price6', 'price12', 'alertTo'];
+function fillSettings() {
+  const s = ST();
+  SKEYS.forEach((k) => { const el = $('#s_' + k); if (el && document.activeElement !== el) el.value = s[k] || ''; });
+  $('#s_offerOn').checked = /^yes$/i.test(s.offerOn || ''); $('#s_alerts').checked = /^yes$/i.test(s.alerts || '');
+}
+$('#saveSet').onclick = async () => {
+  const set = {}; SKEYS.forEach((k) => { set[k] = $('#s_' + k).value.trim(); });
+  set.offerOn = $('#s_offerOn').checked ? 'yes' : 'no'; set.alerts = $('#s_alerts').checked ? 'yes' : 'no';
+  if (set.phone.replace(/\D/g, '').length < 10) return toast('Phone needs 10 digits');
+  $('#saveSet').disabled = true;
+  try { const r = await call({ a: 'set', set }); DATA.settings = r.settings; fillSettings(); render(); renderLinks(); renderChecks(); toast('Saved. Shops see it on their next open'); } catch (e) { toast(e.message); }
+  $('#saveSet').disabled = false;
+};
+$('#passB').onclick = async () => {
+  const np = $('#newPass').value.trim(); if (np.length < 6) return toast('Use at least 6 characters');
+  try { await call({ a: 'pass', np }); PASS = np; lsSet('pass', np); $('#newPass').value = ''; toast('Passcode changed'); } catch (e) { toast(e.message); }
+};
+async function renderChecks() {
+  const rows = [];
+  rows.push(['✅', 'Connected to your Google Sheet', DATA.sheetUrl ? `<a class="btn l sm" href="${esc(DATA.sheetUrl)}" target="_blank" rel="noopener">Open sheet</a>` : '']);
+  let og = '';
+  try { const html = await fetch(BASE + 'fashion.html', { cache: 'no-store' }).then((r) => r.text()); og = (/property="og:image" content="([^"]+)"/.exec(html) || [])[1] || ''; } catch (e) {}
+  if (og.startsWith('http')) rows.push(['✅', 'WhatsApp link preview pictures are set', 'Each category link shows its own picture in WhatsApp']);
+  else rows.push(['⚠️', 'WhatsApp link preview pictures', 'Publish the site with the <b>Publish website</b> workflow on GitHub (README, step 2). It fills in the picture addresses. Links still work without it, just without the picture.']);
+  rows.push([/^yes$/i.test(ST().alerts || '') ? '✅' : '⚪', 'Email alerts', /^yes$/i.test(ST().alerts || '') ? `On, to ${esc(ST().alertTo || 'your Google account')}` : 'Off (turn on below)']);
+  rows.push([lsGet('alerts') === 'on' ? '✅' : '⚪', 'Alerts on this phone', lsGet('alerts') === 'on' ? 'On' : 'Tap 🔕 Turn on alerts on the Home tab']);
+  rows.push([offerLive() ? '🪔' : '⚪', 'Festival offer', offerLive() ? `${esc(ST().offerTitle)} ${esc(ST().offerPct)}% till ${fmtDay(ST().offerUntil, 'en')}` : 'Not showing']);
+  rows.push(['📊', 'Evening summary email', 'In the Apps Script editor run <code>installDailySummary</code> once']);
+  $('#checks').innerHTML = rows.map(([i, t, d]) => `<div class="check"><span class="i">${i}</span><div><b>${t}</b><div class="hint" style="margin-top:2px">${d}</div></div></div>`).join('');
+  $('#checks').querySelectorAll('[data-copy]').forEach((b) => b.onclick = () => copy(b.dataset.copy));
+}
+
+// ------------------------------------------------------------------ misc
+async function copy(t) {
+  try { await navigator.clipboard.writeText(t); toast('Copied'); }
+  catch (e) { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); toast('Copied'); }
+}
+function dl(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
+function show(v) {
+  document.querySelectorAll('.view').forEach((x) => x.classList.toggle('on', x.id === 'v-' + v));
+  document.querySelectorAll('#nav button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'home') { const d = $('#dotHome'); d.style.display = 'none'; d.textContent = ''; }
+  if (v === 'set') renderChecks();
+  if (v === 'grow') renderLinks();
+  lsSet('view', v); window.scrollTo(0, 0);
+}
+$('#nav').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) show(b.dataset.v); });
+
+async function load() {
+  try {
+    const d = await call({ a: 'admin', site: BASE });
+    const fresh = firstLoad ? [] : d.events.filter((e) => e.at > lastEvAt);
+    DATA = d;
+    render();
+    if (fresh.length) notifyNew(fresh);
+    if (d.events.length) lastEvAt = Math.max(lastEvAt, d.events[0].at);
+    if (firstLoad) { fillSettings(); firstLoad = false; }
+    $('#liveB').classList.remove('off'); $('#upd').textContent = 'Live · ' + new Date().toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
+  } catch (e) {
+    if (e.auth) return logout('Wrong passcode');
+    $('#liveB').classList.add('off'); $('#upd').textContent = 'Reconnecting…';
+  }
+}
+function upChips() { const d = DCAT[$('#upCat').value] || DCAT.fashion; $('#upChip').innerHTML = (d.chips || []).map(([k, t]) => `<option value="${k}">${esc(t)}</option>`).join(''); }
+$('#upCat').addEventListener('change', () => { lsSet('upCat', $('#upCat').value); upChips(); });
+function renderKit() {
+  $('#mediaKit').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => `<div class="mi"><video src="videos/${k}.mp4" poster="videos/${k}.jpg" controls playsinline preload="none"></video><div>${e} ${esc(t)}<span style="display:flex;gap:4px"><a class="btn sm" href="videos/${k}.mp4" download="DigiCart_${k}_ad.mp4" title="Download video">⬇</a><a class="btn l sm" href="og/${k}.jpg" download="DigiCart_${k}_preview.jpg" title="Preview picture">🖼</a></span></div></div>`).join('');
+}
+function staticUi() {
+  $('#upCat').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
+  $('#upCat').value = lsGet('upCat') || 'fashion'; upChips(); renderKit();
+  const catOpts = Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
+  $('#pcat').innerHTML = catOpts; $('#glCat').innerHTML = catOpts;
+  $('#catF').innerHTML = '<option value="">All categories</option>' + Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
+  $('#glSrc').innerHTML = Object.entries(SOURCES).map(([k, t]) => `<option value="${k}">${t}</option>`).join('');
+  const tplOpts = Object.entries(TPL).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  $('#tplSel').innerHTML = tplOpts; $('#edTpl').innerHTML = tplOpts;
+  $('#capCh').innerHTML = Object.entries(CAPS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  $('#lngSel').value = lsGet('lng') || 'en';
+  loadEd(); renderAlertBtn();
+}
+function start() {
+  $('#loginV').style.display = 'none'; $('#appV').style.display = 'block';
+  staticUi(); load(); clearInterval(timer);
+  timer = setInterval(() => { if (document.visibilityState === 'visible' || lsGet('alerts') === 'on') load(); }, 6000);
+  const v = lsGet('view'); if (v && $('#v-' + v)) show(v);
+}
+function logout(msg) {
+  clearInterval(timer); PASS = ''; lsSet('pass', null);
+  $('#appV').style.display = 'none'; $('#loginV').style.display = 'block'; $('#loginE').textContent = msg || '';
+}
+$('#loginB').onclick = async () => {
+  const p = $('#pass').value.trim();
+  if (p.length < 6) { $('#loginE').textContent = 'Use at least 6 characters'; return; }
+  PASS = p; $('#loginB').disabled = true; $('#loginE').textContent = 'Connecting to your Google Sheet…';
+  try { await call({ a: 'admin', site: BASE }); lsSet('pass', p); start(); }
+  catch (e) { $('#loginE').textContent = e.message === 'Failed to fetch' ? 'Could not reach the Google Sheet. Check API_URL in config.js' : e.message; PASS = ''; }
+  $('#loginB').disabled = false;
+};
+$('#pass').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#loginB').click(); });
+$('#logout').onclick = () => logout('');
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && PASS) load(); });
+
+if (!API) {
+  $('#loginV').style.display = 'block'; $('#passBox').style.display = 'none'; $('#noApi').style.display = 'block';
+  $('#noApi').innerHTML = '<b>Almost there.</b> Connect the Google Sheet first: open <code>config.js</code> and paste your Apps Script web app URL into <code>API_URL</code>. The README has the steps.';
+} else {
+  PASS = lsGet('pass');
+  if (PASS) start(); else $('#loginV').style.display = 'block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>See your shop live on DigiCart</title>
+<meta name="description" content="Tap to see your own shop working in the DigiCart app: online orders, zero commission, billing and stock. Free setup.">
+<meta property="og:title" content="See your shop live on DigiCart 🛍️">
+<meta property="og:url" content="__SITE__/">
+<meta property="og:description" content="Your shop online in 10 minutes. Zero commission. Free setup. Tap to see the demo.">
+<meta property="og:image" content="__SITE__/og/all.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0A3F86">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Noto+Sans+Kannada:wght@500;700;800&family=Noto+Sans+Devanagari:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="catalog.js"></script>
+<style>
+:root{--navy:#0A3F86;--blue:#1173D4;--blueSoft:#E3EEFC;--orange:#F7740E;--orangeSoft:#FFEDDD;--orangeInk:#8A3B00;--ok:#16955B;--okSoft:#DDF3E7;--ink:#12203D;--muted:#66708A;--line:#E2E7F0;--pink:#E8457C;--bg:#F4F7FC}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:Poppins,"Noto Sans Kannada","Noto Sans Devanagari",system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}
+body.kn{font-family:"Noto Sans Kannada",Poppins,system-ui,sans-serif}
+body.hi{font-family:"Noto Sans Devanagari",Poppins,system-ui,sans-serif}
+button{font:inherit;border:0;cursor:pointer;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.on{display:flex;animation:fadeIn .35s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.wrap{width:100%;max-width:520px;margin:0 auto;padding:18px 18px 26px}
+/* splash */
+#splash{background:radial-gradient(circle at 50% 30%,#1d8bff,#0b4fb0 55%,#06275e);align-items:center;justify-content:center;color:#fff;text-align:center}
+#splash .lg{background:#fff;border-radius:26px;padding:16px 22px;box-shadow:0 18px 40px rgba(0,0,0,.35);animation:pop .7s cubic-bezier(.2,.9,.3,1.4) both}
+#splash .lg img{width:230px;display:block}
+#splash .rider{width:150px;margin-top:22px;animation:ride 1.4s ease-out .2s both}
+#splash p{margin-top:14px;font-weight:700;font-size:17px;opacity:0;animation:fadeIn .5s .7s both}
+@keyframes pop{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@keyframes ride{from{transform:translateX(-120vw)}to{transform:none}}
+/* language */
+#lang{background:linear-gradient(180deg,#0A3F86 0,#1173D4 38%,var(--bg) 38%)}
+.brand{display:flex;align-items:center;justify-content:space-between}
+.brand .lg{background:#fff;border-radius:16px;padding:8px 12px}.brand .lg img{height:30px;display:block}
+.brand .chip{color:#fff;font-size:12.5px;font-weight:700;border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:6px 12px}
+.hero{color:#fff;margin:22px 4px 18px}
+.hero h1{font-size:26px;line-height:1.2;font-weight:800}
+.hero p{opacity:.9;margin-top:6px;font-size:14.5px}
+.card{background:#fff;border-radius:22px;box-shadow:0 10px 30px rgba(10,63,134,.12);padding:18px}
+.lbtn{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border:2px solid var(--line);border-radius:18px;margin-top:12px;text-align:left;transition:.15s}
+.lbtn:active{transform:scale(.98)}
+.lbtn .big{font-size:22px;font-weight:800;color:var(--navy)}
+.lbtn .sm{font-size:13px;color:var(--muted)}
+.lbtn .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:20px;font-weight:800;color:#fff;flex:none}
+.lbtn .go{margin-left:auto;font-size:22px;color:var(--blue)}
+.muted{color:var(--muted)}
+.tiny{font-size:11.5px;color:var(--muted);text-align:center;margin-top:16px}
+/* category */
+#cat{background:linear-gradient(180deg,#0A3F86 0,#1173D4 30%,var(--bg) 30%)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.tile{background:#fff;border-radius:18px;padding:12px 6px 10px;text-align:center;border:2px solid transparent;box-shadow:0 4px 14px rgba(10,63,134,.08);position:relative;transition:.15s}
+.tile:active{transform:scale(.96)}
+.tile .e{font-size:30px;line-height:1.1}
+.tile .t{font-size:12.5px;font-weight:700;margin-top:6px;line-height:1.25}
+.tile.mine{border-color:var(--orange);box-shadow:0 0 0 4px rgba(247,116,14,.15),0 8px 20px rgba(247,116,14,.25);animation:glow 1.6s ease-in-out infinite}
+.tile.mine:after{content:attr(data-badge);position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;white-space:nowrap}
+@keyframes glow{50%{box-shadow:0 0 0 8px rgba(247,116,14,.05),0 8px 20px rgba(247,116,14,.3)}}
+/* demo */
+#demo{background:linear-gradient(180deg,#FFF0F5 0,#F4F7FC 45%)}
+#demo .wrap{display:flex;flex-direction:column;min-height:100%;padding-bottom:12px}
+.bars{display:flex;gap:4px;margin-bottom:12px}
+.bars i{flex:1;height:4px;border-radius:3px;background:#E8D5DD;overflow:hidden;position:relative}
+.bars i.done{background:var(--pink)}
+.bars i.now:after{content:"";position:absolute;inset:0;background:var(--pink);animation:fill 1.2s ease both}
+@keyframes fill{from{transform:translateX(-100%)}to{transform:none}}
+.stepno{font-size:11.5px;font-weight:800;color:var(--pink);letter-spacing:.5px;text-transform:uppercase}
+.dtitle{font-size:21px;font-weight:800;line-height:1.22;margin-top:2px}
+.dtext{font-size:14px;color:#3B4660;margin-top:6px;line-height:1.45}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:300px;position:relative;margin:10px 0}
+.phone-hold{position:relative;width:300px;height:620px;transform-origin:center center}
+.phone{position:absolute;inset:0;border-radius:42px;background:#0B1220;padding:11px;box-shadow:0 30px 60px rgba(18,32,61,.35),inset 0 0 0 2px #2a3550}
+.phone:before{content:"";position:absolute;top:20px;left:50%;width:76px;height:20px;border-radius:12px;background:#0B1220;transform:translateX(-50%);z-index:5}
+.scr{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#fff}
+.sb{height:34px;display:flex;justify-content:space-between;align-items:center;padding:0 22px;font-size:11px;font-weight:700;color:#fff;background:var(--navy)}
+.sb.light{background:#fff;color:var(--ink)}
+.abar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--navy);color:#fff;font-weight:700;font-size:13px}
+.abar img{height:18px;background:#fff;border-radius:6px;padding:2px 5px}
+.prompt{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:56px;padding:12px 16px;border-radius:18px;background:linear-gradient(135deg,#FF8A1F,#F05A12);color:#fff;font-weight:800;font-size:15.5px;box-shadow:0 10px 24px rgba(240,90,18,.35);animation:nudge 2.2s ease-in-out 2.5s infinite}
+.prompt .pl{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center;flex:none;font-size:12px}
+@keyframes nudge{0%,100%{transform:none}50%{transform:translateY(-3px)}}
+.subrow{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.link{font-size:13px;font-weight:700;color:var(--blue);padding:8px 4px}
+.tap{position:absolute;width:34px;height:34px;border-radius:50%;border:3px solid rgba(247,116,14,.9);background:rgba(247,116,14,.25);pointer-events:none;z-index:40;opacity:0;transform:translate(-50%,-50%) scale(.6);transition:left .45s ease,top .45s ease,opacity .2s}
+.tap.on{opacity:1;animation:press .45s ease .4s 1}
+@keyframes press{50%{transform:translate(-50%,-50%) scale(.75);background:rgba(247,116,14,.55)}}
+/* in-phone UI */
+.pad{padding:12px}
+.h{font-weight:800;font-size:15px}
+.s{font-size:11px;color:var(--muted)}
+.field{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12.5px;margin-top:6px;min-height:34px;background:#fff}
+.field.focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(17,115,212,.15)}
+.lbl{font-size:10.5px;color:var(--muted);margin-top:10px;font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.chip2{font-size:11px;font-weight:700;padding:6px 10px;border-radius:20px;background:#F1F4F9;color:#40506E;transition:.2s}
+.chip2.sel{background:var(--pink);color:#fff}
+.btn2{display:block;width:100%;text-align:center;padding:11px;border-radius:12px;background:var(--orange);color:#fff;font-weight:800;font-size:13px;margin-top:12px;transition:.15s}
+.btn2.blue{background:var(--blue)}.btn2.green{background:var(--ok)}
+.btn2.pressed{transform:scale(.96);filter:brightness(.9)}
+.cur:after{content:"|";animation:blink .8s steps(1) infinite;color:var(--blue)}
+@keyframes blink{50%{opacity:0}}
+.live{position:absolute;inset:34px 0 0;background:linear-gradient(180deg,#fff,#FFF4F8);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;opacity:0;pointer-events:none;transition:opacity .4s}
+.live.on{opacity:1}
+.qrbox{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:10px;margin-top:12px;box-shadow:0 8px 20px rgba(10,63,134,.15)}
+.qrbox img{width:120px;display:block}
+.code{font-weight:800;letter-spacing:2px;color:var(--navy);font-size:13px;margin-top:4px}
+.banner{height:92px;background:linear-gradient(120deg,#E8457C,#9C27B0);color:#fff;padding:12px;position:relative;overflow:hidden}
+.banner .n{font-weight:800;font-size:16px;line-height:1.15;max-width:75%}
+.banner .m{font-size:10.5px;opacity:.95;margin-top:4px}
+.banner .logo{position:absolute;right:10px;top:12px;width:52px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.fest{position:absolute;inset:0;background:linear-gradient(120deg,#5B1A0A,#B23A0E);display:flex;align-items:center;gap:8px;padding:10px;opacity:0;transition:opacity .5s}
+.fest.on{opacity:1}
+.fest img{height:60px}.fest b{font-size:14px;line-height:1.2}
+.cats{display:flex;gap:6px;padding:8px 10px;overflow:hidden;white-space:nowrap}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px}
+.pc{border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(18,32,61,.08);overflow:hidden;transition:.2s}
+.pc .im{height:126px;background:#F1F2F6;overflow:hidden}
+.pc .im img{width:100%;height:100%;object-fit:cover;object-position:50% 12%;display:block}
+.pc .im.ct{background:#F4F4F6}.pc .im.ct img{object-fit:contain;padding:8px}
+.pgrid{transition:opacity .16s}
+.pbody{position:absolute;left:0;right:0;top:170px;bottom:0;overflow-y:auto;padding-bottom:12px;scrollbar-width:none}
+.pbody::-webkit-scrollbar{display:none}
+.cats{overflow-x:auto;scrollbar-width:none}.cats::-webkit-scrollbar{display:none}
+.cats .chip2{cursor:pointer}
+.shim{width:70px;height:84px;border-radius:12px;overflow:hidden;background:#F1F2F6;flex:none}.shim img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}.shim.ct img{object-fit:contain}
+.sz{cursor:pointer}.sz.wide{width:auto;padding:0 12px}
+.th{width:24px;height:30px;border-radius:6px;object-fit:cover;object-position:50% 10%;vertical-align:middle;margin-right:7px}
+.line2 span{display:flex;align-items:center}
+.pc .nm{font-size:10.5px;font-weight:700;padding:5px 7px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc .pr{display:flex;align-items:center;justify-content:space-between;padding:2px 7px 7px}
+.pc .pr b{font-size:11.5px}.pc .pr s{font-size:9.5px;color:var(--muted);margin-left:3px}
+.pc .add{font-size:9.5px;font-weight:800;color:var(--ok);border:1.5px solid var(--ok);border-radius:7px;padding:2px 7px}
+.pc.hl{transform:scale(1.04);box-shadow:0 0 0 2px var(--pink),0 8px 18px rgba(232,69,124,.3)}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.2);padding:14px;transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.9,.3,1)}
+.sheet.on{transform:none}
+.dim{position:absolute;inset:0;background:rgba(10,20,40,.35);opacity:0;transition:.3s;pointer-events:none}
+.dim.on{opacity:1}
+.sizes{display:flex;gap:7px;margin-top:8px}
+.sz{width:40px;height:34px;border-radius:9px;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:800;font-size:12px;transition:.2s}
+.sz.sel{border-color:var(--pink);background:#FDE7EF;color:var(--pink)}
+.sz.out{color:#B9C0CF;text-decoration:line-through;background:#F6F7FA}
+.badge{display:inline-block;font-size:9.5px;font-weight:800;border-radius:7px;padding:2px 7px;background:var(--okSoft);color:var(--ok)}
+.badge.o{background:var(--orangeSoft);color:var(--orangeInk)}.badge.b{background:var(--blueSoft);color:var(--navy)}.badge.p{background:#FDE7EF;color:var(--pink)}
+.row{display:flex;align-items:center;gap:8px}
+.shop{display:flex;gap:9px;align-items:center;padding:9px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(18,32,61,.07);margin:7px 10px;transition:.3s}
+.shop .av{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:19px;flex:none}
+.shop.me{box-shadow:0 0 0 2px var(--pink),0 6px 16px rgba(232,69,124,.25)}
+.shop.dimd{opacity:.45}
+.line2{display:flex;justify-content:space-between;font-size:11.5px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.notif{position:absolute;left:8px;right:8px;top:-90px;background:rgba(255,255,255,.97);border-radius:16px;padding:10px;box-shadow:0 12px 30px rgba(0,0,0,.28);display:flex;gap:9px;align-items:center;z-index:30;transition:top .45s cubic-bezier(.2,.9,.3,1.3)}
+.notif.on{top:42px}
+.notif img{width:34px;height:34px;border-radius:9px}
+.notif b{font-size:11.5px;display:block}.notif span{font-size:10.5px;color:var(--muted)}
+.steps3{display:flex;justify-content:space-between;margin:10px 4px}
+.st3{flex:1;text-align:center;font-size:9.5px;color:#9AA3B5;font-weight:700;position:relative}
+.st3 i{display:block;width:22px;height:22px;border-radius:50%;margin:0 auto 4px;background:#E6EAF2;font-style:normal;line-height:22px;font-size:11px;transition:.3s}
+.st3.on{color:var(--ok)}.st3.on i{background:var(--ok);color:#fff}
+.map{position:relative;height:170px;margin:8px 10px;border-radius:14px;overflow:hidden;background:#E8F0E3}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map .rd{position:absolute;width:62px;transition:left 3s linear,top 3s linear;z-index:3}
+.pin{position:absolute;font-size:22px;transform:translate(-50%,-90%)}
+.big{font-size:30px;font-weight:800}
+.cbar{height:16px;border-radius:8px;background:#EEF1F6;overflow:hidden;margin-top:4px}
+.cbar i{display:block;height:100%;width:0;border-radius:8px;transition:width 1.2s ease}
+.slip{width:150px;margin:0 auto;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.18);font-family:monospace;font-size:9.5px;padding:0 10px;height:0;overflow:hidden;transition:height 1.6s ease,padding 1.6s}
+.slip.on{height:150px;padding:8px 10px}
+.printer{width:180px;height:30px;margin:6px auto 0;border-radius:8px 8px 4px 4px;background:linear-gradient(#37474F,#263238);position:relative}
+.printer:after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:4px;border-radius:2px;background:#111}
+.toast2{position:absolute;left:10px;right:10px;bottom:12px;background:var(--ink);color:#fff;border-radius:12px;padding:9px 11px;font-size:11px;font-weight:600;opacity:0;transform:translateY(20px);transition:.4s;z-index:20}
+.toast2.on{opacity:1;transform:none}
+.chart{display:flex;align-items:flex-end;gap:7px;height:110px;padding:8px 6px 0;border-bottom:1px solid var(--line)}
+.chart i{flex:1;border-radius:6px 6px 0 0;background:linear-gradient(var(--pink),#F48FB1);height:0;transition:height 1s ease}
+.chart i.t{background:linear-gradient(var(--orange),#FFB74D)}
+.days{display:flex;gap:7px;padding:3px 6px;font-size:9px;color:var(--muted)}.days span{flex:1;text-align:center}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+.kpi div{background:#fff;border-radius:12px;padding:9px;box-shadow:0 2px 8px rgba(18,32,61,.07)}
+.kpi b{display:block;font-size:17px}.kpi span{font-size:10px;color:var(--muted)}
+.stars{color:#FFB300;font-size:13px;letter-spacing:1px}
+.dl{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;width:100%;min-height:52px;margin-top:10px;padding:8px 16px;border-radius:16px;background:#0B0F19;color:#fff;box-shadow:0 8px 20px rgba(11,15,25,.28);border:2px solid #2E3446;animation:dlGlow 2.4s ease-in-out infinite}
+.dl:active{transform:scale(.98)}
+.dl .dlx{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+.dl small{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;opacity:.75;font-weight:600}
+.dl b{font-size:15.5px;font-weight:800}
+.dl .dla{margin-left:auto;width:32px;height:32px;border-radius:50%;background:#16955B;display:grid;place-items:center;font-size:15px;animation:dlBounce 1.4s ease-in-out infinite}
+.dl:after,.shine:after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:dlShine 3s ease-in-out 1s infinite}
+.shine{position:relative;overflow:hidden}
+#cat .dl{margin-top:16px}
+@keyframes dlShine{0%{left:-80px}45%,100%{left:110%}}
+@keyframes dlBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@keyframes dlGlow{0%,100%{border-color:#2E3446}50%{border-color:#16955B}}
+/* offer page */
+#offer{background:var(--bg)}
+.ohero{background:radial-gradient(circle at 80% 0,#E8457C55,transparent 50%),linear-gradient(160deg,#0A3F86,#1173D4);color:#fff;border-radius:0 0 30px 30px;padding:18px 18px 26px}
+.ohero h2{font-size:24px;line-height:1.2;margin-top:18px;font-weight:800}
+.ohero p{opacity:.92;font-size:14px;margin-top:6px}
+.sec{margin-top:18px}
+.sec h3{font-size:17px;font-weight:800;margin:0 4px 10px}
+.ben{display:grid;grid-template-columns:1fr;gap:8px}
+.ben div{background:#fff;border-radius:14px;padding:11px 13px;font-size:14px;font-weight:600;box-shadow:0 3px 10px rgba(10,63,134,.06)}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 3px 10px rgba(10,63,134,.06);font-size:12.5px}
+.cmp th,.cmp td{padding:10px 8px;text-align:left;border-bottom:1px solid var(--line)}
+.cmp th{background:#F1F4F9;font-size:11.5px}
+.cmp td.g{color:var(--ok);font-weight:700}.cmp td.r{color:#C62828}
+.festcard{position:relative;border-radius:22px;padding:16px;color:#fff;background:linear-gradient(135deg,#5B1A0A,#9C2F0B 60%,#3B1258);border:1.5px solid rgba(255,201,77,.6);box-shadow:0 12px 30px rgba(255,138,31,.3);overflow:hidden}
+.festcard img{height:70px;float:right;margin:-4px -6px 0 6px}
+.festcard .pc2{font-size:40px;font-weight:900;line-height:1;background:linear-gradient(90deg,#FFF3B0,#FFC94D,#FF9A1F);-webkit-background-clip:text;background-clip:text;color:transparent}
+.festcard .pr2{display:flex;align-items:center;gap:10px;margin-top:10px;clear:both}
+.festcard s{opacity:.75;font-size:17px;font-weight:700}
+.festcard .now{background:#FFC94D;color:#5B1A0A;font-weight:900;font-size:24px;border-radius:12px;padding:3px 12px}
+.cd{display:flex;gap:6px;margin-top:12px}
+.cd div{flex:1;text-align:center;background:rgba(0,0,0,.25);border-radius:10px;padding:5px 0;font-weight:800;font-size:18px;line-height:1.1}
+.cd span{display:block;font-size:9.5px;font-weight:600;opacity:.75}
+.plans{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.plan{background:#fff;border-radius:16px;padding:12px 8px;text-align:center;box-shadow:0 3px 10px rgba(10,63,134,.06);border:2px solid transparent;position:relative}
+.plan.best{border-color:var(--orange)}
+.plan .m{font-size:12px;font-weight:700;color:var(--muted)}
+.plan .p{font-size:18px;font-weight:800;margin-top:4px}
+.plan s{font-size:11px;color:var(--muted)}
+.plan .d{font-size:10.5px;color:var(--ok);font-weight:700;margin-top:2px}
+.plan .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:9px;white-space:nowrap}
+.trial{background:var(--okSoft);color:var(--ok);font-weight:800;border-radius:14px;padding:11px 13px;font-size:14px;margin-bottom:10px;text-align:center}
+.support{background:#fff;border-radius:22px;padding:16px;display:flex;gap:12px;align-items:center;box-shadow:0 6px 18px rgba(10,63,134,.08)}
+.support img{width:96px;flex:none}
+.support b{font-size:16px;display:block}.support p{font-size:13px;color:#3B4660;margin-top:4px;line-height:1.4}
+.ctas{display:grid;gap:10px}
+.cta{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;border-radius:16px;font-weight:800;font-size:15.5px;color:#fff}
+.cta.call{background:var(--blue)}.cta.wa{background:#1FAF5A}.cta.setup{background:linear-gradient(135deg,#FF8A1F,#F05A12)}
+.cta.play{background:#000;border:2px solid #9aa0a6}
+.cta.play small{display:block;font-size:9px;letter-spacing:1px;font-weight:600;line-height:1}
+video{width:100%;border-radius:18px;background:#000;display:block}
+.ovid{margin-bottom:12px}.ovid iframe{width:100%;aspect-ratio:9/16;max-height:80vh;border:0;border-radius:18px;background:#000;display:block}
+.foot{text-align:center;font-size:11.5px;color:var(--muted);margin:22px 0 70px}
+.foot img{height:22px;vertical-align:middle;margin-left:4px}
+.fab{position:fixed;right:14px;bottom:14px;display:flex;flex-direction:column;gap:10px;z-index:50}
+.fab a{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:22px;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.sheetM{position:fixed;inset:0;background:rgba(10,20,40,.45);display:none;align-items:flex-end;z-index:60}
+.sheetM.on{display:flex}
+.sheetM .in{background:#fff;width:100%;max-width:520px;margin:0 auto;border-radius:24px 24px 0 0;padding:20px;animation:fadeIn .3s both}
+@media (min-width:900px){
+  #demo .wrap{max-width:1000px;display:grid;grid-template-columns:1fr 340px;grid-template-rows:auto auto 1fr auto;column-gap:40px}
+  #demo .bars,#demo .stepno,#demo .dtitle,#demo .dtext,#demo .ctrl{grid-column:1}
+  #demo .stage{grid-column:2;grid-row:1/5}
+  .dtitle{font-size:30px}.dtext{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. splash -->
+<section id="splash" class="screen on">
+  <div class="lg"><img src="logo3d.webp" alt="DigiCart"></div>
+  <img class="rider" src="rider.webp" alt="">
+  <p>Shop Smart · Deliver Fast</p>
+</section>
+
+<!-- 2. language -->
+<section id="lang" class="screen">
+  <div class="wrap">
+    <div class="brand"><div class="lg"><img src="logo3d.webp" alt="DigiCart"></div><span class="chip">🎬 Live demo</span></div>
+    <div class="hero">
+      <h1 id="hello">See your shop live on DigiCart</h1>
+      <p>Choose your language · ನಿಮ್ಮ ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಿ · अपनी भाषा चुनें</p>
+    </div>
+    <div class="card">
+      <button class="lbtn" data-lang="kn"><span class="ic" style="background:#E8457C">ಅ</span><span><span class="big">ಕನ್ನಡ</span><br><span class="sm">Kannada</span></span><span class="go">›</span></button>
+      <button class="lbtn" data-lang="en"><span class="ic" style="background:#1173D4">A</span><span><span class="big">English</span><br><span class="sm">English</span></span><span class="go">›</span></button>
+      <button class="lbtn" data-lang="hi"><span class="ic" style="background:#F7740E">अ</span><span><span class="big">हिंदी</span><br><span class="sm">Hindi</span></span><span class="go">›</span></button>
+    </div>
+    <p class="tiny">DigiCart by DigiFactory Labs, Bengaluru · 📞 <span id="langPh">95353 88375</span></p>
+  </div>
+</section>
+
+<!-- 3. category -->
+<section id="cat" class="screen">
+  <div class="wrap">
+    <div class="brand"><div class="lg"><img src="logo3d.webp" alt="DigiCart"></div><button class="chip" id="chLang">🌐</button></div>
+    <div class="hero"><h1 id="catHi"></h1><p id="catSub"></p></div>
+    <div class="grid" id="catGrid"></div>
+    <a class="dl" data-act="play" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 40 44" width="24" height="26" aria-hidden="true"><path d="M3 2 L23 22 L3 42 Z" fill="#2196f3"/><path d="M3 2 L30 17 L23 22 Z" fill="#00c853"/><path d="M3 42 L23 22 L30 27 Z" fill="#ff3d00"/><path d="M30 17 L38 22 L30 27 L23 22 Z" fill="#ffc400"/></svg><span class="dlx"><small class="dlS">Free on Google Play</small><b class="dlT">Download DigiCart</b></span><span class="dla">⬇</span></a>
+    <p class="tiny" id="catNote"></p>
+  </div>
+</section>
+
+<!-- 4. demo -->
+<section id="demo" class="screen">
+  <div class="wrap">
+    <div class="bars" id="bars"></div>
+    <div class="stepno" id="stepNo"></div>
+    <div class="dtitle" id="dTitle"></div>
+    <div class="dtext" id="dText"></div>
+    <div class="stage" id="stage"><div class="phone-hold" id="hold"><div class="phone"><div class="scr" id="scr"></div></div><div class="tap" id="tap"></div></div></div>
+    <div class="ctrl">
+      <button class="prompt" id="next"><span class="pl">▶</span><span id="nextT"></span></button>
+      <a class="dl" data-act="play" target="_blank" rel="noopener" href="#"><svg viewBox="0 0 40 44" width="24" height="26" aria-hidden="true"><path d="M3 2 L23 22 L3 42 Z" fill="#2196f3"/><path d="M3 2 L30 17 L23 22 Z" fill="#00c853"/><path d="M3 42 L23 22 L30 27 Z" fill="#ff3d00"/><path d="M30 17 L38 22 L30 27 L23 22 Z" fill="#ffc400"/></svg><span class="dlx"><small class="dlS">Free on Google Play</small><b class="dlT">Download DigiCart</b></span><span class="dla">⬇</span></a>
+      <div class="subrow"><button class="link" id="back"></button><button class="link" id="replay"></button><button class="link" id="skip"></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. offer -->
+<section id="offer" class="screen">
+  <div class="ohero">
+    <div class="brand"><div class="lg"><img src="logo3d.webp" alt="DigiCart"></div><button class="chip" id="again"></button></div>
+    <h2 id="oH"></h2><p id="oP"></p>
+  </div>
+  <div class="wrap" style="padding-top:4px">
+    <div class="sec" id="festSec"></div>
+    <div class="sec"><h3 id="whyH"></h3><div class="ben" id="ben"></div></div>
+    <div class="sec"><h3 id="cmpH"></h3><table class="cmp" id="cmp"></table></div>
+    <div class="sec"><h3 id="planH"></h3><div class="trial" id="trial"></div><div class="plans" id="plans"></div><p class="tiny" id="planNote"></p></div>
+    <div class="sec"><div class="support"><img src="shopowner.webp" alt=""><div><b id="supH"></b><p id="supP"></p></div></div></div>
+    <div class="sec ctas">
+      <a class="cta setup" id="ctaSetup" data-act="setup" target="_blank" rel="noopener"></a>
+      <a class="cta call" id="ctaCall" data-act="call" href="tel:+919535388375"></a>
+      <a class="cta wa" id="ctaWa" data-act="whatsapp" target="_blank" rel="noopener"></a>
+      <a class="cta play shine" id="ctaPlay" data-act="play" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart">
+        <svg viewBox="0 0 40 44" width="26" height="28"><path d="M3 2 L23 22 L3 42 Z" fill="#2196f3"/><path d="M3 2 L30 17 L23 22 Z" fill="#00c853"/><path d="M3 42 L23 22 L30 27 Z" fill="#ff3d00"/><path d="M30 17 L38 22 L30 27 L23 22 Z" fill="#ffc400"/></svg>
+        <span style="text-align:left"><small>GET IT ON</small>Google Play</span></a>
+    </div>
+    <div class="sec" id="vidSec"><h3 id="vidH"></h3><div id="ownVids"></div><video id="vid" controls playsinline preload="none"></video></div>
+    <div class="foot">DigiCart · Made in Bengaluru by<img src="digifactory.png" alt="DigiFactory Labs"><br><span id="privacy"></span></div>
+  </div>
+</section>
+
+<div class="fab" id="fab" style="display:none">
+  <a href="https://wa.me/919535388375" data-act="whatsapp" target="_blank" rel="noopener" style="background:#1FAF5A" aria-label="WhatsApp">💬</a>
+</div>
+<div class="sheetM" id="soon"><div class="in"><div style="font-size:34px" id="soonE"></div><h3 style="margin-top:6px" id="soonH"></h3><p class="muted" style="margin-top:6px;font-size:14px" id="soonP"></p>
+  <div class="ctas" style="margin-top:14px"><a class="cta call" data-act="call" href="tel:+919535388375" id="soonCall"></a><button class="link" id="soonX" style="text-align:center"></button></div></div></div>
+
+<script>
+'use strict';
+/* ------------------------------------------------------------------ data */
+const CFG = window.PROMO || {};
+let PHONE = String(CFG.PHONE || '9535388375'), PLAY = CFG.PLAY_URL || 'https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart';
+const phTxt = () => PHONE.slice(0, 5) + ' ' + PHONE.slice(5);
+const ph = (s) => String(s).replace(/\{PH\}/g, phTxt());
+const Q = new URLSearchParams(location.search);
+const REF = (Q.get('r') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const LINK_CAT = (Q.get('c') || '').toLowerCase();
+const S = { lang: '', name: '', area: '', cat: LINK_CAT, dcat: 'fashion', own: [], step: 0, videos: [], owner: (window.PROMO && PROMO.OWNER) || 'Pradeep',
+  festival: { enabled: true, title: 'Diwali offer', pct: 40, until: '2026-11-20', plans: ['plan-12m'] },
+  plans: [{ id: 'plan-3m', months: 3, price: 1529 }, { id: 'plan-6m', months: 6, price: 3529 }, { id: 'plan-12m', months: 12, price: 6429 }],
+  trialDays: 15 };
+
+const CATS = [
+  ['grocery', '🥬', 'Grocery & daily needs', 'ದಿನಸಿ ಮತ್ತು ದಿನಬಳಕೆ', 'ग्रॉसरी और रोज़ का सामान'],
+  ['vegetables', '🍎', 'Fruits & vegetables', 'ಹಣ್ಣು ಮತ್ತು ತರಕಾರಿ', 'फल और सब्ज़ियां'],
+  ['supermart', '🛒', 'Supermarket', 'ಸೂಪರ್ ಮಾರ್ಟ್', 'सुपर मार्ट'],
+  ['fashion', '👗', 'Fashion & clothing', 'ಫ್ಯಾಷನ್ ಮತ್ತು ಬಟ್ಟೆ', 'फैशन और कपड़े'],
+  ['electronics', '📺', 'Electronics & appliances', 'ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಮತ್ತು ಗೃಹೋಪಕರಣ', 'इलेक्ट्रॉनिक्स और अप्लायंसेज़'],
+  ['gifts', '🎁', 'Gifts & fancy', 'ಗಿಫ್ಟ್ ಮತ್ತು ಫ್ಯಾನ್ಸಿ', 'गिफ्ट और फैंसी'],
+  ['kirana', '🏪', 'Kirana store', 'ಕಿರಾಣಿ ಅಂಗಡಿ', 'किराना स्टोर'],
+  ['footwear', '👟', 'Footwear', 'ಪಾದರಕ್ಷೆ', 'फुटवियर'],
+  ['laundry', '🧺', 'Laundry & dry clean', 'ಲಾಂಡ್ರಿ ಮತ್ತು ಡ್ರೈ ಕ್ಲೀನ್', 'लॉन्ड्री और ड्राई क्लीन'],
+  ['hardware', '🔧', 'Electrical & hardware', 'ಎಲೆಕ್ಟ್ರಿಕಲ್ ಮತ್ತು ಹಾರ್ಡ್‌ವೇರ್', 'इलेक्ट्रिकल और हार्डवेयर'],
+];
+const READY = ['fashion', 'grocery', 'vegetables', 'supermart', 'electronics', 'gifts', 'kirana', 'footwear', 'laundry', 'hardware'];
+
+const T = {
+  en: {
+    hi: (n) => n ? `Hello, ${n}! 👋` : 'Hello! 👋', catSub: 'What does your shop sell? Tap to see it live in DigiCart.',
+    yours: 'Your shop', catNote: 'Tap your category. The demo opens instantly. No app needed.',
+    step: (i, n) => `Step ${i} of ${n}`, back: '‹ Back', replay: '↻ Replay', skip: 'Skip to offer ›',
+    steps: [
+      ['Your shop goes online in 10 minutes', 'Choose Fashion, type your shop name, done. You get your own online shop and a QR code for your counter.', 'Show my shop’s collection'],
+      ['Your whole collection, every size', 'Shirts, kurtis, sarees, jeans, kids wear, footwear. Stock is kept size by size, and sold-out sizes are struck out automatically. Add items in seconds from 50+ ready pictures.', 'How do customers find me?'],
+      ['Customers nearby find you and order', 'People in your delivery area see your shop in “Shops near you”, pick what they need and order in a few taps.', 'What happens when an order comes?'],
+      ['The order rings on your phone', 'Accept, pack, and your own delivery boy takes it. The customer tracks it live, and an OTP confirms delivery.', 'How do I get paid?'],
+      ['Money straight to you. Zero commission.', 'Customers pay by UPI, online or cash on delivery, directly to your account. DigiCart never takes a cut of your sales.', 'Can I bill at the counter too?'],
+      ['Counter billing and stock, together', 'Scan or tap items, print a small receipt, GST is added automatically. Every sale, in shop or online, updates your stock.', 'How do I bring customers back?'],
+      ['Bring customers back again and again', 'Put up festival offers, send “New collection arrived” to all your customers, and collect 5-star reviews.', 'Show my business report'],
+      ['Know your business every day', 'Today’s sales, best-selling items, GST register and invoices, all on your phone.', 'See plans & offer'],
+    ],
+    oH: (n) => `${n || 'Your shop'}, online in 10 minutes`, oP: 'Everything your shop needs to sell online and in-store. One app. Zero commission.',
+    again: '↻ Watch again', whyH: 'Why shop owners choose DigiCart',
+    ben: ['🛒 Your own online shop + QR code', '📍 Customers in your delivery area find you', '💸 Zero commission: every rupee is yours', '📦 Every item and its stock in one place', '🧾 Counter billing, receipt printer, GST invoices', '🪔 Festival offers & messages to your customers', '🛵 Your own delivery boy, live tracking', '🤝 Free setup and local support'],
+    cmpH: 'DigiCart vs big marketplaces', cmpCols: ['', 'Big apps', 'DigiCart'],
+    cmp: [['Commission per order', '20–30%', '₹0'], ['Customers belong to', 'Them', 'You'], ['Your prices', 'They push discounts', 'You decide'], ['Payment', 'After days', 'Straight to you']],
+    planH: 'Simple plans', trial: (d) => `🎁 First ${d} days FREE. No payment to start.`, m3: '3 months', m6: '6 months', m12: '1 year',
+    perDay: (x) => `≈ ₹${x}/day`, best: 'Best value', kit: '+ free delivery kit',
+    planNote: 'Paid securely via Google Play. Cancel any time.',
+    festH: (f) => `🪔 ${f.title}: ${f.pct}% OFF the yearly plan`, festT: (d) => `Ends ${d}. Free delivery kit (T-shirt, bag & covers) included.`,
+    cd: ['days', 'hrs', 'min', 'sec'],
+    supH: 'Don’t worry about setup', supP: `DigiCart support is just a call or text away. We set up your shop, add your products and teach you, free. 📞 {PH}`,
+    setup: '🙋 Book my free setup', call: `📞 Call {PH}`, wa: '💬 WhatsApp us',
+    setupMsg: (n) => `Hi ${S.owner}, I saw the DigiCart demo. Please set up DigiCart for my shop${n ? ' ' + n : ''}.`,
+    vidH: '🎬 Watch the 1-minute video', privacy: 'We see when this page is opened, so we can help you set up.',
+    soonH: 'Demo coming very soon', soonP: 'DigiCart already works for this kind of shop. Call us and we’ll show you on your phone.', close: 'Close',
+    fallbackShop: 'Your Fashion Store', dlT: 'Download DigiCart', dlS: 'Free on Google Play',
+  },
+  kn: {
+    hi: (n) => n ? `ನಮಸ್ಕಾರ, ${n}! 👋` : 'ನಮಸ್ಕಾರ! 👋', catSub: 'ನಿಮ್ಮ ಅಂಗಡಿಯಲ್ಲಿ ಏನು ಮಾರಾಟ ಮಾಡುತ್ತೀರಿ? DigiCart‌ನಲ್ಲಿ ಲೈವ್ ಆಗಿ ನೋಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ.',
+    yours: 'ನಿಮ್ಮ ಅಂಗಡಿ', catNote: 'ನಿಮ್ಮ ವಿಭಾಗದ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಿ. ಡೆಮೋ ತಕ್ಷಣ ತೆರೆಯುತ್ತದೆ. ಆ್ಯಪ್ ಬೇಕಿಲ್ಲ.',
+    step: (i, n) => `ಹಂತ ${i} / ${n}`, back: '‹ ಹಿಂದೆ', replay: '↻ ಮತ್ತೆ ನೋಡಿ', skip: 'ಆಫರ್ ನೋಡಿ ›',
+    steps: [
+      ['10 ನಿಮಿಷದಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ಆನ್‌ಲೈನ್', 'Fashion ಆಯ್ಕೆ ಮಾಡಿ, ಅಂಗಡಿಯ ಹೆಸರು ಹಾಕಿ, ಮುಗಿಯಿತು. ನಿಮ್ಮದೇ ಆನ್‌ಲೈನ್ ಅಂಗಡಿ ಮತ್ತು ಕೌಂಟರ್‌ಗೆ QR ಕೋಡ್ ಸಿಗುತ್ತದೆ.', 'ನನ್ನ ಅಂಗಡಿಯ ಕಲೆಕ್ಷನ್ ತೋರಿಸಿ'],
+      ['ನಿಮ್ಮ ಪೂರ್ತಿ ಕಲೆಕ್ಷನ್, ಎಲ್ಲಾ ಸೈಜ್‌ಗಳೊಂದಿಗೆ', 'ಶರ್ಟ್, ಕುರ್ತಿ, ಸೀರೆ, ಜೀನ್ಸ್, ಮಕ್ಕಳ ಉಡುಪು, ಚಪ್ಪಲಿ. ಪ್ರತಿ ಸೈಜ್‌ಗೆ ಪ್ರತ್ಯೇಕ ಸ್ಟಾಕ್; ಮುಗಿದ ಸೈಜ್ ತಾನಾಗಿಯೇ "Sold out" ಆಗುತ್ತದೆ. 50+ ರೆಡಿ ಫೋಟೋಗಳಿಂದ ಐಟಂ ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಸೇರಿಸಿ.', 'ಗ್ರಾಹಕರು ನನ್ನನ್ನು ಹೇಗೆ ಹುಡುಕುತ್ತಾರೆ?'],
+      ['ಹತ್ತಿರದ ಗ್ರಾಹಕರು ನಿಮ್ಮನ್ನು ಹುಡುಕಿ ಆರ್ಡರ್ ಮಾಡುತ್ತಾರೆ', 'ನಿಮ್ಮ ಡೆಲಿವರಿ ಪ್ರದೇಶದ ಜನರು "Shops near you"ನಲ್ಲಿ ನಿಮ್ಮ ಅಂಗಡಿ ನೋಡುತ್ತಾರೆ, ಬೇಕಾದ್ದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ ಕೆಲವೇ ಟ್ಯಾಪ್‌ಗಳಲ್ಲಿ ಆರ್ಡರ್ ಮಾಡುತ್ತಾರೆ.', 'ಆರ್ಡರ್ ಬಂದಾಗ ಏನಾಗುತ್ತದೆ?'],
+      ['ಆರ್ಡರ್ ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಬರುತ್ತದೆ', 'ಒಪ್ಪಿಕೊಳ್ಳಿ, ಪ್ಯಾಕ್ ಮಾಡಿ; ನಿಮ್ಮದೇ ಡೆಲಿವರಿ ಹುಡುಗ ತಲುಪಿಸುತ್ತಾನೆ. ಗ್ರಾಹಕರು ಡೆಲಿವರಿಯನ್ನು ಲೈವ್ ಆಗಿ ನೋಡುತ್ತಾರೆ; OTP ಮೂಲಕ ಖಚಿತ.', 'ಹಣ ನನಗೆ ಹೇಗೆ ಬರುತ್ತದೆ?'],
+      ['ಹಣ ನೇರವಾಗಿ ನಿಮಗೆ. ಯಾವುದೇ ಕಮಿಷನ್ ಇಲ್ಲ.', 'ಗ್ರಾಹಕರು UPI, ಆನ್‌ಲೈನ್ ಅಥವಾ ಕ್ಯಾಶ್ ಆನ್ ಡೆಲಿವರಿ ಮೂಲಕ ನೇರವಾಗಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಪಾವತಿಸುತ್ತಾರೆ. DigiCart ನಿಮ್ಮ ಮಾರಾಟದಿಂದ ಒಂದು ರೂಪಾಯಿಯೂ ತೆಗೆದುಕೊಳ್ಳುವುದಿಲ್ಲ.', 'ಕೌಂಟರ್‌ನಲ್ಲೂ ಬಿಲ್ ಮಾಡಬಹುದೇ?'],
+      ['ಕೌಂಟರ್ ಬಿಲ್ಲಿಂಗ್ ಮತ್ತು ಸ್ಟಾಕ್ ಒಟ್ಟಿಗೆ', 'ಸ್ಕ್ಯಾನ್ ಅಥವಾ ಟ್ಯಾಪ್ ಮಾಡಿ, ಸಣ್ಣ ರಸೀದಿ ಪ್ರಿಂಟ್ ಮಾಡಿ; GST ತಾನಾಗಿಯೇ ಸೇರುತ್ತದೆ. ಅಂಗಡಿಯಲ್ಲಿ ಅಥವಾ ಆನ್‌ಲೈನ್, ಪ್ರತಿ ಮಾರಾಟದಲ್ಲೂ ಸ್ಟಾಕ್ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತದೆ.', 'ಗ್ರಾಹಕರನ್ನು ಮತ್ತೆ ಹೇಗೆ ಕರೆತರುವುದು?'],
+      ['ಗ್ರಾಹಕರು ಮತ್ತೆ ಮತ್ತೆ ಬರುತ್ತಾರೆ', 'ಹಬ್ಬದ ಆಫರ್ ಹಾಕಿ, "ಹೊಸ ಕಲೆಕ್ಷನ್ ಬಂದಿದೆ" ಎಂದು ಎಲ್ಲಾ ಗ್ರಾಹಕರಿಗೆ ಮೆಸೇಜ್ ಕಳುಹಿಸಿ, 5-ಸ್ಟಾರ್ ರಿವ್ಯೂ ಪಡೆಯಿರಿ.', 'ನನ್ನ ವ್ಯಾಪಾರ ವರದಿ ತೋರಿಸಿ'],
+      ['ಪ್ರತಿದಿನ ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಲೆಕ್ಕ', 'ಇಂದಿನ ಮಾರಾಟ, ಹೆಚ್ಚು ಮಾರಾಟವಾಗುವ ಐಟಂಗಳು, GST ರಿಜಿಸ್ಟರ್ ಮತ್ತು ಇನ್‌ವಾಯ್ಸ್‌ಗಳು, ಎಲ್ಲವೂ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ.', 'ಪ್ಲಾನ್ ಮತ್ತು ಆಫರ್ ನೋಡಿ'],
+    ],
+    oH: (n) => `${n || 'ನಿಮ್ಮ ಅಂಗಡಿ'}, 10 ನಿಮಿಷದಲ್ಲಿ ಆನ್‌ಲೈನ್`, oP: 'ಆನ್‌ಲೈನ್ ಮತ್ತು ಅಂಗಡಿಯಲ್ಲಿ ಮಾರಾಟಕ್ಕೆ ಬೇಕಾದ ಎಲ್ಲವೂ. ಒಂದೇ ಆ್ಯಪ್. ಕಮಿಷನ್ ಇಲ್ಲ.',
+    again: '↻ ಮತ್ತೆ ನೋಡಿ', whyH: 'ಅಂಗಡಿ ಮಾಲೀಕರು DigiCart ಏಕೆ ಆಯ್ಕೆ ಮಾಡುತ್ತಾರೆ',
+    ben: ['🛒 ನಿಮ್ಮದೇ ಆನ್‌ಲೈನ್ ಅಂಗಡಿ + QR ಕೋಡ್', '📍 ನಿಮ್ಮ ಡೆಲಿವರಿ ಪ್ರದೇಶದ ಗ್ರಾಹಕರು ನಿಮ್ಮನ್ನು ಹುಡುಕುತ್ತಾರೆ', '💸 ಕಮಿಷನ್ ಇಲ್ಲ: ಪ್ರತಿ ರೂಪಾಯಿ ನಿಮ್ಮದೇ', '📦 ಪ್ರತಿ ಐಟಂ ಮತ್ತು ಅದರ ಸ್ಟಾಕ್ ಒಂದೇ ಕಡೆ', '🧾 ಕೌಂಟರ್ ಬಿಲ್ಲಿಂಗ್, ರಸೀದಿ ಪ್ರಿಂಟರ್, GST ಇನ್‌ವಾಯ್ಸ್', '🪔 ಹಬ್ಬದ ಆಫರ್ ಮತ್ತು ಗ್ರಾಹಕರಿಗೆ ಮೆಸೇಜ್', '🛵 ನಿಮ್ಮದೇ ಡೆಲಿವರಿ ಹುಡುಗ, ಲೈವ್ ಟ್ರ್ಯಾಕಿಂಗ್', '🤝 ಉಚಿತ ಸೆಟಪ್ ಮತ್ತು ಸ್ಥಳೀಯ ಸಹಾಯ'],
+    cmpH: 'DigiCart ಮತ್ತು ದೊಡ್ಡ ಆ್ಯಪ್‌ಗಳು', cmpCols: ['', 'ದೊಡ್ಡ ಆ್ಯಪ್‌ಗಳು', 'DigiCart'],
+    cmp: [['ಪ್ರತಿ ಆರ್ಡರ್‌ಗೆ ಕಮಿಷನ್', '20–30%', '₹0'], ['ಗ್ರಾಹಕರು ಯಾರವರು', 'ಅವರದು', 'ನಿಮ್ಮದು'], ['ನಿಮ್ಮ ಬೆಲೆ', 'ಅವರು ನಿರ್ಧರಿಸುತ್ತಾರೆ', 'ನೀವೇ ನಿರ್ಧರಿಸಿ'], ['ಹಣ', 'ಕೆಲವು ದಿನಗಳ ನಂತರ', 'ನೇರವಾಗಿ ನಿಮಗೆ']],
+    planH: 'ಸರಳ ಪ್ಲಾನ್‌ಗಳು', trial: (d) => `🎁 ಮೊದಲ ${d} ದಿನ ಉಚಿತ. ಪ್ರಾರಂಭಿಸಲು ಹಣ ಬೇಕಿಲ್ಲ.`, m3: '3 ತಿಂಗಳು', m6: '6 ತಿಂಗಳು', m12: '1 ವರ್ಷ',
+    perDay: (x) => `≈ ದಿನಕ್ಕೆ ₹${x}`, best: 'ಅತ್ಯುತ್ತಮ', kit: '+ ಉಚಿತ ಡೆಲಿವರಿ ಕಿಟ್',
+    planNote: 'Google Play ಮೂಲಕ ಸುರಕ್ಷಿತ ಪಾವತಿ. ಯಾವಾಗ ಬೇಕಾದರೂ ರದ್ದು ಮಾಡಬಹುದು.',
+    festH: (f) => `🪔 ${f.title}: ವಾರ್ಷಿಕ ಪ್ಲಾನ್ ಮೇಲೆ ${f.pct}% ರಿಯಾಯಿತಿ`, festT: (d) => `${d}ರವರೆಗೆ ಮಾತ್ರ. ಡೆಲಿವರಿ ಕಿಟ್ (ಟಿ-ಶರ್ಟ್, ಬ್ಯಾಗ್, ಕವರ್) ಉಚಿತ.`,
+    cd: ['ದಿನ', 'ಗಂಟೆ', 'ನಿಮಿಷ', 'ಸೆಕೆಂಡ್'],
+    supH: 'ಸೆಟಪ್ ಬಗ್ಗೆ ಚಿಂತೆ ಬೇಡ', supP: `DigiCart ಸಹಾಯ ಒಂದು ಕರೆ ಅಥವಾ ಮೆಸೇಜ್ ದೂರದಲ್ಲಿದೆ. ನಿಮ್ಮ ಅಂಗಡಿ ಸೆಟಪ್, ಉತ್ಪನ್ನಗಳ ಸೇರ್ಪಡೆ ಮತ್ತು ತರಬೇತಿ, ಎಲ್ಲವೂ ಉಚಿತ. 📞 {PH}`,
+    setup: '🙋 ಉಚಿತ ಸೆಟಪ್ ಬುಕ್ ಮಾಡಿ', call: `📞 ಕರೆ ಮಾಡಿ {PH}`, wa: '💬 WhatsApp ಮಾಡಿ',
+    setupMsg: (n) => `ನಮಸ್ಕಾರ ${S.owner}, ನಾನು DigiCart ಡೆಮೋ ನೋಡಿದೆ. ದಯವಿಟ್ಟು ನನ್ನ ಅಂಗಡಿ${n ? ' ' + n : ''}ಗೆ DigiCart ಸೆಟಪ್ ಮಾಡಿ.`,
+    vidH: '🎬 1 ನಿಮಿಷದ ವೀಡಿಯೋ ನೋಡಿ', privacy: 'ಈ ಪುಟ ತೆರೆದಾಗ ನಮಗೆ ತಿಳಿಯುತ್ತದೆ, ಆದ್ದರಿಂದ ಸೆಟಪ್‌ಗೆ ಸಹಾಯ ಮಾಡಬಹುದು.',
+    soonH: 'ಡೆಮೋ ಶೀಘ್ರದಲ್ಲೇ', soonP: 'ಈ ರೀತಿಯ ಅಂಗಡಿಗಳಿಗೂ DigiCart ಈಗಲೇ ಕೆಲಸ ಮಾಡುತ್ತದೆ. ಕರೆ ಮಾಡಿ, ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲೇ ತೋರಿಸುತ್ತೇವೆ.', close: 'ಮುಚ್ಚಿ',
+    fallbackShop: 'Your Fashion Store', dlT: 'DigiCart ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ', dlS: 'Google Play‌ನಲ್ಲಿ ಉಚಿತ',
+  },
+  hi: {
+    hi: (n) => n ? `नमस्ते, ${n}! 👋` : 'नमस्ते! 👋', catSub: 'आपकी दुकान में क्या बिकता है? DigiCart में लाइव देखने के लिए टैप करें।',
+    yours: 'आपकी दुकान', catNote: 'अपनी कैटेगरी पर टैप करें। डेमो तुरंत खुलेगा। कोई ऐप नहीं चाहिए।',
+    step: (i, n) => `स्टेप ${i} / ${n}`, back: '‹ पीछे', replay: '↻ फिर देखें', skip: 'ऑफर देखें ›',
+    steps: [
+      ['10 मिनट में आपकी दुकान ऑनलाइन', 'Fashion चुनें, दुकान का नाम लिखें, बस हो गया। आपको अपनी ऑनलाइन दुकान और काउंटर के लिए QR कोड मिलता है।', 'मेरी दुकान का कलेक्शन दिखाइए'],
+      ['आपका पूरा कलेक्शन, हर साइज़ के साथ', 'शर्ट, कुर्ती, साड़ी, जींस, बच्चों के कपड़े, फुटवियर। हर साइज़ का स्टॉक अलग, खत्म हुआ साइज़ अपने-आप "Sold out" हो जाता है। 50+ तैयार फोटो से सामान सेकंडों में जोड़ें।', 'ग्राहक मुझे कैसे ढूंढेंगे?'],
+      ['पास के ग्राहक आपको ढूंढकर ऑर्डर करते हैं', 'आपके डिलीवरी एरिया के लोग "Shops near you" में आपकी दुकान देखते हैं, जो चाहिए वह चुनते हैं और कुछ टैप में ऑर्डर करते हैं।', 'ऑर्डर आने पर क्या होता है?'],
+      ['ऑर्डर आपके फोन पर बजता है', 'स्वीकार करें, पैक करें; आपका अपना डिलीवरी बॉय पहुंचाता है। ग्राहक डिलीवरी लाइव देखते हैं; OTP से पक्का।', 'मुझे पैसे कैसे मिलेंगे?'],
+      ['पैसा सीधे आपको। कोई कमीशन नहीं।', 'ग्राहक UPI, ऑनलाइन या कैश ऑन डिलीवरी से सीधे आपके खाते में भुगतान करते हैं। DigiCart आपकी बिक्री से एक रुपया भी नहीं लेता।', 'क्या काउंटर पर भी बिल बना सकता हूं?'],
+      ['काउंटर बिलिंग और स्टॉक, एक साथ', 'स्कैन या टैप करें, छोटी रसीद प्रिंट करें, GST अपने-आप जुड़ता है। दुकान में या ऑनलाइन, हर बिक्री पर स्टॉक अपडेट होता है।', 'ग्राहकों को वापस कैसे लाऊं?'],
+      ['ग्राहक बार-बार लौटकर आएं', 'त्योहार के ऑफर लगाएं, "नया कलेक्शन आया है" मैसेज सभी ग्राहकों को भेजें, और 5-स्टार रिव्यू पाएं।', 'मेरी बिज़नेस रिपोर्ट दिखाइए'],
+      ['हर दिन अपने बिज़नेस का हिसाब', 'आज की बिक्री, सबसे ज़्यादा बिकने वाले आइटम, GST रजिस्टर और इनवॉइस, सब आपके फोन पर।', 'प्लान और ऑफर देखें'],
+    ],
+    oH: (n) => `${n || 'आपकी दुकान'}, 10 मिनट में ऑनलाइन`, oP: 'ऑनलाइन और दुकान में बेचने के लिए सब कुछ। एक ऐप। ज़ीरो कमीशन।',
+    again: '↻ फिर देखें', whyH: 'दुकानदार DigiCart क्यों चुनते हैं',
+    ben: ['🛒 आपकी अपनी ऑनलाइन दुकान + QR कोड', '📍 आपके डिलीवरी एरिया के ग्राहक आपको ढूंढते हैं', '💸 ज़ीरो कमीशन: हर रुपया आपका', '📦 हर आइटम और उसका स्टॉक एक जगह', '🧾 काउंटर बिलिंग, रसीद प्रिंटर, GST इनवॉइस', '🪔 त्योहार ऑफर और ग्राहकों को मैसेज', '🛵 आपका अपना डिलीवरी बॉय, लाइव ट्रैकिंग', '🤝 फ्री सेटअप और लोकल सपोर्ट'],
+    cmpH: 'DigiCart बनाम बड़े ऐप', cmpCols: ['', 'बड़े ऐप', 'DigiCart'],
+    cmp: [['हर ऑर्डर पर कमीशन', '20–30%', '₹0'], ['ग्राहक किसके', 'उनके', 'आपके'], ['आपकी कीमत', 'वे तय करते हैं', 'आप तय करें'], ['पैसा', 'कुछ दिन बाद', 'सीधे आपको']],
+    planH: 'आसान प्लान', trial: (d) => `🎁 पहले ${d} दिन फ्री। शुरू करने के लिए कोई पेमेंट नहीं।`, m3: '3 महीने', m6: '6 महीने', m12: '1 साल',
+    perDay: (x) => `≈ ₹${x}/दिन`, best: 'सबसे बढ़िया', kit: '+ फ्री डिलीवरी किट',
+    planNote: 'Google Play से सुरक्षित पेमेंट। कभी भी कैंसल करें।',
+    festH: (f) => `🪔 ${f.title}: सालाना प्लान पर ${f.pct}% छूट`, festT: (d) => `${d} तक। डिलीवरी किट (टी-शर्ट, बैग और कवर) फ्री।`,
+    cd: ['दिन', 'घंटे', 'मिनट', 'सेकंड'],
+    supH: 'सेटअप की चिंता न करें', supP: `DigiCart सपोर्ट बस एक कॉल या मैसेज दूर है। हम आपकी दुकान सेट करते हैं, सामान जोड़ते हैं और सिखाते हैं, फ्री। 📞 {PH}`,
+    setup: '🙋 मेरा फ्री सेटअप बुक करें', call: `📞 कॉल करें {PH}`, wa: '💬 WhatsApp करें',
+    setupMsg: (n) => `नमस्ते ${S.owner}, मैंने DigiCart डेमो देखा। कृपया मेरी दुकान${n ? ' ' + n : ''} के लिए DigiCart सेटअप करें।`,
+    vidH: '🎬 1 मिनट का वीडियो देखें', privacy: 'यह पेज खुलने पर हमें पता चलता है, ताकि हम सेटअप में मदद कर सकें।',
+    soonH: 'डेमो जल्द आ रहा है', soonP: 'इस तरह की दुकानों के लिए भी DigiCart अभी काम करता है। कॉल करें, हम आपके फोन पर दिखाएंगे।', close: 'बंद करें',
+    fallbackShop: 'Your Fashion Store', dlT: 'DigiCart डाउनलोड करें', dlS: 'Google Play पर फ्री',
+  },
+};
+const MONTHS = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  kn: ['ಜನವರಿ', 'ಫೆಬ್ರವರಿ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿಲ್', 'ಮೇ', 'ಜೂನ್', 'ಜುಲೈ', 'ಆಗಸ್ಟ್', 'ಸೆಪ್ಟೆಂಬರ್', 'ಅಕ್ಟೋಬರ್', 'ನವೆಂಬರ್', 'ಡಿಸೆಂಬರ್'],
+  hi: ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'] };
+
+/* ------------------------------------------------------------------ tracking */
+const API = CFG.API_URL || '';
+const SRC = (Q.get('src') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 20);
+const rnd = () => Array.from(crypto.getRandomValues(new Uint8Array(10)), (b) => 'abcdefghijkmnpqrstuvwxyz23456789'[b % 32]).join('');
+let DID = '';
+try { DID = localStorage.getItem('dc_did') || ''; if (!DID) { DID = rnd(); localStorage.setItem('dc_did', DID); } } catch (e) { DID = rnd(); }
+const T0 = Date.now();
+const secs = () => Math.round((Date.now() - T0) / 1000);
+// The Google Sheet backend takes a plain-text JSON body (no custom headers), so it works from any website.
+function track(t, v) {
+  if (!API) return Promise.resolve(null);
+  const o = { a: 'e', r: REF, d: DID, t, v: v == null ? '' : String(v), s: secs(), c: LINK_CAT, src: SRC };
+  if (t === 'open') o.ua = navigator.userAgent;
+  const body = JSON.stringify(o);
+  try {
+    if (t === 'ping' && navigator.sendBeacon) { navigator.sendBeacon(API, new Blob([body], { type: 'text/plain;charset=utf-8' })); return Promise.resolve(null); }
+    return fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body, redirect: 'follow' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  } catch (e) { return Promise.resolve(null); }
+}
+function applyContact() {
+  document.querySelectorAll('a[data-act="call"]').forEach((a) => { a.href = 'tel:+91' + PHONE; });
+  document.querySelectorAll('a[data-act="whatsapp"]:not(#ctaWa)').forEach((a) => { a.href = 'https://wa.me/91' + PHONE; });
+  document.querySelectorAll('a[data-act="play"]').forEach((a) => { a.href = PLAY; });
+  const tl = document.getElementById('langPh'); if (tl) tl.textContent = phTxt();
+}
+applyContact();
+const opened = track('open').then((d) => {
+  if (!d || d.error) return;
+  if (d.name) S.name = d.name;
+  if (d.area) S.area = d.area;
+  if (!S.cat && d.cat) S.cat = d.cat;
+  if (d.festival) S.festival = d.festival;
+  if (Array.isArray(d.plans) && d.plans.length) S.plans = d.plans;
+  if (typeof d.trialDays === 'number') S.trialDays = d.trialDays;
+  if (d.phone && /^\d{10}$/.test(d.phone)) PHONE = d.phone;
+  if (d.playUrl) PLAY = d.playUrl;
+  if (d.ownerName) S.owner = d.ownerName;
+  // photos and videos you added in the hub (marked "show in demo")
+  (d.media || []).forEach((m) => {
+    if (m.type === 'photo') S.own.push(m);
+    else if (m.type === 'video' && m.view) S.videos.push(m);
+  });
+  applyContact();
+});
+setInterval(() => { if (document.visibilityState === 'visible') track('ping'); }, 20000);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') track('ping'); });
+document.addEventListener('click', (e) => { const a = e.target.closest('[data-act]'); if (a) track('action', a.dataset.act); });
+
+/* ------------------------------------------------------------------ helpers */
+const $ = (s, r = document) => r.querySelector(s);
+const L = () => T[S.lang || 'en'];
+const shopName = () => S.name || CD().shop;
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const inr = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+function show(id) { document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id)); window.scrollTo(0, 0); $('#' + id).scrollTop = 0; }
+let timers = [];
+const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+const clearT = () => { timers.forEach(clearTimeout); timers = []; };
+function tapOn(sel, ms) {
+  at(ms, () => {
+    const el = $(sel, $('#scr')); const tap = $('#tap'); const hold = $('#hold');
+    if (!el) return;
+    const r = el.getBoundingClientRect(), h = hold.getBoundingClientRect(), k = h.width / 300;
+    tap.classList.remove('on'); void tap.offsetWidth;
+    tap.style.left = ((r.left + r.width / 2 - h.left) / k) + 'px'; tap.style.top = ((r.top + r.height / 2 - h.top) / k) + 'px';
+    tap.classList.add('on');
+    el.classList.add('pressed'); setTimeout(() => el.classList.remove('pressed'), 350);
+  });
+}
+function typeIn(sel, text, start, speed = 70) {
+  for (let i = 0; i <= text.length; i++) at(start + i * speed, () => { const el = $(sel, $('#scr')); if (el) el.textContent = text.slice(0, i); });
+}
+const cls = (sel, c, ms, on = true) => at(ms, () => { $('#scr').querySelectorAll(sel).forEach((e) => e.classList.toggle(c, on)); });
+let actx;
+function ding() {
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    [[880, 0], [1318.5, 0.14]].forEach(([f, d]) => {
+      const o = actx.createOscillator(), gn = actx.createGain(); o.type = 'sine'; o.frequency.value = f;
+      gn.gain.setValueAtTime(0.0001, actx.currentTime + d); gn.gain.exponentialRampToValueAtTime(0.35, actx.currentTime + d + 0.02);
+      gn.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d + 0.6); o.connect(gn).connect(actx.destination); o.start(actx.currentTime + d); o.stop(actx.currentTime + d + 0.65);
+    });
+    if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+  } catch (e) {}
+}
+const sb = (light) => `<div class="sb${light ? ' light' : ''}"><span>10:24</span><span>📶 🔋</span></div>`;
+const abar = (t) => `<div class="abar"><img src="logo3d.webp" alt=""><span>${t}</span></div>`;
+// Every category's photos, chips and texts come from catalog.js; photos you add in the hub (marked "show in demo") are shown first
+const DCAT = window.DC_CATALOG || {};
+const CD = () => DCAT[S.dcat] || DCAT.fashion;
+const TYPENAME = () => CD().type.replace(/^\S+\s/, '');
+const isService = () => !!CD().service;
+let PCACHE = {};
+function products() {
+  const c = S.dcat;
+  if (!PCACHE[c]) {
+    const own = (S.own || []).filter((m) => (m.cat || 'fashion') === c).map((m) => ({ k: 'u_' + m.id, n: m.name || 'New arrival', p: m.price || 0, m: m.mrp || 0, c: m.chip || (CD().chips[0] || [''])[0], img: m.view, own: true }));
+    PCACHE[c] = [...own, ...CD().products.map((x) => ({ ...x, img: `products/${c}/${x.k}.jpg` }))];
+  }
+  return PCACHE[c];
+}
+const P = (k) => products().find((x) => x.k === k) || products()[0];
+const CHIPS = () => [['all', 'All'], ...CD().chips];
+function chipItems(c) {
+  if (c === 'all') { const own = products().filter((x) => x.own); return [...own, ...CD().mix.map(P).filter(Boolean)].slice(0, 12); }
+  return products().filter((x) => x.c === c);
+}
+const isFlat = (x) => !!x.x;
+const priceTxt = (x) => (x.p ? `<b>${inr(x.p)}${x.u || ''}</b>` : '<b style="color:var(--pink)">New</b>') + (x.p && x.m > x.p ? `<s>${inr(x.m)}</s>` : '');
+const card = (x) => `<div class="pc" data-p="${esc(x.k)}"><div class="im${CD().portrait && !x.own ? ' pt' : ''}${isFlat(x) ? ' ct' : ''}"><img src="${esc(x.img)}" alt="" loading="lazy"></div><div class="nm">${esc(x.n)}</div><div class="pr"><span>${priceTxt(x)}</span><span class="add">${isService() ? 'BOOK' : 'ADD'}</span></div></div>`;
+const thumb = (k) => `<img class="th${CD().portrait ? ' pt' : ''}" src="${esc(P(k).img)}" alt="">`;
+function sizesFor(x) {
+  const v = x.v && x.v.length ? x.v : ['Regular'];
+  const out = v.length >= 4 ? v.length - 2 : -1;
+  return { list: v, out, note: `Only 3 left in ${v[Math.min(1, v.length - 1)]}${out >= 0 ? ` · ${v[out]} sold out` : ''}` };
+}
+function sheetHtml(x) {
+  const off = x.p && x.m > x.p ? Math.round((1 - x.p / x.m) * 100) : 0;
+  const head = `<div class="row"><div class="shim${CD().portrait && !x.own ? ' pt' : ''}${isFlat(x) ? ' ct' : ''}"><img src="${esc(x.img)}" alt=""></div>
+    <div><div class="h">${esc(x.n)}</div><div><b>${x.p ? inr(x.p) + (x.u || '') : 'Ask price'}</b>${off ? ` <s class="s">${inr(x.m)}</s> <span class="badge p">${off}% off</span>` : ''}</div><div class="s">${isService() ? 'Free pickup & delivery' : 'GST included'}</div></div></div>`;
+  if (isService()) {
+    const unit = x.u === '/kg' ? 'kg' : 'pcs';
+    return head + `<div class="lbl">Quantity</div><div class="qty"><span class="qm">−</span><b><span id="qn">4</span> ${unit}</b><span class="qp">+</span></div>
+      <div class="lbl">Pickup slot</div><div class="sizes"><span class="sz wide" id="szM">Today 5–7 pm</span><span class="sz wide">Tomorrow 9–11 am</span></div>
+      <div class="s" style="margin-top:6px">Ready in 24 hours · pay on delivery or UPI</div><button class="btn2 green" id="addB">Book pickup${x.p ? ' · ' + inr(x.p * 4) : ''}</button>`;
+  }
+  const z = sizesFor(x);
+  return head + `<div class="lbl">${S.dcat === 'fashion' || S.dcat === 'footwear' ? 'Select size' : 'Choose'}</div><div class="sizes">${z.list.map((v, i) => `<span class="sz${i === z.out ? ' out' : ''}${v.length > 3 ? ' wide' : ''}"${i === Math.min(1, z.list.length - 1) ? ' id="szM"' : ''}>${esc(v)}</span>`).join('')}</div>
+    <div class="s" style="margin-top:6px">${esc(z.note)}</div><button class="btn2 green" id="addB">Add to basket${x.p ? ' · ' + inr(x.p) : ''}</button>`;
+}
+function showChip(c) {
+  const sc = $('#scr'); if (!sc.querySelector('.pgrid')) return;
+  sc.querySelectorAll('.cats .chip2').forEach((e) => e.classList.toggle('sel', e.dataset.c === c));
+  const chipEl = sc.querySelector(`.cats [data-c="${c}"]`); if (chipEl) chipEl.scrollIntoView({ block: 'nearest', inline: 'center' });
+  const g = sc.querySelector('.pgrid'); g.style.opacity = 0;
+  setTimeout(() => { g.innerHTML = chipItems(c).map(card).join('') || '<div class="s" style="grid-column:1/-1;padding:20px;text-align:center">Add your items here</div>'; g.style.opacity = 1; const b = sc.querySelector('.pbody'); if (b) b.scrollTop = 0; }, 160);
+}
+function openSheet(k) {
+  const sc = $('#scr'), x = P(k);
+  const sh = sc.querySelector('#sh'); if (!sh) return;
+  sh.innerHTML = sheetHtml(x); sc.querySelector('#dim').classList.add('on'); sh.classList.add('on');
+}
+// After (or during) the auto-play, the shop owner can try the catalogue themselves
+$('#scr').addEventListener('click', (e) => {
+  if (S.step !== 1) return;
+  const chip = e.target.closest('.cats .chip2'), pc = e.target.closest('.pc'), dim = e.target.closest('#dim'), sz = e.target.closest('.sz:not(.out)'), add = e.target.closest('#addB'), q = e.target.closest('.qm,.qp');
+  if (chip || pc || dim || sz || add || q) clearT();
+  if (chip) { showChip(chip.dataset.c); const dm = $('#scr').querySelector('#dim'); if (dm) { dm.classList.remove('on'); $('#scr').querySelector('#sh').classList.remove('on'); } }
+  else if (pc) openSheet(pc.dataset.p);
+  else if (dim) { $('#scr').querySelector('#dim').classList.remove('on'); $('#scr').querySelector('#sh').classList.remove('on'); }
+  else if (sz) { $('#scr').querySelectorAll('.sz').forEach((z) => z.classList.toggle('sel', z === sz)); }
+  else if (q) { const n = $('#scr').querySelector('#qn'); if (n) n.textContent = Math.max(1, (+n.textContent || 1) + (q.classList.contains('qp') ? 1 : -1)); }
+  else if (add) { add.textContent = isService() ? '✓ Pickup booked' : '✓ Added to basket'; ding(); setTimeout(() => { const d = $('#scr').querySelector('#dim'); if (d) { d.classList.remove('on'); $('#scr').querySelector('#sh').classList.remove('on'); } }, 700); }
+});
+const orderTotal = () => CD().order.reduce((s, o) => s + o[2], 0);
+const orderLines = () => CD().order.map((o) => `<div class="line2"><span>${thumb(o[0])}${esc(P(o[0]).n)} · ${esc(o[1])}</span><b>${inr(o[2])}</b></div>`).join('');
+const OTHER_SHOPS = [['grocery', '🥬', 'Fresh Mart', 'Grocery', '#E8F5E9'], ['electronics', '📺', 'City Electronics', 'Electronics', '#E3F2FD'], ['fashion', '👗', 'Trends Fashion', 'Fashion', '#FDE7EF'], ['kirana', '🏪', 'Sri Ram Kirana', 'Kirana', '#FFF3E0']];
+
+/* ------------------------------------------------------------------ demo steps */
+const STEPS = [
+  // 1 setup
+  () => {
+    const types = ['🥬 Grocery', '🏪 Kirana', '🛒 Supermart', '👗 Fashion', '📺 Electronics', '🎁 Gifts', '🧺 Laundry'];
+    const list = [CD().type, ...types.filter((t) => t !== CD().type)].slice(0, 5);
+    $('#scr').innerHTML = sb() + abar('Set up your store') + `<div class="pad">
+      <div class="lbl">Store type</div><div class="chips">${list.map((t, i) => `<span class="chip2"${i === 0 ? ' id="cF"' : ''}>${t}</span>`).join('')}</div>
+      <div class="lbl">Store name</div><div class="field" id="fN"><span id="tN"></span></div>
+      <div class="lbl">Area</div><div class="field" id="fA"><span id="tA"></span></div>
+      <div class="lbl">Store UPI ID</div><div class="field"><span id="tU" class="s"></span></div>
+      <div class="lbl">${isService() ? 'Services' : 'Products'}</div><div class="field s">✅ ${isService() ? 'Ready service list with prices' : 'Start with 50+ ready ' + esc(CD().label.toLowerCase()) + ' items'}</div>
+      <button class="btn2" id="go">Create my store</button></div>
+      <div class="live" id="live"><div style="font-size:40px">🎉</div><div class="h" style="font-size:18px;margin-top:4px">${esc(shopName())}</div><div class="s" style="font-size:12px">is live on DigiCart</div>
+      <div class="qrbox"><img src="play-qr.png" alt=""><div class="code">DC-${S.dcat.slice(0, 3).toUpperCase()}921</div></div>
+      <div class="s" style="margin-top:8px">Print this QR for your counter</div><span class="badge" style="margin-top:10px">🎁 ${S.trialDays}-day free trial started</span></div>`;
+    tapOn('#cF', 500); cls('#cF', 'sel', 950);
+    cls('#fN', 'focus', 1300); typeIn('#tN', shopName(), 1400, 55);
+    const t2 = 1500 + shopName().length * 55; cls('#fN', 'focus', t2, false); cls('#fA', 'focus', t2 + 100);
+    typeIn('#tA', S.area || 'Peenya, Bengaluru', t2 + 200, 55);
+    const t3 = t2 + 400 + (S.area || 'Peenya, Bengaluru').length * 55; cls('#fA', 'focus', t3, false);
+    typeIn('#tU', 'myshop@ybl', t3 + 100, 50);
+    tapOn('#go', t3 + 900); cls('#live', 'on', t3 + 1500);
+  },
+  // 2 catalogue with real photos, category chips, variants
+  () => {
+    const d = CD(), fl = d.flow, open = d.open;
+    $('#scr').innerHTML = sb() + `<div class="banner"><div class="n">${esc(shopName())}</div><div class="m">★ 4.8 · ${esc(d.label)} · 0.8 km · 17 min</div><div class="logo">${d.emoji}</div></div>
+      <div class="cats">${CHIPS().map(([k, t]) => `<span class="chip2${k === 'all' ? ' sel' : ''}" data-c="${k}">${esc(t)}</span>`).join('')}</div>
+      <div class="pbody"><div class="pgrid">${chipItems('all').map(card).join('')}</div></div>
+      <div class="dim" id="dim"></div>
+      <div class="sheet" id="sh">${sheetHtml(P(open))}</div>`;
+    [fl[0], fl[1], fl[2], fl[0]].forEach((c, i) => { at(900 + i * 1400, () => showChip(c)); tapOn(`.cats [data-c="${c}"]`, 700 + i * 1400); });
+    const openKey = chipItems(fl[0]).some((x) => x.k === open) ? open : (chipItems(fl[0])[0] || P(open)).k;
+    tapOn(`.pc[data-p="${openKey}"]`, 6000); cls(`.pc[data-p="${openKey}"]`, 'hl', 6200);
+    at(6600, () => openSheet(openKey));
+    tapOn('#szM', 7600); cls('#szM', 'sel', 8000); tapOn('#addB', 8900);
+    at(9300, () => { const b = $('#scr').querySelector('#addB'); if (b) { b.textContent = isService() ? '✓ Pickup booked' : '✓ Added to basket'; } });
+    at(10600, () => { const dm = $('#scr').querySelector('#dim'); if (dm) { dm.classList.remove('on'); $('#scr').querySelector('#sh').classList.remove('on'); } });
+    at(11200, () => { const t = $('#scr').querySelector('.toast2'); if (t) t.classList.add('on'); });
+    $('#scr').insertAdjacentHTML('beforeend', '<div class="toast2">👆 Try it: tap a category or any item</div>');
+  },
+  // 3 customers nearby
+  () => {
+    const d = CD(), others = OTHER_SHOPS.filter((o) => o[0] !== S.dcat).slice(0, 2), tot = orderTotal(), svc = isService();
+    $('#scr').innerHTML = sb(true) + `<div class="pad" style="padding-bottom:4px"><div class="s">📍 Deliver to Home · Nagasandra 560073</div><div class="h" style="margin-top:6px">Shops near you now</div></div>
+      <div class="shop" id="me"><div class="av" style="background:#FDE7EF">${d.emoji}</div><div style="flex:1"><b style="font-size:12.5px">${esc(shopName())}</b><div class="s">${esc(d.label)} · ★ 4.8</div></div><div style="text-align:right"><span class="badge">0.8 km</span><div class="s">17 min</div></div></div>
+      ${others.map((o, i) => `<div class="shop dimd"><div class="av" style="background:${o[4]}">${o[1]}</div><div style="flex:1"><b style="font-size:12.5px">${o[2]}</b><div class="s">${o[3]} · ★ 4.${6 - i}</div></div><div class="s">${(1.4 + i * 0.7).toFixed(1)} km</div></div>`).join('')}
+      <div class="sheet" id="cart" style="padding-bottom:16px"><div class="h">${svc ? 'Your pickup' : 'Your basket'} · ${esc(shopName())}</div>
+      ${orderLines()}<div class="line2"><span>${svc ? 'Pickup & delivery' : 'Delivery'}</span><b style="color:var(--ok)">FREE</b></div>
+      <div class="line2" style="border:0;font-size:13px"><b>To pay</b><b>${inr(tot)}</b></div>
+      <div class="chips"><span class="chip2 sel" id="upi">UPI · PhonePe</span><span class="chip2">GPay</span><span class="chip2">${svc ? 'Pay on delivery' : 'Cash on delivery'}</span></div>
+      <button class="btn2 green" id="place">${svc ? 'Book pickup' : 'Place order'} · ${inr(tot)}</button></div>
+      <div class="live" id="done"><div style="font-size:46px">✅</div><div class="h" style="font-size:17px">${svc ? 'Pickup booked!' : 'Order placed!'}</div><div class="s" style="font-size:12px">${svc ? 'Pickup today 5–7 pm' : esc(shopName()) + ' is packing it.<br>Arriving in about 17 min'}</div></div>`;
+    cls('#me', 'me', 900); tapOn('#me', 1300); cls('#cart', 'on', 1900); tapOn('#upi', 3000); tapOn('#place', 3900); cls('#done', 'on', 4500);
+  },
+  // 4 order rings, delivery
+  () => {
+    const svc = isService(), tot = orderTotal();
+    const L4 = svc ? [['Accepted', 'Pick up now', '✓'], ['Picked up', 'Mark cleaned', '🛵'], ['Cleaning', 'Send for delivery', '🫧'], ['Delivered', '', '🏠']] : [['Accepted', 'Mark packed', '✓'], ['Packed', 'Give to Ravi (delivery)', '📦'], ['On the way', '', '🛵'], ['Delivered', '', '🏠']];
+    $('#scr').innerHTML = sb() + abar((svc ? 'Bookings · ' : 'Orders · ') + esc(shopName())) + `<div class="notif" id="nt"><img src="icon.png" alt=""><div><b>${svc ? '🧺 New pickup booking' : '🛍️ New order'} #DC48217 · ${inr(tot)}</b><span>Priya · 0.8 km · ${esc(CD().order.map((o) => P(o[0]).n).join(', '))}</span></div></div>
+      <div class="pad"><div class="row" style="justify-content:space-between"><b style="font-size:13px">#DC48217 · Priya</b><span class="badge o" id="stat">New</span></div>
+      <div class="s">Nagasandra · 0.8 km · ${svc ? 'Pickup today 5–7 pm' : 'Paid by UPI ✓'}</div>
+      ${orderLines()}
+      <div class="steps3">${L4.map((x, i) => `<div class="st3" id="s${i + 1}"><i>${x[2]}</i>${x[0]}</div>`).join('')}</div>
+      <button class="btn2 green" id="acc">${svc ? 'Accept booking' : 'Accept order'}</button></div>
+      <div class="map" id="map" style="display:none"><svg viewBox="0 0 280 170"><rect width="280" height="170" fill="#E8F0E3"/><path d="M0 120 H280 M60 0 V170 M200 0 V170 M0 40 H280" stroke="#fff" stroke-width="12"/><path d="M60 140 V40 H200 V60" stroke="#1173D4" stroke-width="5" fill="none" stroke-dasharray="8 6"/></svg>
+      <span class="pin" style="left:60px;top:140px">🏪</span><span class="pin" style="left:200px;top:60px">🏠</span><img class="rd" id="rd" src="rider.webp" alt="" style="left:30px;top:105px"></div>
+      <div class="toast2" id="otp">✅ Delivered · OTP 4821 verified · ${inr(tot)} received</div>`;
+    at(400, () => { cls('#nt', 'on', 0); ding(); });
+    tapOn('#acc', 1700); cls('#s1', 'on', 2100); at(2100, () => { $('#stat').textContent = L4[0][0]; $('#acc').textContent = L4[0][1]; });
+    tapOn('#acc', 2900); cls('#s2', 'on', 3300); at(3300, () => { $('#stat').textContent = L4[1][0]; $('#acc').textContent = L4[1][1]; });
+    tapOn('#acc', 4000); cls('#s3', 'on', 4400); at(4400, () => { $('#stat').textContent = L4[2][0]; $('#acc').style.display = 'none'; $('#map').style.display = 'block'; $('#nt').classList.remove('on'); });
+    at(4600, () => { const r = $('#rd'); if (r) { r.style.left = '30px'; r.style.top = '10px'; } });
+    at(7700, () => { const r = $('#rd'); if (r) { r.style.left = '170px'; r.style.top = '10px'; } });
+    cls('#s4', 'on', 10500); cls('#otp', 'on', 10500); at(10500, () => { $('#stat').textContent = 'Delivered'; $('#stat').className = 'badge'; });
+  },
+  // 5 money
+  () => {
+    const tot = orderTotal(), stepv = Math.max(1, Math.round(tot / 25));
+    $('#scr').innerHTML = sb() + abar('Payments') + `<div class="pad" style="text-align:center">
+      <div style="font-size:42px;margin-top:6px">💰</div><div class="s" style="font-size:12px">Received in your UPI account</div>
+      <div class="big" id="amt" style="color:var(--ok)">₹0</div><div class="s">from Priya · ${isService() ? 'booking' : 'order'} #DC48217 · just now</div>
+      <div class="chips" style="justify-content:center;margin-top:10px"><span class="chip2">UPI</span><span class="chip2">Online</span><span class="chip2">Cash on delivery</span></div></div>
+      <div class="pad"><div class="h" style="font-size:13px">You keep from a ${inr(tot)} ${isService() ? 'booking' : 'order'}</div>
+      <div class="lbl">Big marketplaces (20–30% commission)</div><div class="cbar"><i id="b1" style="background:#EF9A9A"></i></div><div class="s" id="b1t" style="opacity:0">${inr(tot * 0.7)} to ${inr(tot * 0.8)}</div>
+      <div class="lbl">DigiCart (zero commission)</div><div class="cbar"><i id="b2" style="background:var(--ok)"></i></div><div class="s" id="b2t" style="opacity:0;color:var(--ok);font-weight:800">${inr(tot)}: all of it ✓</div></div>`;
+    at(300, () => { let v = 0; const el = $('#amt'); const id = setInterval(() => { v = Math.min(tot, v + stepv); if (el) el.textContent = inr(v); if (v >= tot) clearInterval(id); }, 30); timers.push(id); });
+    at(1700, () => { $('#b1').style.width = '75%'; }); at(2700, () => { $('#b1t').style.opacity = 1; });
+    at(3100, () => { $('#b2').style.width = '100%'; }); at(4100, () => { $('#b2t').style.opacity = 1; });
+  },
+  // 6 counter billing
+  () => {
+    const b1 = P(CD().mix[2]), b2 = P(CD().mix[3]), v1 = (b1.v || [''])[0], v2 = (b2.v || [''])[0];
+    $('#scr').innerHTML = sb() + abar('Counter bill') + `<div class="pad"><div class="field s" id="scan">🔍 Scan barcode or search…</div>
+      <div id="lines" style="margin-top:8px"></div>
+      <div class="line2" style="border:0;font-size:13px"><b>Total (incl. GST)</b><b id="tot">₹0</b></div>
+      <button class="btn2 blue" id="pr">🖨️ Print bill</button></div>
+      <div class="slip" id="slip"><b>${esc(shopName())}</b><br>Bill #1042 · 14 Nov<br>------------------------<br>${esc(b1.n.slice(0, 16))} ×1 ${b1.p}<br>${esc(b2.n.slice(0, 16))} ×1 ${b2.p}<br>------------------------<br><b>TOTAL ${inr(b1.p + b2.p)}</b><br>GST incl. · Thank you!</div><div class="printer"></div>
+      <div class="toast2" id="stk">📦 Stock updated: ${esc(b1.n)}${v1 ? ' ' + esc(v1) : ''}: 6 → 5 · ${esc(b2.n)}: 10 → 9</div>`;
+    const add = (x, v, tot) => { const d = document.createElement('div'); d.className = 'line2'; d.innerHTML = `<span>${thumb(x.k)}${esc(x.n)}${v ? ' · ' + esc(v) : ''} × 1</span><b>${inr(x.p)}</b>`; d.style.animation = 'fadeIn .3s both'; $('#lines').appendChild(d); $('#tot').textContent = inr(tot); };
+    at(700, () => { $('#scan').textContent = '📷 Beep! ' + b1.n; ding(); });
+    at(1100, () => add(b1, v1, b1.p));
+    at(2100, () => { $('#scan').textContent = '📷 Beep! ' + b2.n; ding(); });
+    at(2500, () => add(b2, v2, b1.p + b2.p));
+    tapOn('#pr', 3300); cls('#slip', 'on', 3700); cls('#stk', 'on', 5200);
+  },
+  // 7 offers, messages, reviews
+  () => {
+    const d = CD(), o = d.offer, rv = d.reviews;
+    $('#scr').innerHTML = sb() + `<div class="banner"><div class="n">${esc(shopName())}</div><div class="m">★ 4.8 · ${esc(d.label)} · 0.8 km</div><div class="logo">${d.emoji}</div>
+      <div class="fest" id="fest"><img src="fest_diwali.webp" alt=""><div><b>${esc(o[0])}<br>${esc(o[1])}</b><div class="m">${esc(o[2])}</div></div></div></div>
+      <div class="pad"><div class="h" style="font-size:13px">Send a message to your customers</div>
+      <div class="field" id="msgF"><span id="msg"></span></div><button class="btn2" id="send">Send to 248 customers</button>
+      <div class="h" style="font-size:13px;margin-top:14px">Reviews</div>
+      ${rv.map((r, i) => `<div class="field" style="opacity:0;transition:.4s" id="r${i + 1}"><span class="stars">★★★★★</span> <b style="font-size:11px">${esc(r[0])}</b><div class="s">${esc(r[1])}</div></div>`).join('')}</div>
+      <div class="notif" id="cn"><img src="icon.png" alt=""><div><b>${esc(shopName())}</b><span>${esc(o[3])}</span></div></div>`;
+    cls('#fest', 'on', 600); cls('#msgF', 'focus', 1200); typeIn('#msg', o[3], 1300, 35);
+    tapOn('#send', 3300); at(3700, () => { $('#send').textContent = '✓ Sent to 248 customers'; $('#send').className = 'btn2 green'; ding(); }); cls('#cn', 'on', 3900);
+    at(6200, () => $('#cn').classList.remove('on')); at(6000, () => { $('#r1').style.opacity = 1; }); at(6600, () => { $('#r2').style.opacity = 1; });
+  },
+  // 8 reports
+  () => {
+    const mx = CD().mix;
+    $('#scr').innerHTML = sb() + abar('Today · ' + esc(shopName())) + `<div class="kpi"><div><b id="k1">₹0</b><span>Sales today</span></div><div><b>14</b><span>${isService() ? 'Bookings' : 'Orders'} (9 online)</span></div><div><b>₹2,940</b><span>Profit today</span></div><div><b>⭐ 4.8</b><span>Rating</span></div></div>
+      <div class="pad" style="padding-top:0"><div class="h" style="font-size:13px">This week</div>
+      <div class="chart">${[38, 52, 45, 70, 62, 85, 100].map((h, i) => `<i class="${i === 6 ? 't' : ''}" data-h="${h}"></i>`).join('')}</div>
+      <div class="days">${['Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Today'].map((d) => `<span>${d}</span>`).join('')}</div>
+      <div class="h" style="font-size:13px;margin-top:10px">${isService() ? 'Top services' : 'Best sellers'}</div>
+      ${[[mx[0], 18], [mx[1], 11], [mx[2], 6]].map(([k, n]) => `<div class="line2"><span>${thumb(k)}${esc(P(k).n)}</span><b>${n} ${isService() ? 'orders' : 'sold'}</b></div>`).join('')}
+      <div class="chips" style="margin-top:8px"><span class="badge b">🧾 GST invoices</span><span class="badge b">📊 Monthly GST register</span></div></div>`;
+    at(300, () => { let v = 0; const el = $('#k1'); const id = setInterval(() => { v = Math.min(12450, v + 415); if (el) el.textContent = inr(v); if (v >= 12450) clearInterval(id); }, 30); timers.push(id); });
+    at(600, () => $('#scr').querySelectorAll('.chart i').forEach((b, i) => setTimeout(() => { b.style.height = b.dataset.h + '%'; }, i * 120)));
+  },
+];
+const N = STEPS.length;
+
+function fitPhone() {
+  const st = $('#stage'), h = $('#hold');
+  if (!st || !h) return;
+  const r = st.getBoundingClientRect();
+  const k = Math.min(1, Math.max(0.45, Math.min((r.height - 10) / 620, (r.width - 10) / 300)));
+  h.style.transform = `scale(${k})`;
+  h.style.margin = `${(620 * k - 620) / 2}px ${(300 * k - 300) / 2}px`;
+}
+// step text: the category's own catalogue step (and laundry's booking steps) replace the fashion wording
+function stepText(i) {
+  const lg = S.lang || 'en', d = CD(), base = T[lg].steps[i].slice();
+  if (i === 0) base[1] = base[1].replace('Fashion', TYPENAME());
+  if (i === 1 && d.s2) return d.s2[lg] || d.s2.en;
+  if ((i === 2 || i === 3) && d.s34) return d.s34[lg][i - 2];
+  return base;
+}
+function goStep(i) {
+  clearT(); S.step = i;
+  const l = L(), s = stepText(i);
+  $('#bars').innerHTML = Array.from({ length: N }, (_, k) => `<i class="${k < i ? 'done' : k === i ? 'now' : ''}"></i>`).join('');
+  $('#stepNo').textContent = l.step(i + 1, N);
+  $('#dTitle').textContent = s[0]; $('#dText').textContent = s[1]; $('#nextT').textContent = s[2];
+  $('#back').textContent = i ? l.back : ''; $('#replay').textContent = l.replay; $('#skip').textContent = l.skip;
+  $('#tap').classList.remove('on');
+  dlText(); fitPhone(); STEPS[i](); track('step', i + 1);
+}
+window.addEventListener('resize', fitPhone);
+
+/* ------------------------------------------------------------------ screens */
+function setLang(lg) {
+  S.lang = lg; document.body.className = lg; document.documentElement.lang = lg;
+  try { localStorage.setItem('dc_lang', lg); } catch (e) {}
+  track('lang', lg);
+}
+function dlText() { const l = L(); document.querySelectorAll('.dlT').forEach((e) => { e.textContent = l.dlT; }); document.querySelectorAll('.dlS').forEach((e) => { e.textContent = l.dlS; }); }
+function renderCats() {
+  const l = L(), idx = { en: 2, kn: 3, hi: 4 }[S.lang]; dlText();
+  $('#catHi').textContent = l.hi(S.name); $('#catSub').textContent = l.catSub; $('#catNote').textContent = l.catNote;
+  const mine = S.cat === 'clothing' ? 'fashion' : S.cat;
+  $('#catGrid').innerHTML = CATS.map((c) => `<button class="tile${c[0] === mine ? ' mine' : ''}" data-c="${c[0]}" data-badge="${esc(l.yours)}"><div class="e">${c[1]}</div><div class="t">${c[idx]}</div></button>`).join('');
+}
+$('#catGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('.tile'); if (!b) return;
+  const c = b.dataset.c; track('cat', c);
+  if (READY.includes(c)) { S.dcat = c; PCACHE = {}; show('demo'); $('#fab').style.display = 'none'; setTimeout(() => goStep(0), 60); return; }
+  const l = L(); const cc = CATS.find((x) => x[0] === c);
+  $('#soonE').textContent = cc[1]; $('#soonH').textContent = l.soonH; $('#soonP').textContent = l.soonP; $('#soonCall').textContent = ph(l.call); $('#soonX').textContent = l.close;
+  $('#soon').classList.add('on');
+});
+$('#soonX').onclick = () => $('#soon').classList.remove('on');
+document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', async () => {
+  setLang(b.dataset.lang); await Promise.race([opened, new Promise((r) => setTimeout(r, 1500))]);
+  renderCats(); show('cat');
+}));
+$('#chLang').onclick = () => show('lang');
+$('#next').onclick = () => { if (S.step < N - 1) goStep(S.step + 1); else openOffer(); };
+$('#back').onclick = () => { if (S.step > 0) goStep(S.step - 1); };
+$('#replay').onclick = () => goStep(S.step);
+$('#skip').onclick = () => openOffer();
+$('#again').onclick = () => { show('demo'); $('#fab').style.display = 'none'; setTimeout(() => goStep(0), 60); };
+
+function untilParts() {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(S.festival.until || '');
+  if (!m) return null;
+  return { end: Date.UTC(+m[1], +m[2] - 1, +m[3], 23, 59, 59) - 330 * 60000, label: `${+m[3]} ${MONTHS[S.lang || 'en'][+m[2] - 1]}` };
+}
+function festActive() {
+  const f = S.festival, u = untilParts();
+  return f && f.enabled !== false && f.pct > 0 && f.pct < 100 && (!u || Date.now() <= u.end);
+}
+let cdTimer;
+function openOffer() {
+  clearT(); const l = L(); track('step', N + 1);
+  $('#oH').textContent = l.oH(S.name); $('#oP').textContent = l.oP; $('#again').textContent = l.again;
+  $('#whyH').textContent = l.whyH; $('#ben').innerHTML = l.ben.map((b) => `<div>${b}</div>`).join('');
+  $('#cmpH').textContent = l.cmpH;
+  $('#cmp').innerHTML = `<tr>${l.cmpCols.map((c) => `<th>${c}</th>`).join('')}</tr>` + l.cmp.map((r) => `<tr><td>${r[0]}</td><td class="r">${r[1]}</td><td class="g">${r[2]}</td></tr>`).join('');
+  $('#planH').textContent = l.planH; $('#trial').textContent = l.trial(S.trialDays); $('#planNote').textContent = l.planNote;
+  const fa = festActive();
+  $('#plans').innerHTML = S.plans.slice().sort((a, b) => a.months - b.months).map((p) => {
+    const yearly = p.months >= 12, off = fa && (S.festival.plans || []).includes(p.id);
+    const price = off ? Math.round(p.price * (100 - S.festival.pct) / 100) : p.price;
+    const label = p.months === 3 ? l.m3 : p.months === 6 ? l.m6 : p.months === 12 ? l.m12 : `${p.months}`;
+    return `<div class="plan${yearly ? ' best' : ''}">${yearly ? `<span class="tag">${off ? '🪔 ' + S.festival.pct + '% OFF' : l.best}</span>` : ''}<div class="m">${label}</div>
+      <div class="p">${inr(price)}</div>${off ? `<s>${inr(p.price)}</s>` : ''}<div class="d">${l.perDay(Math.round(price / (p.months * 30.4)))}</div>${yearly ? `<div class="s" style="font-size:10px;margin-top:3px">${l.kit}</div>` : ''}</div>`;
+  }).join('');
+  const y = S.plans.find((p) => (S.festival.plans || []).includes(p.id)) || S.plans.find((p) => p.months === 12);
+  if (fa && y) {
+    const u = untilParts(); const np = Math.round(y.price * (100 - S.festival.pct) / 100);
+    $('#festSec').innerHTML = `<div class="festcard"><img src="fest_diwali.webp" alt=""><div style="font-weight:800;font-size:15px">${esc(l.festH(S.festival))}</div><div class="pc2">${S.festival.pct}% OFF</div>
+      <div class="pr2"><s>${inr(y.price)}</s><span>➜</span><span class="now">${inr(np)}</span></div><div style="font-size:12.5px;margin-top:8px;opacity:.95">${esc(l.festT(u ? u.label : ''))}</div>
+      ${u ? `<div class="cd" id="cd">${l.cd.map((x) => `<div><b>00</b><span>${x}</span></div>`).join('')}</div>` : ''}</div>`;
+    clearInterval(cdTimer);
+    if (u) {
+      const tick = () => { let s = Math.max(0, Math.floor((u.end - Date.now()) / 1000)); const v = [Math.floor(s / 86400), Math.floor(s % 86400 / 3600), Math.floor(s % 3600 / 60), s % 60]; document.querySelectorAll('#cd b').forEach((b, i) => { b.textContent = String(v[i]).padStart(2, '0'); }); };
+      tick(); cdTimer = setInterval(tick, 1000);
+    }
+  } else $('#festSec').innerHTML = '';
+  $('#supH').textContent = l.supH; $('#supP').textContent = ph(l.supP);
+  $('#ctaSetup').textContent = l.setup; $('#ctaSetup').href = `https://wa.me/91${PHONE}?text=${encodeURIComponent(l.setupMsg(S.name))}`;
+  $('#ctaCall').textContent = ph(l.call); $('#ctaWa').textContent = l.wa; $('#ctaWa').href = `https://wa.me/91${PHONE}?text=${encodeURIComponent(l.setupMsg(S.name))}`;
+  $('#vidH').textContent = l.vidH; $('#privacy').textContent = l.privacy;
+  const ov = $('#ownVids');
+  const vd = $('#vid'), vsrc = `videos/${S.dcat}.mp4`;
+  if (!vd.src.endsWith(vsrc)) { vd.src = vsrc; vd.poster = `videos/${S.dcat}.jpg`; }
+  if (ov) ov.innerHTML = S.videos.filter((m) => (m.cat || 'fashion') === S.dcat).slice(0, 3).map((m) => `<div class="ovid"><iframe src="${esc(m.view)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy" title="${esc(m.name)}"></iframe><div class="s" style="margin-top:4px">${esc(m.name)}</div></div>`).join('');
+  show('offer'); $('#fab').style.display = 'flex';
+}
+$('#vid').addEventListener('play', () => track('video', 'play'), { once: true });
+
+/* ------------------------------------------------------------------ start */
+setTimeout(() => {
+  let saved = '';
+  try { saved = localStorage.getItem('dc_lang') || ''; } catch (e) {}
+  if (Q.get('l') && T[Q.get('l')]) saved = Q.get('l');
+  if (saved) { opened.then(() => { setLang(saved); renderCats(); show('cat'); }); }
+  else show('lang');
+}, 1600);
+</script>
+</body>
+</html>
