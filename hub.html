@@ -146,6 +146,25 @@ img.dp{cursor:zoom-in}
 .cam .cb button.on{background:#FFD400;color:#000}
 .light{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:16px}
 .light.on{display:flex}.light img{max-width:100%;max-height:100%;border-radius:12px}
+
+/* ---- Ad Library + bulk WhatsApp */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;margin-top:12px}
+.lcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.lcard.sel{border-color:#1FAF5A;box-shadow:0 0 0 2px #1FAF5A}
+.lcard .ph{aspect-ratio:9/14;background:#0B0F19 center/cover no-repeat;position:relative;display:block}
+.lcard .ph .ty{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.65);color:#fff;font-size:10.5px;font-weight:700;border-radius:8px;padding:2px 7px}
+.lcard .pick{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:15px;font-weight:900;color:#1FAF5A;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.lcard.sel .pick{background:#1FAF5A;color:#fff}
+.lcard .bd{padding:8px;display:grid;gap:6px}
+.lcard b.t{font-size:13px;line-height:1.25}
+.lcard .ab{display:grid;grid-template-columns:1fr 1fr;gap:4px}.lcard .ab>*{padding:7px 0;font-size:12px;text-align:center}
+.lcard .tk{display:flex;gap:10px;font-size:11.5px;font-weight:700;color:var(--muted)}.lcard .tk input{width:auto;margin-right:3px}
+.lcard details{font-size:12px}.lcard details summary{font-weight:700;color:var(--navy);cursor:pointer}
+.lcard textarea,.lcard input[type=text]{padding:7px 9px;border-radius:9px;font-size:12.5px;margin-top:4px}
+.btn.ig{background:#D62976}.btn.yt{background:#E00000}
+.wachips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.wachips span{background:#E7F7EE;color:#12703B;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700}
+.wastat{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;text-align:center}.wastat div{background:#F4F7FB;border-radius:12px;padding:8px 2px}.wastat b{display:block;font-size:18px}.wastat span{font-size:11px;color:var(--muted);font-weight:700}
+.tplbox{background:#F4F7FB;border-radius:12px;padding:10px;font-size:12.5px;white-space:pre-wrap;margin-top:6px}
 </style>
 </head>
 <body>
@@ -167,7 +186,7 @@ img.dp{cursor:zoom-in}
 
 <!-- ============================== app -->
 <div id="appV" style="display:none">
-  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub</h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v5</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
   <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
 
   <div class="wrap">
@@ -276,6 +295,61 @@ img.dp{cursor:zoom-in}
     </section>
 
     <!-- ---------------- SETTINGS -->
+    <!-- ---------------- LIBRARY: ads to post + bulk WhatsApp -->
+    <section class="view" id="v-lib">
+      <div class="card">
+        <h2>📚 Ad Library <span class="pill p-sent" id="libN"></span></h2>
+        <p class="hint">Every video and photo in your Google Drive folder <b>Ad Library</b> shows here by itself, including new ones Claude adds. Tap <b>Instagram</b> or <b>YouTube</b>: the caption or title is copied and the app opens. Tap the round ✓ on a picture to choose it for bulk WhatsApp.</p>
+        <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+          <label class="btn sm" style="cursor:pointer">➕ Add video or photo<input type="file" id="libFile" accept="image/*,video/*" multiple hidden></label>
+          <a class="btn l sm" id="libFolder" target="_blank" rel="noopener">📂 Open Drive folder</a>
+          <a class="btn ig sm" href="https://www.instagram.com/digifactory_labs/" target="_blank" rel="noopener">Instagram ↗</a>
+          <a class="btn yt sm" href="https://studio.youtube.com/channel/UCA-OxyeriL9AK45_-FpsW_Q/videos/upload?d=ud" target="_blank" rel="noopener">YouTube Studio ↗</a>
+        </div>
+        <div id="libProg"></div>
+        <div class="seg" id="libF" style="margin-top:12px"><button class="on" data-lf="all">All</button><button data-lf="todo">Not posted</button><button data-lf="video">Videos</button><button data-lf="photo">Photos</button></div>
+        <div class="lgrid" id="lgrid"><div class="empty" style="grid-column:1/-1">Loading…</div></div>
+      </div>
+
+      <div class="card" id="waCard">
+        <h2>📣 Bulk WhatsApp <span class="pill" id="waPill"></span></h2>
+        <div id="waSetup" style="display:none">
+          <p class="hint">Not connected yet. Do these once:</p>
+          <p class="hint">1. In Meta Business (business.facebook.com) add WhatsApp and a phone number that is not on the WhatsApp app.<br>2. Create the three message templates below (WhatsApp Manager → Message templates → Create, category Marketing) and wait for approval.<br>3. In the Google Sheet: Extensions → Apps Script → ⚙ Project Settings → Script properties → add <code>WA_TOKEN</code> (permanent access token) and <code>WA_PHONE_ID</code> (phone number ID).<br>4. Come back here and tap <b>Send test to me</b>.</p>
+        </div>
+        <label class="f">Videos / photos to send <span class="hint">(choose with the round ✓ above; none = text only)</span></label>
+        <div class="wachips" id="waPicked"></div>
+        <label class="f">Your message <span class="hint">(one paragraph; it goes in the middle of the approved template)</span></label>
+        <textarea id="waText" style="min-height:90px" maxlength="600" placeholder="e.g. ಈ Diwali-ಗೆ ನಿಮ್ಮ ಅಂಗಡಿ online ಮಾಡಿ! DigiCart yearly plan 40% OFF, 20 Nov ವರೆಗೆ ಮಾತ್ರ."></textarea>
+        <div class="grid2" style="margin-top:8px">
+          <div><label class="f">Who</label><select id="waWho"><option value="new">Not sent yet</option><option value="all">All shops</option><option value="opened">Opened, no reply</option><option value="interested">Interested</option></select></div>
+          <div><label class="f">Category</label><select id="waCat"></select></div>
+        </div>
+        <label class="f">Area</label><select id="waArea"></select>
+        <p class="hint" id="waCount" style="margin-top:8px"></p>
+        <div class="row" style="gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn l" id="waTest">Send test to me</button>
+          <button class="btn g" id="waGo">Send</button>
+          <button class="btn r sm" id="waStop" style="display:none">Stop the rest</button>
+        </div>
+        <p class="hint" id="waMsg" style="margin-top:8px"></p>
+        <div class="wastat" id="waStat"></div>
+        <details style="margin-top:12px"><summary>📝 Templates to create in Meta (copy exactly)</summary>
+          <p class="hint" style="margin:8px 0">Create all three with language <b id="tplLang">Kannada</b>, category <b>Marketing</b>. Buttons on each: 1) <i>Visit website</i>, type <b>Dynamic</b>, text “ವೀಡಿಯೊ ನೋಡಿ”, URL <code id="tplUrl"></code> 2) <i>Quick reply</i> “STOP”. For sample values use: {{1}} = Sri Lakshmi Stores, {{2}} = Diwali offer: 40% off the yearly plan till 20 Nov.</p>
+          <b>digicart_video</b> <span class="hint">Header: Video</span>
+          <b style="display:block;margin-top:6px">digicart_photo</b> <span class="hint">Header: Image</span>
+          <b style="display:block;margin-top:6px">digicart_text</b> <span class="hint">Header: none</span>
+          <div class="tplbox" id="tplBody"></div>
+          <button class="btn l sm" id="tplCopy" style="margin-top:6px">Copy body text</button>
+          <div class="grid2" style="margin-top:10px">
+            <div><label class="f">Template language code</label><input id="s_waLang" placeholder="kn"></div>
+            <div><label class="f">Shops per day</label><input id="s_waDaily" inputmode="numeric" placeholder="250"></div>
+          </div>
+          <button class="btn l sm" id="waSave" style="margin-top:8px">Save</button>
+        </details>
+      </div>
+    </section>
+
     <section class="view" id="v-set">
       <div class="card"><h2>✅ Setup check</h2><div id="checks"></div></div>
       <div class="card">
@@ -305,6 +379,7 @@ img.dp{cursor:zoom-in}
     <button class="on" data-v="home"><span>🏠</span>Home<i class="dot" id="dotHome"></i></button>
     <button data-v="shops"><span>🏪</span>Shops</button>
     <button data-v="send"><span>📤</span>Send</button>
+    <button data-v="lib"><span>📚</span>Library</button>
     <button data-v="grow"><span>🚀</span>Grow</button>
     <button data-v="set"><span>⚙️</span>Settings</button>
   </nav>
@@ -323,7 +398,7 @@ img.dp{cursor:zoom-in}
     <div id="sDone"></div>
   </div>
 </div>
-<input type="file" id="snapFile" accept="image/*" capture="environment" hidden>
+<input type="file" id="snapFile" accept="image/*" hidden>
 <input type="file" id="snapFileG" accept="image/*" hidden>
 <input type="file" id="dpFile" accept="image/*" hidden>
 <div class="cam" id="cam">
@@ -910,12 +985,12 @@ function openSnap() {
 }
 // The camera runs inside this page. Opening the phone's camera app can make Android close the browser
 // on phones with little free memory ("Unable to complete previous operation due to low memory").
-let CAM = null, TORCH = false, ZOOM = 1;
+let CAM = null, TORCH = false, ZOOM = 1, SNAPURL = '';
 function stopCam() { if (CAM) CAM.getTracks().forEach((t) => t.stop()); CAM = null; $('#cam').classList.remove('on'); $('#camV').srcObject = null; }
 async function startCam() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { $('#snapFile').value = ''; return $('#snapFile').click(); }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { snapStatus('⚠️ This browser cannot open the camera inside the page. Open the hub in Chrome, or use From gallery.', 'bad'); return; }
   try {
-    CAM = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1440 } } });
+    CAM = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: 'environment' }, width: { ideal: 1600 }, height: { ideal: 1200 } } });
   } catch (er) {
     snapStatus(/denied|NotAllowed/i.test(er.name + er.message) ? '⚠️ Camera not allowed. Tap 🔒 next to the address → Permissions → Camera → Allow, or use From gallery.' : '⚠️ Camera did not start. Use From gallery.', 'bad');
     return;
@@ -944,11 +1019,11 @@ $('#camT').onclick = async () => {
 $('#camShot').onclick = () => {
   const v = $('#camV'); if (!v.videoWidth) return;
   const z = CAM && !CAM.hwZoom ? ZOOM : 1, sw = v.videoWidth / z, sh = v.videoHeight / z;
-  const k = Math.min(1, 1600 / Math.max(sw, sh));
+  const k = Math.min(1, 1400 / Math.max(sw, sh));
   const c = document.createElement('canvas'); c.width = Math.round(sw * k); c.height = Math.round(sh * k);
   c.getContext('2d').drawImage(v, (v.videoWidth - sw) / 2, (v.videoHeight - sh) / 2, sw, sh, 0, 0, c.width, c.height);
-  const shot = c.toDataURL('image/jpeg', 0.85);
-  stopCam(); processSnap(shot);
+  stopCam(); // free the camera before the photo is packed
+  c.toBlob((blob) => { c.width = c.height = 0; if (blob) processSnap(blob, true); else snapStatus('⚠️ Could not take the photo. Try again or use From gallery.', 'bad'); }, 'image/jpeg', 0.82);
 };
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && CAM) stopCam(); });
 $('#snapGo').onclick = () => { openSnap(); startCam(); };
@@ -957,14 +1032,21 @@ $('#snapCam').onclick = startCam;
 $('#snapGal').onclick = () => { $('#snapFileG').value = ''; $('#snapFileG').click(); };
 $('#snapX').onclick = () => { stopCam(); $('#snapV').classList.remove('on'); };
 function onSnapFile(e) { const f = e.target.files[0]; if (f) processSnap(f); }
-async function processSnap(f) {
+async function processSnap(f, ready) {
   const mine = SNAP = { fileId: '', busy: true };
   $('#sSave').disabled = false;
   try {
-    const big = await shrink(f, 1600, 0.82);
-    $('#snapImg').src = big; mine.thumb = await square(big, 160);
+    let data;
+    if (ready) { // straight from the in-page camera: already small, never unpacked again
+      if (SNAPURL) URL.revokeObjectURL(SNAPURL);
+      SNAPURL = URL.createObjectURL(f); $('#snapImg').src = SNAPURL; mine.thumb = await square(SNAPURL, 160);
+      data = await b64(f);
+    } else {
+      const big = await shrink(f, 1600, 0.82);
+      $('#snapImg').src = big; mine.thumb = await square(big, 160); data = big.split(',')[1];
+    }
     snapStatus('⏳ Saving the photo and reading the board…');
-    const r = await call({ a: 'snap', data: big.split(',')[1] });
+    const r = await call({ a: 'snap', data }); data = null;
     if (SNAP !== mine) return;
     mine.fileId = r.fileId;
     const g = readBoard(r.text, $('#sCat').value);
@@ -1270,6 +1352,7 @@ function show(v) {
   if (v === 'home') { const d = $('#dotHome'); d.style.display = 'none'; d.textContent = ''; }
   if (v === 'set') renderChecks();
   if (v === 'grow') renderLinks();
+  if (v === 'lib') loadLib();
   lsSet('view', v); window.scrollTo(0, 0);
 }
 $('#nav').addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) show(b.dataset.v); });
@@ -1295,6 +1378,123 @@ async function load() {
     $('#liveB').classList.add('off'); $('#upd').textContent = 'Reconnecting…';
   }
 }
+// ------------------------------------------------------------------ Ad Library + bulk WhatsApp
+let LIB = { items: [], wa: null, folderUrl: '' }, LIBF = 'all', PICK = new Set(), libAt = 0, waBusy = false;
+const TPL_BODY = 'ನಮಸ್ಕಾರ {{1}} 🙏\n\n{{2}}\n\nDigiCart: ನಿಮ್ಮ ಅಂಗಡಿ online, zero commission. ಕೆಳಗಿನ ಬಟನ್ ಒತ್ತಿ ವೀಡಿಯೊ ನೋಡಿ.\nಸಂದೇಶ ಬೇಡವಾದರೆ STOP ಒತ್ತಿ.';
+const slotTxt = (s) => { if (!s) return ''; const d = new Date(s + ':00+05:30'); return isNaN(d) ? '' : d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); };
+async function loadLib(force) {
+  if (!force && Date.now() - libAt < 45000 && LIB.items.length) return renderLib();
+  try { LIB = await call({ a: 'lib' }); libAt = Date.now(); renderLib(); }
+  catch (e) { if (/unknown action/i.test(e.message)) $('#lgrid').innerHTML = '<div class="empty" style="grid-column:1/-1">The Google Sheet script is an older version. Paste the new Code.gs and deploy a new version to use the library.</div>'; else toast(e.message); }
+}
+function renderLib() {
+  const items = LIB.items.slice().sort((a, b) => (a.slot || '9').localeCompare(b.slot || '9') || b.createdAt - a.createdAt);
+  [...PICK].forEach((id) => { if (!items.some((x) => x.id === id)) PICK.delete(id); });
+  const list = items.filter((x) => LIBF === 'all' || (LIBF === 'todo' ? !(x.ig && x.ytd) : x.type === LIBF));
+  $('#libN').textContent = items.length + ' items'; if (LIB.folderUrl) $('#libFolder').href = LIB.folderUrl;
+  $('#lgrid').innerHTML = list.length ? list.map((x) => `<div class="lcard${PICK.has(x.id) ? ' sel' : ''}" data-id="${esc(x.id)}">
+    <a class="ph" href="${esc(x.open)}" target="_blank" rel="noopener" style="background-image:url('${esc(x.thumb)}')"><span class="ty">${x.type === 'video' ? '▶ Video' : '📷 Photo'}${x.size ? ' · ' + (x.size / 1024).toFixed(1) + ' MB' : ''}</span><button class="pick" data-pick title="Choose for WhatsApp">✓</button></a>
+    <div class="bd"><b class="t">${esc(x.title)}</b>
+      ${x.slot || x.who ? `<span class="hint" style="font-size:11.5px">${esc([slotTxt(x.slot), x.who].filter(Boolean).join(' · '))}</span>` : ''}
+      <div class="ab"><a class="btn sm" href="${esc(x.download)}" target="_blank" rel="noopener">⬇ Save</a><button class="btn l sm" data-lcap>Copy caption</button>
+        <a class="btn ig sm" href="https://www.instagram.com/" target="_blank" rel="noopener" data-lig>Instagram</a><a class="btn yt sm" href="https://studio.youtube.com/channel/UCA-OxyeriL9AK45_-FpsW_Q/videos/upload?d=ud" target="_blank" rel="noopener" data-lyt>YouTube</a></div>
+      <div class="tk"><label><input type="checkbox" data-lk="ig"${x.ig ? ' checked' : ''}>Insta ✓</label><label><input type="checkbox" data-lk="ytd"${x.ytd ? ' checked' : ''}>YouTube ✓</label></div>
+      <details><summary>Edit text</summary>
+        <input type="text" data-lk="title" value="${esc(x.title)}" placeholder="Title">
+        <input type="text" data-lk="yt" value="${esc(x.yt)}" placeholder="YouTube title">
+        <textarea data-lk="caption" rows="5" placeholder="Caption">${esc(x.caption)}</textarea>
+        <button class="btn r sm" data-ldel style="margin-top:6px">🗑 Delete</button>
+      </details>
+    </div></div>`).join('') : '<div class="empty" style="grid-column:1/-1">Nothing here yet. Tap ➕ or put files in the Drive folder.</div>';
+  renderWa();
+}
+$('#libF').addEventListener('click', (e) => { const b = e.target.closest('[data-lf]'); if (!b) return; LIBF = b.dataset.lf; document.querySelectorAll('#libF button').forEach((x) => x.classList.toggle('on', x === b)); renderLib(); });
+$('#lgrid').addEventListener('click', async (e) => {
+  const card = e.target.closest('.lcard'); if (!card) return; const id = card.dataset.id, x = LIB.items.find((i) => i.id === id); if (!x) return;
+  if (e.target.closest('[data-pick]')) { e.preventDefault(); if (PICK.has(id)) PICK.delete(id); else if (PICK.size >= 5) return toast('Up to 5 at once'); else PICK.add(id); card.classList.toggle('sel', PICK.has(id)); return renderWa(); }
+  if (e.target.closest('[data-lcap]')) return x.caption ? copy(x.caption) : toast('No caption yet: add one under Edit text');
+  if (e.target.closest('[data-lig]')) { if (x.caption) copy(x.caption); return; }
+  if (e.target.closest('[data-lyt]')) { if (x.yt || x.title) copy(x.yt || x.title); return; }
+  const d = e.target.closest('[data-ldel]');
+  if (d) { if (!d.dataset.arm) { d.dataset.arm = '1'; d.textContent = 'Tap again to delete'; return; }
+    try { await call({ a: 'ldel', id }); LIB.items = LIB.items.filter((i) => i.id !== id); PICK.delete(id); renderLib(); toast('Deleted'); } catch (er) { toast(er.message); } }
+});
+$('#lgrid').addEventListener('change', async (e) => {
+  const el = e.target.closest('[data-lk]'); if (!el) return; const id = el.closest('.lcard').dataset.id, f = {};
+  f[el.dataset.lk] = el.type === 'checkbox' ? el.checked : el.value;
+  try { const r = await call({ a: 'lupd', id, f }); const i = LIB.items.findIndex((m) => m.id === id); if (i >= 0) LIB.items[i] = r.item; toast('Saved'); if (el.type !== 'checkbox' && el.dataset.lk === 'title') renderLib(); } catch (er) { toast(er.message); }
+});
+$('#libFile').addEventListener('change', async (e) => {
+  const files = [...e.target.files]; e.target.value = '';
+  for (const f of files) {
+    const row = document.createElement('div'); row.className = 'upl'; row.innerHTML = `<span style="width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.name)}</span><span class="bar"><i></i></span><b>0%</b>`;
+    $('#libProg').appendChild(row); const bar = row.querySelector('i'), pct = row.querySelector('b');
+    try {
+      const isVid = /^video\//.test(f.type);
+      if (!isVid && !/^image\//.test(f.type)) throw new Error('Not a photo or video');
+      if (isVid && f.size > 16 * 1024 * 1024) throw new Error('Over 16 MB: WhatsApp will not take it. Put it in the Drive folder instead to keep it for Instagram and YouTube.');
+      const blob = isVid ? f : await shrinkPhoto(f);
+      const r = await postWithProgress({ a: 'lup', mime: isVid ? f.type : 'image/jpeg', data: await b64(blob), file: f.name }, (x) => { bar.style.width = Math.round(x * 95) + '%'; pct.textContent = Math.round(x * 95) + '%'; });
+      bar.style.width = '100%'; pct.textContent = '✓'; LIB.items = [r.item, ...LIB.items]; renderLib(); setTimeout(() => row.remove(), 2500);
+    } catch (er) { pct.textContent = '✗'; row.insertAdjacentHTML('beforeend', `<span style="color:var(--red)">${esc(er.message)}</span>`); }
+  }
+});
+// ---- who gets the bulk message
+function waAudience() {
+  const who = $('#waWho').value, cat = $('#waCat').value, area = $('#waArea').value;
+  return (DATA.shops || []).filter((l) => !l.anon && String(l.phone).length === 10 && l.stage !== 'no' && (!cat || l.cat === cat) && (!area || l.area === area) &&
+    (who === 'all' || (who === 'new' ? !l.sentAt : who === 'opened' ? l.opens > 0 && !l.stage : l.stage === 'interested')));
+}
+function renderWa() {
+  const wa = LIB.wa || { ready: false, queued: 0, sent: 0, failed: 0, today: 0, daily: 250 };
+  const pill = $('#waPill'); pill.textContent = wa.ready ? 'Connected' : 'Not connected'; pill.className = 'pill ' + (wa.ready ? 'p-onboarded' : 'p-no');
+  $('#waSetup').style.display = wa.ready ? 'none' : 'block';
+  const cats = [...new Set((DATA.shops || []).map((l) => l.cat).filter(Boolean))], areas = [...new Set((DATA.shops || []).map((l) => l.area).filter(Boolean))].sort();
+  const keep = (el, html) => { const v = el.value; el.innerHTML = html; el.value = [...el.options].some((o) => o.value === v) ? v : ''; };
+  keep($('#waCat'), '<option value="">All categories</option>' + cats.map((c) => `<option value="${esc(c)}">${esc((CATS[c] || ['', c])[1])}</option>`).join(''));
+  keep($('#waArea'), '<option value="">All areas</option>' + areas.map((a) => `<option>${esc(a)}</option>`).join(''));
+  const picked = LIB.items.filter((x) => PICK.has(x.id));
+  $('#waPicked').innerHTML = picked.length ? picked.map((x) => `<span>${x.type === 'video' ? '▶' : '📷'} ${esc(x.title)}</span>`).join('') : '<span style="background:#EEF2F8;color:var(--muted)">Text only</span>';
+  const n = waAudience().length, per = Math.max(1, picked.length), msgs = n * per, days = Math.ceil(n / wa.daily);
+  $('#waCount').innerHTML = n ? `<b>${n}</b> shops × ${per} message${per > 1 ? 's' : ''} = <b>${msgs}</b> messages, about <b>₹${Math.round(msgs * 1.02)}</b> to Meta.${days > 1 ? ` At ${wa.daily} shops a day this takes ${days} days; the hub carries on by itself.` : ''}` : 'No shops match. Add shops with a 10-digit mobile number, or change Who.';
+  const go = $('#waGo'); if (!go.dataset.arm) go.textContent = `Send to ${n} shop${n === 1 ? '' : 's'}`; go.disabled = !n || waBusy;
+  $('#waStop').style.display = wa.queued ? '' : 'none';
+  $('#waStat').innerHTML = `<div><b>${wa.queued}</b><span>Waiting</span></div><div><b>${wa.sent}</b><span>Sent</span></div><div><b>${wa.failed}</b><span>Failed</span></div><div><b>${wa.today}/${wa.daily}</b><span>Today</span></div>`;
+  if (wa.lastError && wa.failed && !$('#waMsg').textContent) $('#waMsg').textContent = 'Last problem: ' + wa.lastError;
+  const s = ST(); if (document.activeElement !== $('#s_waLang')) $('#s_waLang').value = s.waLang || 'kn'; if (document.activeElement !== $('#s_waDaily')) $('#s_waDaily').value = s.waDaily || '250';
+  $('#tplBody').textContent = TPL_BODY; $('#tplUrl').textContent = BASE + '{{1}}'; $('#tplLang').textContent = ({ kn: 'Kannada', en: 'English', hi: 'Hindi' })[s.waLang || 'kn'] || s.waLang;
+}
+['waWho', 'waCat', 'waArea'].forEach((id) => $('#' + id).addEventListener('change', () => { delete $('#waGo').dataset.arm; renderWa(); }));
+$('#tplCopy').onclick = () => copy(TPL_BODY);
+$('#waSave').onclick = async () => { try { const r = await call({ a: 'set', set: { waLang: $('#s_waLang').value.trim() || 'kn', waDaily: String(Math.max(1, parseInt($('#s_waDaily').value, 10) || 250)) } }); DATA.settings = r.settings; await loadLib(true); toast('Saved'); } catch (e) { toast(e.message); } };
+$('#waTest').onclick = async () => {
+  const text = $('#waText').value.trim(); if (!text) return toast('Write a message first');
+  $('#waMsg').textContent = 'Sending a test to your number…';
+  try { await call({ a: 'wa_test', text, media: [...PICK][0] || '' }); $('#waMsg').textContent = '✓ Test sent to +91 ' + (ST().phone || '') + (PICK.size > 1 ? ' (first chosen item only)' : '') + '. Check WhatsApp on that phone.'; }
+  catch (e) { $('#waMsg').textContent = '✗ ' + e.message; }
+};
+async function waPump() {
+  if (waBusy) return; waBusy = true; renderWa();
+  try {
+    for (let i = 0; i < 400; i++) {
+      const r = await call({ a: 'wa_run' }); LIB.wa = r.wa; renderWa();
+      $('#waMsg').textContent = r.stop ? '⏸ ' + r.stop : r.wa.queued ? `Sending… ${r.wa.queued} waiting` : `✓ Done. ${r.wa.sent} sent, ${r.wa.failed} failed in total.`;
+      if (r.stop || !r.wa.queued) break;
+      if (r.busy) await new Promise((x) => setTimeout(x, 4000));
+    }
+  } catch (e) { $('#waMsg').textContent = '✗ ' + e.message + '. Waiting messages stay queued; open this tab again to continue.'; }
+  waBusy = false; renderWa(); load();
+}
+$('#waGo').onclick = async () => {
+  const go = $('#waGo'), text = $('#waText').value.trim(), ids = waAudience().map((l) => l.id);
+  if (!text) return toast('Write a message first'); if (!ids.length) return;
+  if (!(LIB.wa && LIB.wa.ready)) return toast('Connect WhatsApp first (steps above)');
+  if (!go.dataset.arm) { go.dataset.arm = '1'; go.textContent = `Tap again: really send to ${ids.length} shops`; setTimeout(() => { if (go.dataset.arm) { delete go.dataset.arm; renderWa(); } }, 5000); return; }
+  delete go.dataset.arm;
+  try { const r = await call({ a: 'wa_queue', ids, media: [...PICK], text }); LIB.wa = r.wa; $('#waMsg').textContent = `${r.queued} messages queued for ${r.shops} shops.`; waPump(); }
+  catch (e) { $('#waMsg').textContent = '✗ ' + e.message; renderWa(); }
+};
+$('#waStop').onclick = async () => { try { const r = await call({ a: 'wa_cancel' }); LIB.wa = r.wa; $('#waMsg').textContent = `Stopped. ${r.cancelled} waiting messages cancelled.`; renderWa(); } catch (e) { toast(e.message); } };
 function upChips() { const d = DCAT[$('#upCat').value] || DCAT.fashion; $('#upChip').innerHTML = (d.chips || []).map(([k, t]) => `<option value="${k}">${esc(t)}</option>`).join(''); }
 $('#upCat').addEventListener('change', () => { lsSet('upCat', $('#upCat').value); upChips(); });
 function renderKit() {
