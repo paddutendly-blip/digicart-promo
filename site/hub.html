@@ -155,6 +155,13 @@ img.dp{cursor:zoom-in}
 .lcard .ph .ty{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.65);color:#fff;font-size:10.5px;font-weight:700;border-radius:8px;padding:2px 7px}
 .lcard .pick{position:absolute;right:6px;top:6px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:15px;font-weight:900;color:#1FAF5A;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .lcard.sel .pick{background:#1FAF5A;color:#fff}
+.lcard .ph .cb{position:absolute;left:6px;top:6px;background:rgba(255,255,255,.95);color:var(--navy);font-size:10.5px;font-weight:800;border-radius:8px;padding:2px 7px;max-width:calc(100% - 50px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lcard select{padding:7px 9px;border-radius:9px;font-size:12.5px;margin-top:4px}
+.lcard .ml{display:block;font-weight:700;color:var(--muted);margin-top:6px;font-size:11.5px}
+.kitbar{display:flex;gap:10px;align-items:center;background:#FFF6E5;border:1px solid #FFD99A;border-radius:12px;padding:10px;margin-top:10px;font-size:13px}
+.kitbar b{flex:1}
+.wasrc{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px;flex-wrap:wrap}
+.wamatch{display:flex;gap:8px;align-items:flex-start;background:#EEF5FF;border-radius:12px;padding:10px;margin-top:8px;font-size:13px;font-weight:700;color:var(--navy)}.wamatch input{width:auto;margin-top:2px}
 .lcard .bd{padding:8px;display:grid;gap:6px}
 .lcard b.t{font-size:13px;line-height:1.25}
 .lcard .ab{display:grid;grid-template-columns:1fr 1fr;gap:4px}.lcard .ab>*{padding:7px 0;font-size:12px;text-align:center}
@@ -186,7 +193,7 @@ img.dp{cursor:zoom-in}
 
 <!-- ============================== app -->
 <div id="appV" style="display:none">
-  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v5</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v7</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
   <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
 
   <div class="wrap">
@@ -299,15 +306,16 @@ img.dp{cursor:zoom-in}
     <section class="view" id="v-lib">
       <div class="card">
         <h2>📚 Ad Library <span class="pill p-sent" id="libN"></span></h2>
-        <p class="hint">Every video and photo in your Google Drive folder <b>Ad Library</b> shows here by itself, including new ones Claude adds. Tap <b>Instagram</b> or <b>YouTube</b>: the caption or title is copied and the app opens. Tap the round ✓ on a picture to choose it for bulk WhatsApp.</p>
+        <p class="hint">Every video and photo in your Google Drive folder <b>Ad Library</b> shows here by itself, including new ones Claude adds. Tap <b>Instagram</b> or <b>YouTube</b>: the caption or title is copied and the app opens. Tap the round ✓ on a video to send it by bulk WhatsApp: its message fills in by itself. Each category ad has its own message in Kannada, English and Hindi (change it under <b>Edit text</b>).</p>
         <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
           <label class="btn sm" style="cursor:pointer">➕ Add video or photo<input type="file" id="libFile" accept="image/*,video/*" multiple hidden></label>
           <a class="btn l sm" id="libFolder" target="_blank" rel="noopener">📂 Open Drive folder</a>
           <a class="btn ig sm" href="https://www.instagram.com/digifactory_labs/" target="_blank" rel="noopener">Instagram ↗</a>
           <a class="btn yt sm" href="https://studio.youtube.com/channel/UCA-OxyeriL9AK45_-FpsW_Q/videos/upload?d=ud" target="_blank" rel="noopener">YouTube Studio ↗</a>
         </div>
+        <div class="kitbar" id="libKitBar" style="display:none"><b id="libKitTxt"></b><button class="btn o sm" id="libKit">Add them</button></div>
         <div id="libProg"></div>
-        <div class="seg" id="libF" style="margin-top:12px"><button class="on" data-lf="all">All</button><button data-lf="todo">Not posted</button><button data-lf="video">Videos</button><button data-lf="photo">Photos</button></div>
+        <div class="seg" id="libF" style="margin-top:12px"><button class="on" data-lf="all">All</button><button data-lf="kit">Category ads</button><button data-lf="todo">Not posted</button><button data-lf="video">Videos</button><button data-lf="photo">Photos</button></div>
         <div class="lgrid" id="lgrid"><div class="empty" style="grid-column:1/-1">Loading…</div></div>
       </div>
 
@@ -317,10 +325,12 @@ img.dp{cursor:zoom-in}
           <p class="hint">Not connected yet. Do these once:</p>
           <p class="hint">1. In Meta Business (business.facebook.com) add WhatsApp and a phone number that is not on the WhatsApp app.<br>2. Create the three message templates below (WhatsApp Manager → Message templates → Create, category Marketing) and wait for approval.<br>3. In the Google Sheet: Extensions → Apps Script → ⚙ Project Settings → Script properties → add <code>WA_TOKEN</code> (permanent access token) and <code>WA_PHONE_ID</code> (phone number ID).<br>4. Come back here and tap <b>Send test to me</b>.</p>
         </div>
-        <label class="f">Videos / photos to send <span class="hint">(choose with the round ✓ above; none = text only)</span></label>
+        <label class="f">Video / photo to send <span class="hint">(tap the round ✓ in the Library, or pick a Category below; none = text only)</span></label>
         <div class="wachips" id="waPicked"></div>
-        <label class="f">Your message <span class="hint">(one paragraph; it goes in the middle of the approved template)</span></label>
-        <textarea id="waText" style="min-height:90px" maxlength="600" placeholder="Write in the language chosen below, e.g. ನಿಮ್ಮ ಅಂಗಡಿಯನ್ನು ಇಂದೇ DigiCart-ನಲ್ಲಿ online ಮಾಡಿ, zero commission!"></textarea>
+        <label class="wamatch" id="waMatchL" style="display:none"><input type="checkbox" id="waMatch"><span>🎯 Each shop gets the ad and message of <u>its own category</u> (fashion shops get the fashion ad, grocery shops the grocery ad…)</span></label>
+        <label class="f">Message <span class="hint">(fills in from the chosen video; you can change it)</span></label>
+        <textarea id="waText" style="min-height:110px" maxlength="600" placeholder="Choose a video above, or write in the language chosen below"></textarea>
+        <div class="wasrc"><span class="hint" id="waSrc" style="margin:0"></span><button class="btn l sm" id="waSaveMsg" style="display:none">💾 Save as this video's message</button></div>
         <div class="grid2" style="margin-top:8px">
           <div><label class="f">Language</label><select id="waLang"><option value="kn">ಕನ್ನಡ Kannada</option><option value="en">English</option><option value="hi">हिन्दी Hindi</option></select></div>
           <div><label class="f">Who</label><select id="waWho"><option value="new">Not sent yet</option><option value="all">All shops</option><option value="opened">Opened, no reply</option><option value="interested">Interested</option></select></div>
@@ -1399,6 +1409,56 @@ const WATPL = {
     other: { body: 'नमस्ते {{1}} 🙏\n\n{{2}}\n\nDigiCart: आपकी दुकान ऑनलाइन, ज़ीरो कमीशन। ज़्यादा जानकारी के लिए नीचे दिया बटन दबाएँ।\nमैसेज नहीं चाहिए तो STOP दबाएँ।', btn: 'और जानें' } },
 };
 const waL = () => WATPL[$('#waLang').value] ? $('#waLang').value : 'kn';
+// one message per category ad (goes in the middle of the approved template); edit per video in the Library card
+const KITMSG = {
+  fashion: {
+    en: 'Customers near you are already buying clothes on their phones. Put every item, size and colour of your fashion store on DigiCart in 5 minutes and start getting orders from your own area. First 15 days free.',
+    kn: 'ನಿಮ್ಮ ಹತ್ತಿರದ ಗ್ರಾಹಕರು ಈಗ ಮೊಬೈಲ್‌ನಲ್ಲೇ ಬಟ್ಟೆ ಖರೀದಿಸುತ್ತಾರೆ. ನಿಮ್ಮ fashion ಅಂಗಡಿಯ ಪ್ರತಿ item, size, colour ಅನ್ನು 5 ನಿಮಿಷದಲ್ಲಿ DigiCart-ಗೆ ಹಾಕಿ, ನಿಮ್ಮ area-ಯಿಂದಲೇ order ಪಡೆಯಿರಿ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'आपके आस-पास के ग्राहक अब मोबाइल पर ही कपड़े खरीदते हैं। अपनी फैशन दुकान का हर आइटम, साइज़ और कलर 5 मिनट में DigiCart पर डालें और अपने इलाके से ऑर्डर पाएँ। पहले 15 दिन फ्री।' },
+  grocery: {
+    en: 'Let your regular customers order groceries from your shop on their phone, and deliver in minutes with your own delivery boy. Every item and every pack keeps its own stock count. First 15 days free.',
+    kn: 'ನಿಮ್ಮ ಖಾಯಂ ಗ್ರಾಹಕರು ಈಗ ಮೊಬೈಲ್‌ನಲ್ಲೇ ನಿಮ್ಮ ಅಂಗಡಿಯಿಂದ ದಿನಸಿ order ಮಾಡಬಹುದು, ನಿಮ್ಮ delivery ಹುಡುಗ ನಿಮಿಷಗಳಲ್ಲಿ ತಲುಪಿಸುತ್ತಾನೆ. ಪ್ರತಿ item, ಪ್ರತಿ pack-ಗೆ ತನ್ನದೇ stock ಲೆಕ್ಕ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'आपके रोज़ के ग्राहक अब मोबाइल से आपकी दुकान से किराने का सामान ऑर्डर कर सकते हैं, और आपका डिलीवरी बॉय मिनटों में पहुँचाता है। हर आइटम, हर पैक का अपना स्टॉक। पहले 15 दिन फ्री।' },
+  vegetables: {
+    en: 'Fresh fruits and vegetables sell fastest in the morning. With DigiCart, homes near you order from your shop before they step out, and you deliver fresh. Change the price per kg every day in seconds. First 15 days free.',
+    kn: 'ತಾಜಾ ಹಣ್ಣು-ತರಕಾರಿ ಬೆಳಿಗ್ಗೆಯೇ ಹೆಚ್ಚು ಮಾರಾಟ ಆಗುತ್ತದೆ. DigiCart-ನಲ್ಲಿ ಹತ್ತಿರದ ಮನೆಯವರು ಮನೆಯಿಂದಲೇ ನಿಮ್ಮ ಅಂಗಡಿಗೆ order ಮಾಡುತ್ತಾರೆ, ನೀವು ತಾಜಾ ತಲುಪಿಸಿ. ಕೆಜಿ ಬೆಲೆಯನ್ನು ಪ್ರತಿದಿನ ಸುಲಭವಾಗಿ ಬದಲಿಸಿ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'ताज़े फल-सब्ज़ियाँ सुबह सबसे ज़्यादा बिकती हैं। DigiCart पर पास के घर घर बैठे आपकी दुकान से ऑर्डर करते हैं और आप ताज़ा पहुँचाते हैं। किलो का दाम रोज़ सेकंडों में बदलें। पहले 15 दिन फ्री।' },
+  supermart: {
+    en: 'Your whole super mart in one app: every brand, pack and offer, with stock that updates by itself. Customers in your area order on their phone and you deliver in minutes. Set up in 5 minutes, first 15 days free.',
+    kn: 'ನಿಮ್ಮ ಇಡೀ super mart ಒಂದೇ app-ನಲ್ಲಿ: ಪ್ರತಿ brand, pack, offer, ಜೊತೆಗೆ ತಾನಾಗಿಯೇ update ಆಗುವ stock. ನಿಮ್ಮ area-ಯ ಗ್ರಾಹಕರು ಮೊಬೈಲ್‌ನಲ್ಲಿ order ಮಾಡುತ್ತಾರೆ, ನೀವು ನಿಮಿಷಗಳಲ್ಲಿ deliver ಮಾಡಿ. 5 ನಿಮಿಷದಲ್ಲಿ setup, ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'आपका पूरा सुपर मार्ट एक ऐप में: हर ब्रांड, पैक और ऑफ़र, अपने-आप अपडेट होने वाले स्टॉक के साथ। आपके इलाके के ग्राहक मोबाइल पर ऑर्डर करते हैं, आप मिनटों में डिलीवर करें। 5 मिनट में सेटअप, पहले 15 दिन फ्री।' },
+  electronics: {
+    en: 'Show your TVs, mobiles and appliances with photos and prices to customers in your area while they are at home. They order or enquire on DigiCart and you close the sale. First 15 days free.',
+    kn: 'ನಿಮ್ಮ TV, mobile, appliances ಗಳನ್ನು photo ಮತ್ತು ಬೆಲೆಯ ಜೊತೆ ನಿಮ್ಮ area-ಯ ಗ್ರಾಹಕರಿಗೆ ಅವರ ಮನೆಯಲ್ಲೇ ತೋರಿಸಿ. ಅವರು DigiCart-ನಲ್ಲಿ order ಅಥವಾ ವಿಚಾರಣೆ ಮಾಡುತ್ತಾರೆ, ನೀವು sale ಮುಗಿಸಿ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'अपने TV, मोबाइल और अप्लायंसेज़ फ़ोटो और दाम के साथ अपने इलाके के ग्राहकों को उनके घर पर ही दिखाएँ। वे DigiCart पर ऑर्डर या पूछताछ करते हैं, और आप सेल पक्की करते हैं। पहले 15 दिन फ्री।' },
+  gifts: {
+    en: 'Birthdays, weddings and festivals happen every day around your shop. Put your gifts and fancy items on DigiCart so customers can choose from home and order, with delivery from your shop. First 15 days free.',
+    kn: 'ಹುಟ್ಟುಹಬ್ಬ, ಮದುವೆ, ಹಬ್ಬ, ನಿಮ್ಮ ಅಂಗಡಿಯ ಸುತ್ತ ಪ್ರತಿದಿನ ಒಂದಲ್ಲ ಒಂದು ಸಂಭ್ರಮ. ನಿಮ್ಮ gift ಮತ್ತು fancy items ಅನ್ನು DigiCart-ಗೆ ಹಾಕಿ, ಗ್ರಾಹಕರು ಮನೆಯಿಂದಲೇ ಆಯ್ಕೆ ಮಾಡಿ order ಮಾಡಲಿ, ನಿಮ್ಮ ಅಂಗಡಿಯಿಂದಲೇ delivery. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'जन्मदिन, शादी, त्योहार: आपकी दुकान के आस-पास हर दिन कोई न कोई मौका होता है। अपने गिफ़्ट और फैंसी आइटम DigiCart पर डालें, ताकि ग्राहक घर बैठे चुनकर ऑर्डर करें और डिलीवरी आपकी दुकान से हो। पहले 15 दिन फ्री।' },
+  kirana: {
+    en: 'Your kirana, now on your customers\' phones. They order daily needs on DigiCart, pay by UPI or cash, and your own boy delivers. Big apps take a commission on every order; DigiCart does not. First 15 days free.',
+    kn: 'ನಿಮ್ಮ ಕಿರಾಣಿ ಅಂಗಡಿ ಈಗ ಗ್ರಾಹಕರ ಮೊಬೈಲ್‌ನಲ್ಲಿ. ಅವರು ದಿನನಿತ್ಯದ ಸಾಮಾನು DigiCart-ನಲ್ಲಿ order ಮಾಡಿ UPI ಅಥವಾ cash ಮೂಲಕ ಪಾವತಿಸುತ್ತಾರೆ, ನಿಮ್ಮ ಹುಡುಗನೇ deliver ಮಾಡುತ್ತಾನೆ. ದೊಡ್ಡ app-ಗಳಂತೆ ಪ್ರತಿ order-ಗೆ commission ಇಲ್ಲ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'आपकी किराना दुकान, अब ग्राहकों के मोबाइल में। वे रोज़ का सामान DigiCart पर ऑर्डर करते हैं, UPI या कैश से पेमेंट करते हैं, और आपका अपना लड़का डिलीवर करता है। बड़े ऐप्स की तरह हर ऑर्डर पर कमीशन नहीं। पहले 15 दिन फ्री।' },
+  footwear: {
+    en: 'Every model and every size keeps its own stock. Put your footwear shop on DigiCart so customers nearby can pick their size and order from home. Set up in 5 minutes, first 15 days free.',
+    kn: 'ಪ್ರತಿ model, ಪ್ರತಿ size-ಗೆ ತನ್ನದೇ stock. ನಿಮ್ಮ footwear ಅಂಗಡಿಯನ್ನು DigiCart-ಗೆ ಹಾಕಿ, ಹತ್ತಿರದ ಗ್ರಾಹಕರು ತಮ್ಮ size ಆಯ್ಕೆ ಮಾಡಿ ಮನೆಯಿಂದಲೇ order ಮಾಡಲಿ. 5 ನಿಮಿಷದಲ್ಲಿ setup, ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'हर मॉडल, हर साइज़ का अपना स्टॉक। अपनी फुटवियर दुकान DigiCart पर डालें, ताकि पास के ग्राहक अपना साइज़ चुनकर घर बैठे ऑर्डर करें। 5 मिनट में सेटअप, पहले 15 दिन फ्री।' },
+  laundry: {
+    en: 'Customers book washing, ironing and dry cleaning from their phone, and you pick up and deliver. DigiCart keeps every order and your price list in one place. Set up in 5 minutes, first 15 days free.',
+    kn: 'ಗ್ರಾಹಕರು ಮೊಬೈಲ್‌ನಿಂದಲೇ washing, ironing, dry cleaning book ಮಾಡುತ್ತಾರೆ, ನೀವು pickup ಮತ್ತು delivery ಮಾಡಿ. ಎಲ್ಲಾ order ಮತ್ತು ನಿಮ್ಮ ಬೆಲೆ ಪಟ್ಟಿ DigiCart-ನಲ್ಲಿ ಒಂದೇ ಕಡೆ. 5 ನಿಮಿಷದಲ್ಲಿ setup, ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'ग्राहक मोबाइल से ही धुलाई, इस्त्री और ड्राई क्लीनिंग बुक करते हैं, और आप पिकअप व डिलीवरी करते हैं। सारे ऑर्डर और आपकी रेट लिस्ट DigiCart में एक ही जगह। 5 मिनट में सेटअप, पहले 15 दिन फ्री।' },
+  hardware: {
+    en: 'Electricians, plumbers and homes near you need bulbs, wires and fittings fast. Put your electrical and hardware items on DigiCart and get their orders straight on your phone. First 15 days free.',
+    kn: 'ಹತ್ತಿರದ electrician, plumber ಮತ್ತು ಮನೆಯವರಿಗೆ bulb, wire, fittings ತಕ್ಷಣ ಬೇಕು. ನಿಮ್ಮ electrical ಮತ್ತು hardware items ಅನ್ನು DigiCart-ಗೆ ಹಾಕಿ, ಅವರ order ನೇರವಾಗಿ ನಿಮ್ಮ ಮೊಬೈಲ್‌ಗೆ ಬರಲಿ. ಮೊದಲ 15 ದಿನ ಉಚಿತ.',
+    hi: 'पास के इलेक्ट्रीशियन, प्लंबर और घरों को बल्ब, वायर और फिटिंग्स तुरंत चाहिए। अपने इलेक्ट्रिकल और हार्डवेयर आइटम DigiCart पर डालें और उनके ऑर्डर सीधे अपने मोबाइल पर पाएँ। पहले 15 दिन फ्री।' },
+};
+const LNAME = { kn: 'ಕನ್ನಡ Kannada', en: 'English', hi: 'हिन्दी Hindi' };
+const msgFor = (x, L) => (x && ((x.wamsg && x.wamsg[L]) || (x.cat && KITMSG[x.cat] && KITMSG[x.cat][L]))) || '';
+const kitItem = (c) => LIB.items.find((i) => i.kit && i.cat === c) || LIB.items.find((i) => i.cat === c && i.type === 'video');
+const kitMissing = () => Object.keys(CATS).filter((c) => !LIB.items.some((i) => i.kit && i.cat === c));
+const waMatchOn = () => !$('#waCat').value && $('#waMatch').checked;
+let WAFILL = '', kitBusy = false;
+
 const slotTxt = (s) => { if (!s) return ''; const d = new Date(s + ':00+05:30'); return isNaN(d) ? '' : d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); };
 async function loadLib(force) {
   if (!force && Date.now() - libAt < 45000 && LIB.items.length) return renderLib();
@@ -1408,10 +1468,12 @@ async function loadLib(force) {
 function renderLib() {
   const items = LIB.items.slice().sort((a, b) => (a.slot || '9').localeCompare(b.slot || '9') || b.createdAt - a.createdAt);
   [...PICK].forEach((id) => { if (!items.some((x) => x.id === id)) PICK.delete(id); });
-  const list = items.filter((x) => LIBF === 'all' || (LIBF === 'todo' ? !(x.ig && x.ytd) : x.type === LIBF));
+  const list = items.filter((x) => LIBF === 'all' || (LIBF === 'kit' ? !!x.cat : LIBF === 'todo' ? !(x.ig && x.ytd) : x.type === LIBF));
+  const miss = kitMissing(); $('#libKitBar').style.display = miss.length && !kitBusy ? 'flex' : 'none';
+  $('#libKitTxt').textContent = miss.length === Object.keys(CATS).length ? '🎬 Add the ' + miss.length + ' category ads (1-minute videos) to the Library, each with its own WhatsApp message' : '🎬 ' + miss.length + ' category ad' + (miss.length > 1 ? 's are' : ' is') + ' not in the Library yet';
   $('#libN').textContent = items.length + ' items'; if (LIB.folderUrl) $('#libFolder').href = LIB.folderUrl;
   $('#lgrid').innerHTML = list.length ? list.map((x) => `<div class="lcard${PICK.has(x.id) ? ' sel' : ''}" data-id="${esc(x.id)}">
-    <a class="ph" href="${esc(x.open)}" target="_blank" rel="noopener" style="background-image:url('${esc(x.thumb)}')"><span class="ty">${x.type === 'video' ? '▶ Video' : '📷 Photo'}${x.size ? ' · ' + (x.size / 1024).toFixed(1) + ' MB' : ''}</span><button class="pick" data-pick title="Choose for WhatsApp">✓</button></a>
+    <a class="ph" href="${esc(x.open)}" target="_blank" rel="noopener" style="background-image:url('${esc(x.thumb)}')">${x.cat && CATS[x.cat] ? `<span class="cb">${CATS[x.cat][0]} ${esc(CATS[x.cat][1])}</span>` : ''}<span class="ty">${x.type === 'video' ? '▶ Video' : '📷 Photo'}${x.size ? ' · ' + (x.size / 1024).toFixed(1) + ' MB' : ''}</span><button class="pick" data-pick title="Choose for WhatsApp">✓</button></a>
     <div class="bd"><b class="t">${esc(x.title)}</b>
       ${x.slot || x.who ? `<span class="hint" style="font-size:11.5px">${esc([slotTxt(x.slot), x.who].filter(Boolean).join(' · '))}</span>` : ''}
       <div class="ab"><a class="btn sm" href="${esc(x.download)}" target="_blank" rel="noopener">⬇ Save</a><button class="btn l sm" data-lcap>Copy caption</button>
@@ -1421,6 +1483,8 @@ function renderLib() {
         <input type="text" data-lk="title" value="${esc(x.title)}" placeholder="Title">
         <input type="text" data-lk="yt" value="${esc(x.yt)}" placeholder="YouTube title">
         <textarea data-lk="caption" rows="5" placeholder="Caption">${esc(x.caption)}</textarea>
+        <span class="ml">Category</span><select data-lk="cat"><option value="">None</option>${Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}"${x.cat === k ? ' selected' : ''}>${e} ${esc(t)}</option>`).join('')}</select>
+        ${['kn', 'en', 'hi'].map((L) => `<span class="ml">WhatsApp message · ${LNAME[L]}</span><textarea data-lm="${L}" rows="4" maxlength="600" placeholder="Message sent with this video">${esc(msgFor(x, L))}</textarea>`).join('')}
         <button class="btn r sm" data-ldel style="margin-top:6px">🗑 Delete</button>
       </details>
     </div></div>`).join('') : '<div class="empty" style="grid-column:1/-1">Nothing here yet. Tap ➕ or put files in the Drive folder.</div>';
@@ -1429,7 +1493,13 @@ function renderLib() {
 $('#libF').addEventListener('click', (e) => { const b = e.target.closest('[data-lf]'); if (!b) return; LIBF = b.dataset.lf; document.querySelectorAll('#libF button').forEach((x) => x.classList.toggle('on', x === b)); renderLib(); });
 $('#lgrid').addEventListener('click', async (e) => {
   const card = e.target.closest('.lcard'); if (!card) return; const id = card.dataset.id, x = LIB.items.find((i) => i.id === id); if (!x) return;
-  if (e.target.closest('[data-pick]')) { e.preventDefault(); if (PICK.has(id)) PICK.delete(id); else if (PICK.size >= 5) return toast('Up to 5 at once'); else PICK.add(id); card.classList.toggle('sel', PICK.has(id)); return renderWa(); }
+  if (e.target.closest('[data-pick]')) {
+    e.preventDefault();
+    if (PICK.has(id)) PICK.delete(id); else if (PICK.size >= 5) return toast('Up to 5 at once'); else { PICK.add(id); waFill(x, true); }
+    card.classList.toggle('sel', PICK.has(id)); renderWa();
+    if (PICK.has(id) && msgFor(x, waL())) toast('Message filled in. Scroll down to Bulk WhatsApp');
+    return;
+  }
   if (e.target.closest('[data-lcap]')) return x.caption ? copy(x.caption) : toast('No caption yet: add one under Edit text');
   if (e.target.closest('[data-lig]')) { if (x.caption) copy(x.caption); return; }
   if (e.target.closest('[data-lyt]')) { if (x.yt || x.title) copy(x.yt || x.title); return; }
@@ -1438,9 +1508,15 @@ $('#lgrid').addEventListener('click', async (e) => {
     try { await call({ a: 'ldel', id }); LIB.items = LIB.items.filter((i) => i.id !== id); PICK.delete(id); renderLib(); toast('Deleted'); } catch (er) { toast(er.message); } }
 });
 $('#lgrid').addEventListener('change', async (e) => {
+  const lm = e.target.closest('[data-lm]');
+  if (lm) {
+    const id = lm.closest('.lcard').dataset.id, f = { wamsg: { [lm.dataset.lm]: lm.value } };
+    try { const r = await call({ a: 'lupd', id, f }); const i = LIB.items.findIndex((m) => m.id === id); if (i >= 0) LIB.items[i] = r.item; toast('Message saved'); if (PICK.has(id) && lm.dataset.lm === waL()) waFill(r.item, false); renderWa(); } catch (er) { toast(er.message); }
+    return;
+  }
   const el = e.target.closest('[data-lk]'); if (!el) return; const id = el.closest('.lcard').dataset.id, f = {};
   f[el.dataset.lk] = el.type === 'checkbox' ? el.checked : el.value;
-  try { const r = await call({ a: 'lupd', id, f }); const i = LIB.items.findIndex((m) => m.id === id); if (i >= 0) LIB.items[i] = r.item; toast('Saved'); if (el.type !== 'checkbox' && el.dataset.lk === 'title') renderLib(); } catch (er) { toast(er.message); }
+  try { const r = await call({ a: 'lupd', id, f }); const i = LIB.items.findIndex((m) => m.id === id); if (i >= 0) LIB.items[i] = r.item; toast('Saved'); if (el.type !== 'checkbox' && (el.dataset.lk === 'title' || el.dataset.lk === 'cat')) renderLib(); } catch (er) { toast(er.message); }
 });
 $('#libFile').addEventListener('change', async (e) => {
   const files = [...e.target.files]; e.target.value = '';
@@ -1460,7 +1536,9 @@ $('#libFile').addEventListener('change', async (e) => {
 // ---- who gets the bulk message
 function waAudience() {
   const who = $('#waWho').value, cat = $('#waCat').value, area = $('#waArea').value;
+  const m = waMatchOn(), L = waL();
   return (DATA.shops || []).filter((l) => !l.anon && String(l.phone).length === 10 && l.stage !== 'no' && (!cat || l.cat === cat) && (!area || l.area === area) &&
+    (!m || (kitItem(l.cat) && msgFor(kitItem(l.cat), L))) &&
     (who === 'all' || (who === 'new' ? !l.sentAt : who === 'opened' ? l.opens > 0 && !l.stage : l.stage === 'interested')));
 }
 function renderWa() {
@@ -1469,12 +1547,20 @@ function renderWa() {
   $('#waSetup').style.display = wa.ready ? 'none' : 'block';
   const cats = [...new Set((DATA.shops || []).map((l) => l.cat).filter(Boolean))], areas = [...new Set((DATA.shops || []).map((l) => l.area).filter(Boolean))].sort();
   const keep = (el, html) => { const v = el.value; el.innerHTML = html; el.value = [...el.options].some((o) => o.value === v) ? v : ''; };
-  keep($('#waCat'), '<option value="">All categories</option>' + cats.map((c) => `<option value="${esc(c)}">${esc((CATS[c] || ['', c])[1])}</option>`).join(''));
+  const cn = (c) => (DATA.shops || []).filter((l) => l.cat === c && !l.anon && String(l.phone).length === 10).length;
+  keep($('#waCat'), '<option value="">All categories</option>' + [...new Set([...Object.keys(CATS), ...cats])].map((c) => `<option value="${esc(c)}">${CATS[c] ? CATS[c][0] + ' ' : ''}${esc((CATS[c] || ['', c])[1])} (${cn(c)})</option>`).join(''));
+  const match = waMatchOn(); $('#waMatchL').style.display = $('#waCat').value ? 'none' : 'flex';
+  $('#waText').disabled = match;
+  if (match) $('#waText').value = '';
   keep($('#waArea'), '<option value="">All areas</option>' + areas.map((a) => `<option>${esc(a)}</option>`).join(''));
   const picked = LIB.items.filter((x) => PICK.has(x.id));
-  $('#waPicked').innerHTML = picked.length ? picked.map((x) => `<span>${x.type === 'video' ? '▶' : '📷'} ${esc(x.title)}</span>`).join('') : '<span style="background:#EEF2F8;color:var(--muted)">Text only</span>';
-  const n = waAudience().length, per = Math.max(1, picked.length), msgs = n * per, days = Math.ceil(n / wa.daily);
-  $('#waCount').innerHTML = n ? `<b>${n}</b> shops × ${per} message${per > 1 ? 's' : ''} = <b>${msgs}</b> messages, about <b>₹${Math.round(msgs * 1.02)}</b> to Meta.${days > 1 ? ` At ${wa.daily} shops a day this takes ${days} days; the hub carries on by itself.` : ''}` : 'No shops match. Add shops with a 10-digit mobile number, or change Who.';
+  $('#waPicked').innerHTML = match ? '<span>🎯 Each shop: its own category ad</span>' : picked.length ? picked.map((x) => `<span>${x.type === 'video' ? '▶' : '📷'} ${esc(x.title)}</span>`).join('') : '<span style="background:#EEF2F8;color:var(--muted)">Text only</span>';
+  $('#waText').placeholder = match ? 'Each shop gets the message of its own category ad, in the language chosen below. Change them in the Library cards under Edit text.' : 'Choose a video above, or write in the language chosen below';
+  const src = !match && picked.length === 1 ? picked[0] : null, cur = $('#waText').value.trim();
+  $('#waSrc').textContent = src ? (msgFor(src, waL()) ? (cur === msgFor(src, waL()) ? '✓ Message of “' + src.title + '” · ' + LNAME[waL()] : '✏️ Changed from the video\'s message') : 'This video has no ' + LNAME[waL()] + ' message yet') : '';
+  $('#waSaveMsg').style.display = src && cur && cur !== msgFor(src, waL()) ? '' : 'none';
+  const n = waAudience().length, per = match ? 1 : Math.max(1, picked.length), msgs = n * per, days = Math.ceil(n / wa.daily);
+  $('#waCount').innerHTML = n ? `<b>${n}</b> shop${n === 1 ? '' : 's'} × ${per} message${per > 1 ? 's' : ''} = <b>${msgs}</b> message${msgs === 1 ? '' : 's'}, about <b>₹${Math.round(msgs * 1.02)}</b> to Meta.${days > 1 ? ` At ${wa.daily} shops a day this takes ${days} days; the hub carries on by itself.` : ''}` : 'No shops match. Add shops with a 10-digit mobile number, or change Who.';
   const go = $('#waGo'); if (!go.dataset.arm) go.textContent = `Send to ${n} shop${n === 1 ? '' : 's'}`; go.disabled = !n || waBusy;
   $('#waStop').style.display = wa.queued ? '' : 'none';
   $('#waStat').innerHTML = `<div><b>${wa.queued}</b><span>Waiting</span></div><div><b>${wa.sent}</b><span>Sent</span></div><div><b>${wa.failed}</b><span>Failed</span></div><div><b>${wa.today}/${wa.daily}</b><span>Today</span></div>`;
@@ -1482,15 +1568,57 @@ function renderWa() {
   const s = ST(); if (!$('#waLang').dataset.set && WATPL[s.waLang]) { $('#waLang').value = s.waLang; $('#waLang').dataset.set = '1'; } if (document.activeElement !== $('#s_waLang')) $('#s_waLang').value = s.waLang || 'kn'; if (document.activeElement !== $('#s_waDaily')) $('#s_waDaily').value = s.waDaily || '250';
   const T = WATPL[waL()]; $('#tplBodyV').textContent = T.video.body; $('#tplBtnV').textContent = T.video.btn; $('#tplBodyO').textContent = T.other.body; $('#tplBtnO').textContent = T.other.btn; $('#tplDl').textContent = T.dl; $('#tplPlay').textContent = (ST().playUrl || 'https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart'); $('#tplUrl').textContent = BASE + '{{1}}'; $('#tplLang').textContent = T.name;
 }
-$('#waLang').addEventListener('change', () => { $('#waLang').dataset.set = '1'; renderWa(); });
+/** Puts the chosen video's message (current language) in the box; force = even if you typed your own. */
+function waFill(x, force) {
+  const t = msgFor(x, waL()), box = $('#waText');
+  if (!t || (!force && box.value.trim() && box.value.trim() !== WAFILL)) return;
+  box.value = WAFILL = t;
+  if (x.cat && CATS[x.cat] && $('#waCat').value !== x.cat) { $('#waCat').value = x.cat; $('#waMatch').checked = false; }
+}
+$('#waLang').addEventListener('change', () => {
+  $('#waLang').dataset.set = '1';
+  const first = LIB.items.find((i) => PICK.has(i.id));
+  if (first) { const was = $('#waText').value.trim(); if (!was || was === WAFILL) { $('#waText').value = ''; waFill(first, true); } }
+  renderWa();
+});
+$('#waCat').addEventListener('change', () => {
+  const c = $('#waCat').value, k = c ? kitItem(c) : null;
+  const onlyAds = [...PICK].every((id) => { const i = LIB.items.find((m) => m.id === id); return i && i.cat; });
+  if (k && onlyAds) { PICK.clear(); PICK.add(k.id); waFill(k, true); renderLib(); }
+});
+$('#waText').addEventListener('input', () => renderWa());
+$('#waMatch').addEventListener('change', () => { delete $('#waGo').dataset.arm; if (!$('#waMatch').checked) { const f = LIB.items.find((i) => PICK.has(i.id)); if (f) waFill(f, true); } renderWa(); });
+$('#waSaveMsg').onclick = async () => {
+  const x = LIB.items.find((i) => PICK.has(i.id)), t = $('#waText').value.trim(), L = waL(); if (!x || !t) return;
+  try { const r = await call({ a: 'lupd', id: x.id, f: { wamsg: { [L]: t } } }); const i = LIB.items.findIndex((m) => m.id === x.id); if (i >= 0) LIB.items[i] = r.item; WAFILL = t; toast('Saved as the ' + LNAME[L] + ' message of “' + x.title + '”'); renderLib(); } catch (e) { toast(e.message); }
+};
+$('#libKit').onclick = async () => {
+  if (kitBusy) return; kitBusy = true; renderLib();
+  const row = document.createElement('div'); row.className = 'upl'; row.innerHTML = '<span style="width:40%">🎬 Category ads</span><span class="bar"><i></i></span><b>…</b>';
+  $('#libProg').appendChild(row); const bar = row.querySelector('i'), pct = row.querySelector('b'), total = Object.keys(CATS).length;
+  try {
+    for (let i = 0; i < 12; i++) {
+      const r = await call({ a: 'kit', site: BASE, max: 3 });
+      if (r.items) LIB.items = r.items;
+      const have = total - Math.max(0, r.left); bar.style.width = Math.round(have / total * 100) + '%'; pct.textContent = have + '/' + total;
+      if (r.errors && r.errors.length) row.insertAdjacentHTML('beforeend', `<span style="color:var(--red)">${esc(r.errors.join(' · '))}</span>`);
+      if (r.left <= 0 || (!r.added && !r.busy)) break;
+      if (r.busy) await new Promise((x) => setTimeout(x, 3000));
+    }
+    if (!kitMissing().length) { pct.textContent = '✓'; toast('All category ads are in the Library'); setTimeout(() => row.remove(), 3000); }
+  } catch (e) { pct.textContent = '✗'; row.insertAdjacentHTML('beforeend', `<span style="color:var(--red)">${esc(/unknown action/i.test(e.message) ? 'Paste the new Code.gs in Apps Script and deploy a new version first' : e.message)}</span>`); }
+  kitBusy = false; renderLib();
+};
 ['waWho', 'waCat', 'waArea'].forEach((id) => $('#' + id).addEventListener('change', () => { delete $('#waGo').dataset.arm; renderWa(); }));
 $('#tplCopyV').onclick = () => copy(WATPL[waL()].video.body);
 $('#tplCopyO').onclick = () => copy(WATPL[waL()].other.body);
 $('#waSave').onclick = async () => { try { const r = await call({ a: 'set', set: { waLang: $('#s_waLang').value.trim() || 'kn', waDaily: String(Math.max(1, parseInt($('#s_waDaily').value, 10) || 250)) } }); DATA.settings = r.settings; await loadLib(true); toast('Saved'); } catch (e) { toast(e.message); } };
 $('#waTest').onclick = async () => {
-  const text = $('#waText').value.trim(); if (!text) return toast('Write a message first');
+  let text = $('#waText').value.trim(), media = [...PICK][0] || '';
+  if (waMatchOn()) { const s1 = waAudience()[0], k = kitItem(s1 ? s1.cat : 'fashion'); if (!k) return toast('Add the category ads to the Library first'); media = k.id; text = msgFor(k, waL()); }
+  if (!text) return toast('Write a message first');
   $('#waMsg').textContent = 'Sending a test to your number…';
-  try { await call({ a: 'wa_test', text, lang: waL(), media: [...PICK][0] || '' }); $('#waMsg').textContent = '✓ Test sent to +91 ' + (ST().phone || '') + (PICK.size > 1 ? ' (first chosen item only)' : '') + '. Check WhatsApp on that phone.'; }
+  try { await call({ a: 'wa_test', text, lang: waL(), media }); $('#waMsg').textContent = '✓ Test sent to +91 ' + (ST().phone || '') + (PICK.size > 1 ? ' (first chosen item only)' : '') + '. Check WhatsApp on that phone.'; }
   catch (e) { $('#waMsg').textContent = '✗ ' + e.message; }
 };
 async function waPump() {
@@ -1506,12 +1634,14 @@ async function waPump() {
   waBusy = false; renderWa(); load();
 }
 $('#waGo').onclick = async () => {
-  const go = $('#waGo'), text = $('#waText').value.trim(), ids = waAudience().map((l) => l.id);
-  if (!text) return toast('Write a message first'); if (!ids.length) return;
+  const go = $('#waGo'), text = $('#waText').value.trim(), aud = waAudience(), ids = aud.map((l) => l.id), match = waMatchOn();
+  if (!text && !match) return toast('Write a message first'); if (!ids.length) return;
   if (!(LIB.wa && LIB.wa.ready)) return toast('Connect WhatsApp first (steps above)');
   if (!go.dataset.arm) { go.dataset.arm = '1'; go.textContent = `Tap again: really send to ${ids.length} shops`; setTimeout(() => { if (go.dataset.arm) { delete go.dataset.arm; renderWa(); } }, 5000); return; }
   delete go.dataset.arm;
-  try { const r = await call({ a: 'wa_queue', ids, media: [...PICK], text, lang: waL() }); LIB.wa = r.wa; $('#waMsg').textContent = `${r.queued} messages queued for ${r.shops} shops.`; waPump(); }
+  let byCat = null;
+  if (match) { byCat = {}; aud.forEach((l) => { const k = kitItem(l.cat); if (k && !byCat[l.cat]) byCat[l.cat] = { media: k.id, text: msgFor(k, waL()) }; }); }
+  try { const r = await call(match ? { a: 'wa_queue', ids, byCat, text: '', lang: waL() } : { a: 'wa_queue', ids, media: [...PICK], text, lang: waL() }); LIB.wa = r.wa; $('#waMsg').textContent = `${r.queued} messages queued for ${r.shops} shops.`; waPump(); }
   catch (e) { $('#waMsg').textContent = '✗ ' + e.message; renderWa(); }
 };
 $('#waStop').onclick = async () => { try { const r = await call({ a: 'wa_cancel' }); LIB.wa = r.wa; $('#waMsg').textContent = `Stopped. ${r.cancelled} waiting messages cancelled.`; renderWa(); } catch (e) { toast(e.message); } };
