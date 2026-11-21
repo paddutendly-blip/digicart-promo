@@ -172,6 +172,14 @@ img.dp{cursor:zoom-in}
 .lcard textarea,.lcard input[type=text]{padding:7px 9px;border-radius:9px;font-size:12.5px;margin-top:4px}
 .btn.ig{background:#D62976}.btn.yt{background:#E00000}
 .wachips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.wachips span{background:#E7F7EE;color:#12703B;border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700}
+.dlvbox{margin-top:12px;border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#FBFCFE}
+.dlvbox h3{font-size:14px;margin:0 0 6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dlvbox .wastat{margin-top:6px}
+.dlvrow{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--line);font-size:12.5px}
+.dlvrow .w{flex:1;min-width:0}.dlvrow .w b{display:block}.dlvrow .w span{color:var(--muted);font-size:11.5px}
+.dlvrow .w q{display:block;quotes:none;margin-top:2px;color:var(--ink,#0B1B33)}
+.dlvrow .a{display:flex;gap:4px;flex-shrink:0}
+.copyline{display:flex;gap:6px;align-items:center;margin:4px 0 8px}.copyline code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 8px}
 .wastat{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;text-align:center}.wastat div{background:#F4F7FB;border-radius:12px;padding:8px 2px}.wastat b{display:block;font-size:18px}.wastat span{font-size:11px;color:var(--muted);font-weight:700}
 .tplbox{background:#F4F7FB;border-radius:12px;padding:10px;font-size:12.5px;white-space:pre-wrap;margin-top:6px}
 </style>
@@ -195,7 +203,7 @@ img.dp{cursor:zoom-in}
 
 <!-- ============================== app -->
 <div id="appV" style="display:none">
-  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v8</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v9</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
   <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
 
   <div class="wrap">
@@ -336,7 +344,7 @@ img.dp{cursor:zoom-in}
         <div class="wasrc"><span class="hint" id="waSrc" style="margin:0"></span><button class="btn l sm" id="waSaveMsg" style="display:none">💾 Save as this video's message</button></div>
         <div class="grid2" style="margin-top:8px">
           <div><label class="f">Language</label><select id="waLang"><option value="kn">ಕನ್ನಡ Kannada</option><option value="en">English</option><option value="hi">हिन्दी Hindi</option></select></div>
-          <div><label class="f">Who</label><select id="waWho"><option value="new">Not sent yet</option><option value="all">All shops</option><option value="opened">Opened, no reply</option><option value="interested">Interested</option></select></div>
+          <div><label class="f">Who</label><select id="waWho"><option value="new">Not sent yet</option><option value="all">All shops</option><option value="opened">Opened, no reply</option><option value="notdlv">Not delivered last time</option><option value="interested">Interested</option></select></div>
         </div>
         <div class="grid2" style="margin-top:8px">
           <div><label class="f">Category</label><select id="waCat"></select></div>
@@ -350,8 +358,9 @@ img.dp{cursor:zoom-in}
         </div>
         <p class="hint" id="waMsg" style="margin-top:8px"></p>
         <div class="wastat" id="waStat"></div>
+        <div id="waDlv"></div>
         <details style="margin-top:12px"><summary>📝 Templates to create in Meta (copy exactly)</summary>
-          <p class="hint" style="margin:8px 0">Create each template name once, then add <b>Kannada, English and Hindi</b> versions of it (Meta: same name, “Add language”; pick plain <b>English</b>, not English US). Category <b>Marketing</b>, variable type <b>Number</b>. Sample values: {{1}} = Sri Lakshmi Stores, {{2}} = Get your shop online with zero commission. Buttons, in this order: 1) <i>Visit website</i>, type <b>Dynamic</b>, URL <code id="tplUrl"></code>, sample <code>watch-fashion.html?r=test</code> 2) <i>Visit website</i>, type <b>Static</b>, text “<span id="tplDl">Download DigiCart</span>”, URL <code id="tplPlay"></code> 3) <i>Quick reply</i> “STOP”. Showing <b id="tplLang">Kannada</b>; change Language above to see the others.</p>
+          <p class="hint" style="margin:8px 0">Create each template name once, then add <b>Kannada, English and Hindi</b> versions of it (Meta: same name, “Add language”; pick plain <b>English</b>, not English US). Category <b>Marketing</b>, variable type <b>Number</b>. Sample values: {{1}} = Sri Lakshmi Stores, {{2}} = Get your shop online with zero commission. Buttons, in this order: 1) <i>Visit website</i>, URL type <b>Dynamic</b> (not Static, or the link opens a 404 page), URL <code id="tplUrl"></code> (if Meta adds the {{1}} by itself, leave it out), sample <code>watch-fashion.html?r=test</code> 2) <i>Visit website</i>, type <b>Static</b>, text “<span id="tplDl">Download DigiCart</span>”, URL <code id="tplPlay"></code> 3) <i>Quick reply</i> “STOP”. Showing <b id="tplLang">Kannada</b>; change Language above to see the others.</p>
           <b>digicart_video</b> <span class="hint">Header: Video · button 1 text “<span id="tplBtnV"></span>”</span>
           <div class="tplbox" id="tplBodyV"></div>
           <button class="btn l sm" id="tplCopyV" style="margin-top:6px">Copy video body</button>
@@ -1543,7 +1552,7 @@ function waAudience() {
   const m = waMatchOn(), L = waL();
   return (DATA.shops || []).filter((l) => !l.anon && String(l.phone).length === 10 && l.stage !== 'no' && (!cat || l.cat === cat) && (!area || l.area === area) &&
     (!m || (kitItem(l.cat) && msgFor(kitItem(l.cat), L))) &&
-    (who === 'all' || (who === 'new' ? !l.sentAt : who === 'opened' ? l.opens > 0 && !l.stage : l.stage === 'interested')));
+    (who === 'all' || (who === 'new' ? !l.sentAt : who === 'opened' ? l.opens > 0 && !l.stage : who === 'notdlv' ? ((LIB.report || {}).byShop || {})[l.id] === 'failed' : l.stage === 'interested')));
 }
 function renderWa() {
   const wa = LIB.wa || { ready: false, queued: 0, sent: 0, failed: 0, today: 0, daily: 250 };
@@ -1570,8 +1579,37 @@ function renderWa() {
   $('#waStat').innerHTML = `<div><b>${wa.queued}</b><span>Waiting</span></div><div><b>${wa.sent}</b><span>Sent</span></div><div><b>${wa.failed}</b><span>Failed</span></div><div><b>${wa.today}/${wa.daily}</b><span>Today</span></div>`;
   if (wa.lastError && wa.failed && !$('#waMsg').textContent) $('#waMsg').textContent = 'Last problem: ' + wa.lastError;
   const s = ST(); if (!$('#waLang').dataset.set && WATPL[s.waLang]) { $('#waLang').value = s.waLang; $('#waLang').dataset.set = '1'; } if (document.activeElement !== $('#s_waLang')) $('#s_waLang').value = s.waLang || 'kn'; if (document.activeElement !== $('#s_waDaily')) $('#s_waDaily').value = s.waDaily || '250';
+  renderDlv();
   const T = WATPL[waL()]; $('#tplBodyV').textContent = T.video.body; $('#tplBtnV').textContent = T.video.btn; $('#tplBodyO').textContent = T.other.body; $('#tplBtnO').textContent = T.other.btn; $('#tplDl').textContent = T.dl; $('#tplPlay').textContent = (ST().playUrl || 'https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart'); $('#tplUrl').textContent = BASE + '{{1}}'; $('#tplLang').textContent = T.name;
 }
+/** Delivery ticks from Meta: one-time webhook setup, then who got it, who did not (and why), and replies. */
+function renderDlv() {
+  const wa = LIB.wa || {}, h = wa.hook || {}, R = LIB.report || { counts: {}, bad: [], replies: [] }, box = $('#waDlv');
+  if (!wa.ready || !h.key) { box.innerHTML = ''; box.dataset.sig = ''; return; }
+  const cb = API + (API.includes('?') ? '&' : '?') + 'k=' + h.key;
+  const setup = `<p class="hint" style="margin:0 0 6px">Once only, in Meta: <b>developers.facebook.com</b> → My apps → your DigiCart app → <b>WhatsApp → Configuration</b> → Webhook → <b>Edit</b>:</p>
+    <span class="hint">Callback URL</span><div class="copyline"><code>${esc(cb)}</code><button class="btn l sm" data-cp="${esc(cb)}">Copy</button></div>
+    <span class="hint">Verify token</span><div class="copyline"><code>${esc(h.key)}</code><button class="btn l sm" data-cp="${esc(h.key)}">Copy</button></div>
+    <p class="hint" style="margin:0">Tap <b>Verify and save</b>. Then under <b>Webhook fields</b>, find <b>messages</b> and tap <b>Subscribe</b>. Only messages sent after this get ticks.</p>`;
+  if (!h.firstAt) { if (box.dataset.sig === 'setup' + cb) return; box.dataset.sig = 'setup' + cb; box.innerHTML = `<div class="dlvbox"><h3>📬 See who got your messages <span class="pill p-no">Not set up</span></h3>${setup}<p class="hint" style="margin:6px 0 0">This box turns into the delivery report as soon as Meta sends its first update.</p></div>`; return; }
+  const sig = JSON.stringify([R, h, API]); if (box.dataset.sig === sig) return; box.dataset.sig = sig;
+  const c = R.counts || {}, reached = (c.delivered || 0) + (c.read || 0);
+  const bad = (R.bad || []).map((x) => `<div class="dlvrow"><div class="w"><b>${esc(x.name || 'Shop')} · ${esc(x.phone)}</b><span>${esc(x.why)} · ${esc(ago(x.at))}</span></div><div class="a"><a class="btn l sm" href="tel:+91${esc(x.phone)}" title="Call">📞</a><a class="btn l sm" href="https://wa.me/91${esc(x.phone)}" target="_blank" rel="noopener" title="Open their chat in your WhatsApp">💬</a></div></div>`).join('');
+  const rep = (R.replies || []).map((x) => `<div class="dlvrow"><div class="w"><b>${esc(x.name || 'Unknown')} · ${esc(x.phone)}</b><span>${esc(ago(x.at))}</span><q>${esc(x.text)}</q></div><div class="a"><a class="btn l sm" href="tel:+91${esc(x.phone)}" title="Call">📞</a><a class="btn l sm" href="https://wa.me/91${esc(x.phone)}" target="_blank" rel="noopener" title="Reply from your WhatsApp">💬</a></div></div>`).join('');
+  box.innerHTML = `<div class="dlvbox"><h3>📬 Delivery · last 30 days <button class="btn l sm" id="dlvRef" title="Refresh">↻</button></h3>
+    <div class="wastat"><div><b>${reached}</b><span>✓✓ Reached</span></div><div><b>${c.read || 0}</b><span>👁 Read</span></div><div><b style="color:var(--red)">${c.failed || 0}</b><span>✗ Not delivered</span></div><div><b>${c.waiting || 0}</b><span>⏳ No news yet</span></div></div>
+    <p class="hint" style="margin:6px 0 0">Last update from Meta ${esc(ago(h.lastAt))}. Meta does not charge for messages that were not delivered.</p>
+    <details style="margin-top:8px"${(R.bad || []).length ? ' open' : ''}><summary>✗ Not delivered (${(R.bad || []).length})</summary>
+      ${bad ? `<div class="row" style="gap:6px;margin:8px 0;flex-wrap:wrap"><button class="btn l sm" id="dlvCopy">Copy numbers</button><button class="btn o sm" id="dlvAgain">Send again to these</button></div>${bad}` : '<p class="hint">Nobody. 🎉</p>'}</details>
+    <details style="margin-top:6px"><summary>💬 Replies from shops (${(R.replies || []).length})</summary>${rep || '<p class="hint">No replies yet.</p>'}<p class="hint" style="margin-top:6px">All replies are also in the <b>Replies</b> tab of the Google Sheet. A shop that taps <b>STOP</b> is marked Not interested and gets no more bulk messages.</p></details>
+    <details style="margin-top:6px"><summary>⚙ Webhook settings</summary>${setup}</details></div>`;
+}
+$('#waDlv').addEventListener('click', async (e) => {
+  const cp = e.target.closest('[data-cp]'); if (cp) return copy(cp.dataset.cp);
+  if (e.target.closest('#dlvRef')) { await loadLib(true); return toast('Updated'); }
+  if (e.target.closest('#dlvCopy')) return copy((LIB.report.bad || []).map((x) => x.phone).join('\n'));
+  if (e.target.closest('#dlvAgain')) { $('#waWho').value = 'notdlv'; $('#waCat').value = ''; delete $('#waGo').dataset.arm; renderWa(); $('#waText').scrollIntoView({ behavior: 'smooth', block: 'center' }); toast('Who = Not delivered last time. Pick the video and message, then Send'); }
+});
 /** Puts the chosen video's message (current language) in the box; force = even if you typed your own. */
 function waFill(x, force) {
   const t = msgFor(x, waL()), box = $('#waText');
