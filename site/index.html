@@ -499,6 +499,7 @@ const opened = track('open').then((d) => {
   if (d.area) S.area = d.area;
   if (!S.cat && d.cat) S.cat = d.cat;
   if (d.festival) S.festival = d.festival;
+  if (d.ads && typeof d.ads === 'object') S.ads = d.ads;
   if (Array.isArray(d.plans) && d.plans.length) S.plans = d.plans;
   if (typeof d.trialDays === 'number') S.trialDays = d.trialDays;
   if (d.phone && /^\d{10}$/.test(d.phone)) PHONE = d.phone;
@@ -865,12 +866,18 @@ function openOffer() {
   $('#ctaCall').textContent = ph(l.call); $('#ctaWa').textContent = l.wa; $('#ctaWa').href = `https://wa.me/91${PHONE}?text=${encodeURIComponent(l.setupMsg(S.name))}`;
   $('#vidH').textContent = l.vidH; $('#privacy').textContent = l.privacy;
   const ov = $('#ownVids');
-  const vd = $('#vid'), vsrc = `videos/${S.dcat}.mp4`;
-  if (!vd.src.endsWith(vsrc)) { vd.src = vsrc; vd.poster = `videos/${S.dcat}.jpg`; }
+  // category ad from the hub Library (Google Drive) when there is one, else the website copy
+  const vd = $('#vid'), ad = S.ads && S.ads[S.dcat], fb = `videos/${S.dcat}.mp4`;
+  const vsrc = ad && ad.fid ? 'https://drive.usercontent.google.com/download?id=' + encodeURIComponent(ad.fid) + '&export=download' : fb;
+  if (vd.dataset.want !== vsrc) {
+    vd.dataset.want = vsrc; vd.dataset.fb = fb; vd.src = vsrc; vd.poster = `videos/${S.dcat}.jpg`;
+    if (ad && ad.thumb) { const im = new Image(), w = vsrc; im.onload = () => { if (vd.dataset.want === w) vd.poster = ad.thumb; }; im.src = ad.thumb; }
+  }
   if (ov) ov.innerHTML = S.videos.filter((m) => (m.cat || 'fashion') === S.dcat).slice(0, 3).map((m) => `<div class="ovid"><iframe src="${esc(m.view)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy" title="${esc(m.name)}"></iframe><div class="s" style="margin-top:4px">${esc(m.name)}</div></div>`).join('');
   show('offer'); $('#fab').style.display = 'flex';
 }
 $('#vid').addEventListener('play', () => track('video', 'play'), { once: true });
+$('#vid').addEventListener('error', () => { const v = $('#vid'), fb = v.dataset.fb; if (fb && !v.src.endsWith(fb)) { v.src = fb; v.poster = fb.replace(/\.mp4$/, '.jpg'); } });
 
 /* ------------------------------------------------------------------ start */
 setTimeout(() => {

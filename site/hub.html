@@ -111,6 +111,8 @@ label.f{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:1
 .mcard .ab{display:flex;gap:4px}.mcard .ab>*{flex:1;padding:6px 0;font-size:12px}
 .upl{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:8px}.upl .bar{flex:1;height:8px;border-radius:4px;background:#EEF1F6;overflow:hidden}.upl .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .2s}
 .media .mi div{padding:8px;font-size:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.media .mi div{flex-wrap:wrap}.media .mi div>span{margin-left:auto}
+.media .mi .src{display:block;padding:0 8px 8px;font-size:10.5px;font-weight:600;color:var(--muted)}
 .check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
 .check .i{font-size:18px;width:24px;text-align:center}
 code{background:#EEF2F8;border-radius:6px;padding:1px 6px;font-size:12px;word-break:break-all}
@@ -193,7 +195,7 @@ img.dp{cursor:zoom-in}
 
 <!-- ============================== app -->
 <div id="appV" style="display:none">
-  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v7</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v8</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
   <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
 
   <div class="wrap">
@@ -290,8 +292,9 @@ img.dp{cursor:zoom-in}
       </div>
       <div class="card">
         <h2>🎬 Media kit</h2>
-        <p class="hint" style="margin-bottom:8px">A 1-minute ad for every category. Send the video first, then the shop's personal link.</p>
+        <p class="hint" style="margin-bottom:8px">A 1-minute ad for every category. Send the video first, then the shop's personal link. Tap 🔁 to put a new video in its place: the Library, bulk WhatsApp and the customer pages all use it straight away.</p>
         <div class="media" id="mediaKit"></div>
+        <div id="kitProg"></div>
         <p class="hint">On a phone: tap ⬇, then share the file to WhatsApp, Instagram or YouTube from your downloads.</p>
       </div>
       <div class="card">
@@ -1368,7 +1371,7 @@ function show(v) {
   document.querySelectorAll('#nav button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
   if (v === 'home') { const d = $('#dotHome'); d.style.display = 'none'; d.textContent = ''; }
   if (v === 'set') renderChecks();
-  if (v === 'grow') renderLinks();
+  if (v === 'grow') { renderLinks(); loadLib(); }
   if (v === 'lib') loadLib();
   lsSet('view', v); window.scrollTo(0, 0);
 }
@@ -1454,15 +1457,15 @@ const KITMSG = {
 };
 const LNAME = { kn: 'ಕನ್ನಡ Kannada', en: 'English', hi: 'हिन्दी Hindi' };
 const msgFor = (x, L) => (x && ((x.wamsg && x.wamsg[L]) || (x.cat && KITMSG[x.cat] && KITMSG[x.cat][L]))) || '';
-const kitItem = (c) => LIB.items.find((i) => i.kit && i.cat === c) || LIB.items.find((i) => i.cat === c && i.type === 'video');
+const kitItem = (c) => LIB.items.find((i) => i.kit && i.cat === c) || LIB.items.filter((i) => i.cat === c && i.type === 'video').sort((a, b) => b.createdAt - a.createdAt)[0];
 const kitMissing = () => Object.keys(CATS).filter((c) => !LIB.items.some((i) => i.kit && i.cat === c));
 const waMatchOn = () => !$('#waCat').value && $('#waMatch').checked;
 let WAFILL = '', kitBusy = false;
 
 const slotTxt = (s) => { if (!s) return ''; const d = new Date(s + ':00+05:30'); return isNaN(d) ? '' : d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); };
 async function loadLib(force) {
-  if (!force && Date.now() - libAt < 45000 && LIB.items.length) return renderLib();
-  try { LIB = await call({ a: 'lib' }); libAt = Date.now(); renderLib(); }
+  if (!force && Date.now() - libAt < 45000 && LIB.items.length) { renderKit(); return renderLib(); }
+  try { LIB = await call({ a: 'lib' }); libAt = Date.now(); renderLib(); renderKit(); }
   catch (e) { if (/unknown action/i.test(e.message)) $('#lgrid').innerHTML = '<div class="empty" style="grid-column:1/-1">The Google Sheet script is an older version. Paste the new Code.gs and deploy a new version to use the library.</div>'; else toast(e.message); }
 }
 function renderLib() {
@@ -1477,7 +1480,7 @@ function renderLib() {
     <div class="bd"><b class="t">${esc(x.title)}</b>
       ${x.slot || x.who ? `<span class="hint" style="font-size:11.5px">${esc([slotTxt(x.slot), x.who].filter(Boolean).join(' · '))}</span>` : ''}
       <div class="ab"><a class="btn sm" href="${esc(x.download)}" target="_blank" rel="noopener">⬇ Save</a><button class="btn l sm" data-lcap>Copy caption</button>
-        <a class="btn ig sm" href="https://www.instagram.com/" target="_blank" rel="noopener" data-lig>Instagram</a><a class="btn yt sm" href="https://studio.youtube.com/channel/UCA-OxyeriL9AK45_-FpsW_Q/videos/upload?d=ud" target="_blank" rel="noopener" data-lyt>YouTube</a></div>
+        <a class="btn ig sm" href="https://www.instagram.com/" target="_blank" rel="noopener" data-lig>Instagram</a><a class="btn yt sm" href="https://studio.youtube.com/channel/UCA-OxyeriL9AK45_-FpsW_Q/videos/upload?d=ud" target="_blank" rel="noopener" data-lyt>YouTube</a><button class="btn l sm" data-lrep style="grid-column:1/-1" title="Put a new ${x.type === 'video' ? 'video' : 'photo'} in place of this one. Text, category and message stay.">🔁 Replace</button></div>
       <div class="tk"><label><input type="checkbox" data-lk="ig"${x.ig ? ' checked' : ''}>Insta ✓</label><label><input type="checkbox" data-lk="ytd"${x.ytd ? ' checked' : ''}>YouTube ✓</label></div>
       <details><summary>Edit text</summary>
         <input type="text" data-lk="title" value="${esc(x.title)}" placeholder="Title">
@@ -1500,6 +1503,7 @@ $('#lgrid').addEventListener('click', async (e) => {
     if (PICK.has(id) && msgFor(x, waL())) toast('Message filled in. Scroll down to Bulk WhatsApp');
     return;
   }
+  if (e.target.closest('[data-lrep]')) return pickReplace({ id, photo: x.type === 'photo', prog: '#libProg' });
   if (e.target.closest('[data-lcap]')) return x.caption ? copy(x.caption) : toast('No caption yet: add one under Edit text');
   if (e.target.closest('[data-lig]')) { if (x.caption) copy(x.caption); return; }
   if (e.target.closest('[data-lyt]')) { if (x.yt || x.title) copy(x.yt || x.title); return; }
@@ -1647,9 +1651,47 @@ $('#waGo').onclick = async () => {
 $('#waStop').onclick = async () => { try { const r = await call({ a: 'wa_cancel' }); LIB.wa = r.wa; $('#waMsg').textContent = `Stopped. ${r.cancelled} waiting messages cancelled.`; renderWa(); } catch (e) { toast(e.message); } };
 function upChips() { const d = DCAT[$('#upCat').value] || DCAT.fashion; $('#upChip').innerHTML = (d.chips || []).map(([k, t]) => `<option value="${k}">${esc(t)}</option>`).join(''); }
 $('#upCat').addEventListener('change', () => { lsSet('upCat', $('#upCat').value); upChips(); });
+/** Media kit: each category's ad comes from the Library (Drive); the website copy is the fallback. */
+const driveVid = (fid) => 'https://drive.usercontent.google.com/download?id=' + encodeURIComponent(fid) + '&export=download';
 function renderKit() {
-  $('#mediaKit').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => `<div class="mi"><video src="videos/${k}.mp4" poster="videos/${k}.jpg" controls playsinline preload="none"></video><div>${e} ${esc(t)}<span style="display:flex;gap:4px"><a class="btn sm" href="videos/${k}.mp4" download="DigiCart_${k}_ad.mp4" title="Download video">⬇</a><a class="btn l sm" href="og/${k}.jpg" download="DigiCart_${k}_preview.jpg" title="Preview picture">🖼</a></span></div></div>`).join('');
+  $('#mediaKit').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => {
+    const x = kitItem(k), src = x ? driveVid(x.fileId || '') : `videos/${k}.mp4`, poster = `videos/${k}.jpg`;
+    return `<div class="mi" data-kc="${k}"><video src="${esc(src)}" data-fb="videos/${k}.mp4" poster="${esc(poster)}" controls playsinline preload="none"></video><div>${e} ${esc(t)}<span style="display:flex;gap:4px"><a class="btn sm" href="${esc(x ? x.download : `videos/${k}.mp4`)}" ${x ? 'target="_blank" rel="noopener"' : `download="DigiCart_${k}_ad.mp4"`} title="Download video">⬇</a><button class="btn l sm" data-krep title="Replace this video">🔁</button><a class="btn l sm" href="og/${k}.jpg" download="DigiCart_${k}_preview.jpg" title="Preview picture">🖼</a></span></div><span class="src">${x ? '📚 ' + esc(x.title) + (x.size >= 100 ? ' · ' + (x.size / 1024).toFixed(1) + ' MB' : '') : 'Website copy · tap 🔁 to replace'}</span></div>`;
+  }).join('');
+  // Drive's picture of a new video can take a few minutes: keep the website picture until it loads
+  Object.keys(CATS).forEach((k) => { const x = kitItem(k); if (!x || !x.thumb) return; const im = new Image(); im.onload = () => { const v = $('#mediaKit').querySelector(`[data-kc="${k}"] video`); if (v && v.src.includes(x.fileId)) v.poster = x.thumb; }; im.src = x.thumb; });
+  $('#mediaKit').querySelectorAll('video').forEach((v) => v.addEventListener('error', () => { if (v.dataset.fb && !v.src.endsWith(v.dataset.fb)) { v.src = v.dataset.fb; v.poster = v.dataset.fb.replace(/\.mp4$/, '.jpg'); } }, { once: true }));
 }
+$('#mediaKit').addEventListener('click', (e) => {
+  if (!e.target.closest('[data-krep]')) return;
+  const c = e.target.closest('[data-kc]').dataset.kc, x = kitItem(c);
+  pickReplace(x ? { id: x.id, prog: '#kitProg' } : { cat: c, prog: '#kitProg' });
+});
+// ---- replace the file behind a Library item (or add a category ad) from this page: no GitHub needed
+const repIn = Object.assign(document.createElement('input'), { type: 'file', hidden: true }); document.body.appendChild(repIn);
+let REP = null;
+function pickReplace(t) { REP = t; repIn.accept = t.photo ? 'image/*' : 'video/*'; repIn.click(); }
+repIn.addEventListener('change', async () => {
+  const f = repIn.files[0], t = REP; repIn.value = ''; REP = null; if (!f || !t) return;
+  const old = t.id ? LIB.items.find((i) => i.id === t.id) : null;
+  const row = document.createElement('div'); row.className = 'upl';
+  row.innerHTML = `<span style="width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🔁 ${esc(old ? old.title : (CATS[t.cat] || ['', t.cat])[1] + ' ad')}</span><span class="bar"><i></i></span><b>0%</b>`;
+  $(t.prog || '#libProg').appendChild(row); const bar = row.querySelector('i'), pct = row.querySelector('b');
+  try {
+    const isVid = /^video\//.test(f.type);
+    if (!isVid && !/^image\//.test(f.type)) throw new Error('Not a photo or video');
+    if (old && (old.type === 'video') !== isVid) throw new Error(old.type === 'video' ? 'Pick a video to replace this video' : 'Pick a photo to replace this photo');
+    if (!old && !isVid) throw new Error('Pick a video');
+    if (isVid && f.size > 16 * 1024 * 1024) throw new Error('Over 16 MB: WhatsApp will not take it. Make it smaller (for example 720p) and try again.');
+    const blob = isVid ? f : await shrinkPhoto(f), mime = isVid ? f.type : 'image/jpeg', data = await b64(blob);
+    const body = old ? { a: 'lrep', id: old.id, mime, data, file: f.name } : { a: 'lup', mime, data, file: f.name, cat: t.cat, kit: true };
+    const r = await postWithProgress(body, (p) => { bar.style.width = Math.round(p * 95) + '%'; pct.textContent = Math.round(p * 95) + '%'; });
+    const i = LIB.items.findIndex((m) => m.id === r.item.id); if (i >= 0) LIB.items[i] = r.item; else LIB.items = [r.item, ...LIB.items];
+    bar.style.width = '100%'; pct.textContent = '✓'; renderLib(); renderKit();
+    toast(r.item.cat ? 'Replaced. WhatsApp and the ' + (CATS[r.item.cat] || ['', ''])[1] + ' customer page use the new video now' : 'Replaced');
+    setTimeout(() => row.remove(), 3000);
+  } catch (er) { pct.textContent = '✗'; row.insertAdjacentHTML('beforeend', `<span style="color:var(--red)">${esc(/unknown action/i.test(er.message) ? 'Paste the new Code.gs in Apps Script and deploy a new version first' : er.message)}</span>`); }
+});
 function staticUi() {
   $('#upCat').innerHTML = Object.entries(CATS).map(([k, [e, t]]) => `<option value="${k}">${e} ${t}</option>`).join('');
   $('#upCat').value = lsGet('upCat') || 'fashion'; upChips(); renderKit();

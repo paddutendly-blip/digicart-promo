@@ -181,15 +181,30 @@ h1 span{color:#FFC46B}
       if (d.phone && /^\d{10}$/.test(d.phone)) PHONE = d.phone;
       if (d.playUrl && /^https:\/\//.test(d.playUrl)) PLAY = d.playUrl;
       if (d.festival && d.festival.enabled) OFFER = d.festival;
-      paint();
-    }).catch(() => {});
+      paint(); useAd(d.ads && d.ads[CAT]);
+    }).catch(() => useAd(null));
+  else setTimeout(() => useAd(null), 0);
 
   // ---------------------------------------------------------------- video
-  const vid = $('vid'), frame = $('frame');
+  // the category ad comes from the hub Library (Google Drive) when there is one; the website copy is the fallback
+  const vid = $('vid'), frame = $('frame'), FB = `videos/${CAT}.mp4`;
   vid.poster = `videos/${CAT}.jpg`;
-  vid.src = `videos/${CAT}.mp4`;
-  let played = false, ended = false;
+  let played = false, ended = false, cur = '', pauseChk = 0;
+  function setSrc(u) {
+    if (cur === u) return; cur = u; vid.src = u;
+    clearTimeout(pauseChk); pauseChk = setTimeout(() => { if (vid.paused && !played) frame.classList.add('paused'); }, 1800);
+  }
+  vid.addEventListener('error', () => { if (cur && cur !== FB) setSrc(FB); });
+  const adWait = setTimeout(() => setSrc(FB), 1500);
+  function useAd(a) {
+    clearTimeout(adWait);
+    if (!a || !a.fid) return setSrc(FB);
+    if (played && cur) return; // already watching with sound: don't swap under them
+    setSrc('https://drive.usercontent.google.com/download?id=' + encodeURIComponent(a.fid) + '&export=download');
+    if (a.thumb) { const im = new Image(); im.onload = () => { vid.poster = a.thumb; }; im.src = a.thumb; }
+  }
   function withSound() {
+    if (!cur) setSrc(FB);
     vid.muted = false; vid.currentTime = 0; frame.classList.add('sound');
     const p = vid.play(); if (p && p.catch) p.catch(() => frame.classList.add('paused'));
     if (!played) { played = true; send('video', 'play'); }
@@ -206,8 +221,7 @@ h1 span{color:#FFC46B}
     const c = $('cta'); c.classList.remove('go'); void c.offsetWidth; c.classList.add('go');
     c.scrollIntoView({ behavior: 'smooth', block: 'center' });
   });
-  // muted autoplay is blocked on some phones: show the big play button instead
-  setTimeout(() => { if (vid.paused && !played) frame.classList.add('paused'); }, 1500);
+  // muted autoplay is blocked on some phones: setSrc shows the big play button instead
 
   paint();
 })();
