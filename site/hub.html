@@ -203,7 +203,7 @@ img.dp{cursor:zoom-in}
 
 <!-- ============================== app -->
 <div id="appV" style="display:none">
-  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v9</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
+  <div class="top"><div class="r"><span class="lg"><img src="logo3d.webp" alt="DigiCart"></span><h1>Promotion Hub <small style="font-size:10px;opacity:.7;font-weight:600">v11</small></h1><span class="live" id="liveB"><i></i><span id="upd">Live</span></span></div></div>
   <div class="banner" id="banner"><span class="e" id="bnE">🔥</span><div><b id="bnT"></b><span id="bnS"></span></div></div>
 
   <div class="wrap">
@@ -359,6 +359,18 @@ img.dp{cursor:zoom-in}
         <p class="hint" id="waMsg" style="margin-top:8px"></p>
         <div class="wastat" id="waStat"></div>
         <div id="waDlv"></div>
+        <details class="dlvbox" id="fuBox"><summary><b>🤖 Automatic follow-up</b> <span class="hint" id="fuSum"></span></summary>
+          <p class="hint" style="margin:8px 0">When a shop that got your message watches the video or opens the demo, the hub sends them <b>one</b> follow-up from your business number, once they have been quiet for a while. Their replies show under 💬 Replies and come to your email. A shop that replies <b>YES</b> is marked 👍 Interested.</p>
+          <div class="grid2">
+            <div><label class="f">Automatic follow-up</label><select id="fuOn"><option value="yes">On</option><option value="no">Off</option></select></div>
+            <div><label class="f">Send it after</label><select id="fuDelay"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="60">1 hour</option><option value="180">3 hours</option></select></div>
+          </div>
+          <label class="f">Message · ಕನ್ನಡ</label><textarea id="fuKn" maxlength="300"></textarea>
+          <label class="f">Message · English</label><textarea id="fuEn" maxlength="300"></textarea>
+          <label class="f">Message · हिंदी</label><textarea id="fuHi" maxlength="300"></textarea>
+          <p class="hint" style="margin:6px 0">It goes into the {{2}} part of your text template (digicart_text): the shop's name on top, the DigiCart points and the “Watch your shop demo” button below. Each shop's language is used.</p>
+          <button class="btn sm" id="fuSave">Save</button>
+        </details>
         <details style="margin-top:12px"><summary>📝 Templates to create in Meta (copy exactly)</summary>
           <p class="hint" style="margin:8px 0">Create each template name once, then add <b>Kannada, English and Hindi</b> versions of it (Meta: same name, “Add language”; pick plain <b>English</b>, not English US). Category <b>Marketing</b>, variable type <b>Number</b>. Sample values: {{1}} = Sri Lakshmi Stores, {{2}} = Get your shop online with zero commission. Buttons, in this order: 1) <i>Visit website</i>, URL type <b>Dynamic</b> (not Static, or the link opens a 404 page), URL <code id="tplUrl"></code> (if Meta adds the {{1}} by itself, leave it out), sample <code>watch-fashion.html?r=test</code> 2) <i>Visit website</i>, type <b>Static</b>, text “<span id="tplDl">Download DigiCart</span>”, URL <code id="tplPlay"></code> 3) <i>Quick reply</i> “STOP”. Showing <b id="tplLang">Kannada</b>; change Language above to see the others.</p>
           <b>digicart_video</b> <span class="hint">Header: Video · button 1 text “<span id="tplBtnV"></span>”</span>
@@ -809,7 +821,10 @@ function leadCard(l) {
     ${tags ? `<div class="acts">${tags}</div>` : ''}
     ${l.notes ? `<div class="hint">📝 ${esc(l.notes)}</div>` : ''}
     <div class="acts">
-      ${l.phone ? `<a class="btn g sm" data-do="wa" data-tpl="${msgKey}" data-lg="${lg}" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(msgKey, lg), l, lg)))}">💬 ${l.opens ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</a><a class="btn k sm" data-do="vid" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText('video', lg), l, lg)))}">🎬 Video</a><a class="btn sm" href="tel:+91${l.phone}">📞 Call</a>` : ''}
+      ${l.phone ? (DATA.wa && l.stage !== 'no'
+        // from the WhatsApp business number (same number as the bulk messages)
+        ? `<button class="btn g sm" data-do="api" data-k="${l.opens || l.lastSeenAt ? 'fu' : 'vid'}">💬 ${l.opens || l.lastSeenAt ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</button><button class="btn k sm" data-do="api" data-k="vid">🎬 Video</button>`
+        : `<a class="btn g sm" data-do="wa" data-tpl="${msgKey}" data-lg="${lg}" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(msgKey, lg), l, lg)))}">💬 ${l.opens ? 'Follow up' : l.sentAt ? 'Send again' : 'Send'}</a><a class="btn k sm" data-do="vid" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText('video', lg), l, lg)))}">🎬 Video</a>`) + `<a class="btn sm" href="tel:+91${l.phone}">📞 Call</a>` : ''}
       ${!l.anon ? `<button class="btn l sm" data-do="link">🔗 Link</button>` : ''}
       <button class="btn l sm" data-do="toggle">⋯ More</button>
     </div>
@@ -819,7 +834,7 @@ function leadCard(l) {
       <div class="grid2"><div><label class="f">Shop name</label><input data-f="name" value="${l.anon ? '' : esc(l.name || '')}" placeholder="${l.anon ? 'Who is this?' : 'Shop name'}"></div><div><label class="f">Mobile (10 digits)</label><input data-f="phone" inputmode="tel" maxlength="14" value="${esc(l.phone || '')}" placeholder="98xxxxxxxx"></div></div>
       <div class="grid2"><div><label class="f">Area</label><input data-f="area" value="${esc(l.area || '')}" placeholder="e.g. Peenya"></div><div><label class="f">Category</label><select data-f="cat">${Object.entries(CATS).map(([k, v]) => `<option value="${k}"${(l.cat || '') === k ? ' selected' : ''}>${v.join(' ')}</option>`).join('')}</select></div></div>
       <label class="f">Notes</label><textarea data-f="notes" style="min-height:60px" placeholder="e.g. asked to come Monday 11 am">${esc(l.notes || '')}</textarea>
-      <div class="acts"><button class="btn sm" data-do="save">Save</button>${!l.anon ? `<button class="btn l sm" data-do="copy">Copy message</button><button class="btn l sm" data-do="vlink">🎬 Copy video link</button><button class="btn l sm" data-do="qr">QR of link</button><button class="btn l sm" data-do="photo">📷 ${l.photo ? 'Change' : 'Add'} shop photo</button>` : ''}<button class="btn r sm" data-do="del">Delete</button></div>
+      <div class="acts"><button class="btn sm" data-do="save">Save</button>${l.phone && DATA.wa ? `<a class="btn l sm" data-do="wa" target="_blank" rel="noopener" href="${esc(waUrl(l.phone, fill(tplText(l.opens ? 'follow' : 'first', l.lang || 'en'), l, l.lang || 'en')))}">📱 From my own WhatsApp</a>` : ''}${!l.anon ? `<button class="btn l sm" data-do="copy">Copy message</button><button class="btn l sm" data-do="vlink">🎬 Copy video link</button><button class="btn l sm" data-do="qr">QR of link</button><button class="btn l sm" data-do="photo">📷 ${l.photo ? 'Change' : 'Add'} shop photo</button>` : ''}<button class="btn r sm" data-do="del">Delete</button></div>
       <div class="qrslot"></div>
     </div></div>`;
 }
@@ -835,6 +850,7 @@ async function onLeadClick(e) {
     return;
   }
   if (d === 'vid') { markVideo(l); setTimeout(render, 300); return; }
+  if (d === 'api') return sendOne(l, b);
   if (d === 'link') return copy(linkOf(l));
   if (d === 'vlink') return copy(vlinkOf(l));
   if (d === 'copy') { const lg = l.lang || $('#lngSel').value; return copy(fill(tplText(l.opens ? 'follow' : 'first', lg), l, lg)); }
@@ -853,6 +869,27 @@ async function onLeadClick(e) {
   }
 }
 ['#list', '#hotList', '#due'].forEach((s) => $(s).addEventListener('click', onLeadClick));
+/** Shop card: send now from the business number. Tap twice so nothing goes by mistake. */
+async function sendOne(l, b) {
+  if (b.disabled) return;
+  if (!b.dataset.arm) { b.dataset.arm = b.innerHTML; b.innerHTML = 'Tap again to send'; setTimeout(() => { if (b.isConnected && b.dataset.arm) { b.innerHTML = b.dataset.arm; delete b.dataset.arm; } }, 3500); return; }
+  const label = b.dataset.arm; delete b.dataset.arm; b.disabled = true; b.innerHTML = 'Sending…';
+  const lg = (l.lang && /^(kn|en|hi)/.test(l.lang) ? l.lang.slice(0, 2) : '') || ST().waLang || 'kn';
+  try {
+    let body;
+    if (b.dataset.k === 'fu') body = { a: 'wa_one', id: l.id, kind: 'fu', lang: lg };
+    else {
+      if (!LIB.items.length) await loadLib(true);
+      const x = kitItem(l.cat || 'fashion');
+      body = { a: 'wa_one', id: l.id, media: x ? x.id : '', text: msgFor(x, lg) || ((KITMSG[l.cat] || KITMSG.fashion)[lg] || ''), lang: lg };
+    }
+    const r = await call(body);
+    if (r.shop) Object.assign(l, r.shop);
+    if (b.dataset.k !== 'fu') markVideo(l);
+    toast(b.dataset.k === 'fu' ? 'Follow-up sent from your business number ✓' : 'Video sent from your business number ✓');
+    setTimeout(render, 300);
+  } catch (er) { toast(er.message); b.disabled = false; b.innerHTML = label; }
+}
 $('#list').addEventListener('click', (e) => { if (e.target.id === 'showMore') { SHOW_N += 50; renderShops(); } });
 $('#tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { TAB = b.dataset.tab; renderShops(); } });
 $('#q').addEventListener('input', renderShops); $('#catF').addEventListener('change', renderShops);
@@ -1579,7 +1616,7 @@ function renderWa() {
   $('#waStat').innerHTML = `<div><b>${wa.queued}</b><span>Waiting</span></div><div><b>${wa.sent}</b><span>Sent</span></div><div><b>${wa.failed}</b><span>Failed</span></div><div><b>${wa.today}/${wa.daily}</b><span>Today</span></div>`;
   if (wa.lastError && wa.failed && !$('#waMsg').textContent) $('#waMsg').textContent = 'Last problem: ' + wa.lastError;
   const s = ST(); if (!$('#waLang').dataset.set && WATPL[s.waLang]) { $('#waLang').value = s.waLang; $('#waLang').dataset.set = '1'; } if (document.activeElement !== $('#s_waLang')) $('#s_waLang').value = s.waLang || 'kn'; if (document.activeElement !== $('#s_waDaily')) $('#s_waDaily').value = s.waDaily || '250';
-  renderDlv();
+  renderDlv(); renderFu();
   const T = WATPL[waL()]; $('#tplBodyV').textContent = T.video.body; $('#tplBtnV').textContent = T.video.btn; $('#tplBodyO').textContent = T.other.body; $('#tplBtnO').textContent = T.other.btn; $('#tplDl').textContent = T.dl; $('#tplPlay').textContent = (ST().playUrl || 'https://play.google.com/store/apps/details?id=com.digifactorylabs.digicart'); $('#tplUrl').textContent = BASE + '{{1}}'; $('#tplLang').textContent = T.name;
 }
 /** Delivery ticks from Meta: one-time webhook setup, then who got it, who did not (and why), and replies. */
@@ -1604,6 +1641,19 @@ function renderDlv() {
     <details style="margin-top:6px"><summary>💬 Replies from shops (${(R.replies || []).length})</summary>${rep || '<p class="hint">No replies yet.</p>'}<p class="hint" style="margin-top:6px">All replies are also in the <b>Replies</b> tab of the Google Sheet. A shop that taps <b>STOP</b> is marked Not interested and gets no more bulk messages.</p></details>
     <details style="margin-top:6px"><summary>⚙ Webhook settings</summary>${setup}</details></div>`;
 }
+function renderFu() {
+  const s = ST(), f = (LIB.report || {}).fu || {}, box = $('#fuBox');
+  box.style.display = (LIB.wa || {}).ready ? '' : 'none';
+  $('#fuSum').textContent = (/^yes$/i.test(s.fuOn || 'yes') ? 'On' : 'Off') + ` · ${f.sent || 0} sent in 30 days` + (f.queued ? ` · ${f.queued} going out` : '');
+  if (box.contains(document.activeElement)) return;
+  $('#fuOn').value = /^no$/i.test(s.fuOn || '') ? 'no' : 'yes'; $('#fuDelay').value = ['15', '30', '60', '180'].includes(String(s.fuDelay)) ? String(s.fuDelay) : '30';
+  $('#fuKn').value = s.fuKn || ''; $('#fuEn').value = s.fuEn || ''; $('#fuHi').value = s.fuHi || '';
+}
+$('#fuSave').onclick = async () => {
+  const set = { fuOn: $('#fuOn').value, fuDelay: $('#fuDelay').value, fuKn: $('#fuKn').value.trim(), fuEn: $('#fuEn').value.trim(), fuHi: $('#fuHi').value.trim() };
+  if (!set.fuKn || !set.fuEn || !set.fuHi) return toast('Write the message in all three languages');
+  try { const r = await call({ a: 'set', set }); DATA.settings = r.settings; document.activeElement.blur(); renderFu(); toast('Saved'); } catch (e) { toast(e.message); }
+};
 $('#waDlv').addEventListener('click', async (e) => {
   const cp = e.target.closest('[data-cp]'); if (cp) return copy(cp.dataset.cp);
   if (e.target.closest('#dlvRef')) { await loadLib(true); return toast('Updated'); }
